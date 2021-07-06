@@ -35,9 +35,8 @@ public class PlayerAnimation : Player
 	{
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[(int)attackCombo]))
 		{
-			MouseRotate();
-			isClick = false;
 			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+			
 			if (0.8 <= normalizedTime && normalizedTime <= 1)
 			{
 				if (Input.GetMouseButtonDown(0))
@@ -46,12 +45,17 @@ public class PlayerAnimation : Player
 					if (attackCombo == 5)
 					{
 						attackCombo = 0;
+						isAttack = false;
 						animator.SetFloat("combo", attackCombo);
 						return;
 					}
-
+					isClick = true;
 					attackCombo += 1;
 					animator.SetFloat("combo", attackCombo);
+					
+					MouseRotate();
+					isClick = false;
+
 					//isClick = false;	
 					return;
 				}

@@ -24,9 +24,9 @@ public class Player : MonoBehaviour
 	public static bool isWalk = false;
 
 
-	public void MouseRotate()
+	public static void MouseRotate()
 	{
-		if (isClick)
+		if(isClick)
 		{
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -38,7 +38,11 @@ public class Player : MonoBehaviour
 			Vector3 direction = (movePos - player.transform.position).normalized;
 			Quaternion lookRotation = Quaternion.LookRotation(direction);
 			player.transform.rotation = lookRotation;
+
+			
 		}
+			
+		
 		//player.transform.LookAt(player.transform.position + movePos);
 		//isClick = false;
 	}

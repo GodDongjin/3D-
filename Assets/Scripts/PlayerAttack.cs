@@ -15,8 +15,14 @@ public class PlayerAttack : Player
     {
         if(Input.GetMouseButtonDown(0))
 		{
-            isAttack = true;
-            isClick = true;
+            if (!isAttack && attackCombo == 0)
+			{
+                isClick = true;
+                MouseRotate();
+                isAttack = true;
+            }
+            
+            //isClick = true;
 		}            
     }
 }
