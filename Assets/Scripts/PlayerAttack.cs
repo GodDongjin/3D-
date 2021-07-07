@@ -21,8 +21,23 @@ public class PlayerAttack : Player
                 MouseRotate();
                 isAttack = true;
             }
-            
-            //isClick = true;
-		}            
+		}
+        IsWalk(isWalk);
+        IsAttack(isAttack);
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (isEnemyHit)
+        {
+            if (other.tag == "Enemy")
+            {
+                other.gameObject.SetActive(false);
+
+            }
+        }
+    }
+   
+
+   
 }

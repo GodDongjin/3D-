@@ -22,11 +22,12 @@ public class Player : MonoBehaviour
 	public static bool isAttack = false;
 	public static bool isClick = false;
 	public static bool isWalk = false;
+	public static bool isEnemyHit = false;
 
-
+	
 	public static void MouseRotate()
 	{
-		if(isClick)
+		if (isClick)
 		{
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -39,13 +40,27 @@ public class Player : MonoBehaviour
 			Quaternion lookRotation = Quaternion.LookRotation(direction);
 			player.transform.rotation = lookRotation;
 
-			
+			//player.transform.Translate(direction * 100f * Time.deltaTime);
 		}
-			
-		
-		//player.transform.LookAt(player.transform.position + movePos);
-		//isClick = false;
+
 	}
 
+	public static void MouseMove()
+	{
+		if (isClick)
+		{
 
+			//player.transform.position = Vector3.Slerp(player.transform.position, movePos, 0.5f);
+		}
+	}
+
+	public static void IsWalk(bool isWalk)
+	{
+		animator.SetBool("IsWalk", isWalk);
+
+	}
+	public static void IsAttack(bool isAttack)
+	{
+		animator.SetBool("IsAttack", isAttack);
+	}
 }

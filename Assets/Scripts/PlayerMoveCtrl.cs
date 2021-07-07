@@ -37,7 +37,21 @@ public class PlayerMoveCtrl : Player
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
+            Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        {
+            isWalk = true;
+            //isAttack = false;
+        }
+
+        if (Input.GetKeyUp(KeyCode.W) && Input.GetKeyUp(KeyCode.S) &&
+            Input.GetKeyUp(KeyCode.A) && Input.GetKeyUp(KeyCode.D))
+        {
+            isWalk = false;
+            //isAttack = false;
+        }
+        IsWalk(isWalk);
+        IsAttack(isAttack);
        
     }
 

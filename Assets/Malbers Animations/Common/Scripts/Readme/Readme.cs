@@ -34,10 +34,11 @@ namespace MalbersAnimations
         static float kSpace = 16f;
         private ListRequest list;
         private AddRequest add;
-
+        Readme M;
 
         private void OnEnable()
         {
+            M = (Readme)target;
             list = Client.List();
         }
 
@@ -62,9 +63,7 @@ namespace MalbersAnimations
         {
             var readme = (Readme)target;
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             DrawPackageDependencies(readme);
-            EditorGUILayout.EndVertical();
 
             Init();
 
@@ -95,50 +94,55 @@ namespace MalbersAnimations
 
         private void DrawPackageDependencies(Readme readme)
         {
-            GUILayout.Label("Package Dependencies", EditorStyles.boldLabel);
-
-            // We are adding a new package, wait for the operation to finish and then relist.
-            if (add != null && add.IsCompleted)
+            if (M.packages == null || M.packages.Count == 0) return;
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             {
-                add = null;
-                list = Client.List();
-            }
+                GUILayout.Label("Package Dependencies", EditorStyles.boldLabel);
 
-            if (add != null || !list.IsCompleted)
-                Repaint();// Keep refreshing while we are waiting for Packman to resolve our request.
-            else
-            {
-                if (!readme.packages.All(x => HasPackage(x)))
-                    EditorGUILayout.HelpBox($"This Asset requires the following packages to be installed in your Project. \nPlease install all the required packages!", MessageType.Warning);
-            }
+                // We are adding a new package, wait for the operation to finish and then relist.
+                if (add != null && add.IsCompleted)
+                {
+                    add = null;
+                    list = Client.List();
+                }
 
-
-            foreach (var req in readme.packages)
-            {
-                Rect rect = EditorGUILayout.GetControlRect(true, 20);
-
-                GUI.Label(rect, new GUIContent(req), EditorStyles.label);
-                rect.width -= 160;
-                rect.x += 160;
                 if (add != null || !list.IsCompleted)
-                {
-                    using (new EditorGUI.DisabledScope(true))
-                    {
-                        GUI.Label(rect, "checking…", EditorStyles.label);
-                    }
-                }
-                else if (HasPackage(req))
-                {
-                    GUI.Label(rect, $"OK \u2713", EditorStyles.boldLabel);
-                }
+                    Repaint();// Keep refreshing while we are waiting for Packman to resolve our request.
                 else
                 {
-                    GUI.Label(rect, "Missing \u2717", EditorStyles.label);
-                    rect.x += rect.width - 80;
-                    rect.width = 80;
-                    if (GUI.Button(rect, "Install")) add = Client.Add(req);
+                    if (!readme.packages.All(x => HasPackage(x)))
+                        EditorGUILayout.HelpBox($"This Asset requires the following packages to be installed in your Project. \nPlease install all the required packages!", MessageType.Warning);
+                }
+
+
+                foreach (var req in readme.packages)
+                {
+                    Rect rect = EditorGUILayout.GetControlRect(true, 20);
+
+                    GUI.Label(rect, new GUIContent(req), EditorStyles.label);
+                    rect.width -= 160;
+                    rect.x += 160;
+                    if (add != null || !list.IsCompleted)
+                    {
+                        using (new EditorGUI.DisabledScope(true))
+                        {
+                            GUI.Label(rect, "checking…", EditorStyles.label);
+                        }
+                    }
+                    else if (HasPackage(req))
+                    {
+                        GUI.Label(rect, $"OK \u2713", EditorStyles.boldLabel);
+                    }
+                    else
+                    {
+                        GUI.Label(rect, "Missing \u2717", EditorStyles.label);
+                        rect.x += rect.width - 80;
+                        rect.width = 80;
+                        if (GUI.Button(rect, "Install")) add = Client.Add(req);
+                    }
                 }
             }
+            EditorGUILayout.EndVertical();
         }
 
         bool m_Initialized;
