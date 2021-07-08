@@ -19,7 +19,7 @@ public class Boss : MonoBehaviour
 
     public static float hp;
     public static float damege;
-    public static float moveSpeed;
+    public static float moveSpeed = 5f;
 
 
    

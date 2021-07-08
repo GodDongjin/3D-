@@ -5,10 +5,25 @@ using UnityEngine;
 public class BossAI : Boss
 {
     float dis;
+    int index;
+	string[,] animationName = new string[4, 3];
 
-    // Start is called before the first frame update
-    void Start()
+    
+
+	// Start is called before the first frame update
+	void Start()
     {
+        animationName[0, 0] = "G_Attack1";
+        animationName[0, 1] = "G_Attack2";
+        animationName[0, 2] = "G_Attack4";
+
+        animationName[1, 0] = "G_Attack3";
+        animationName[1, 1] = "G_Attack5_Opp";
+        animationName[1, 2] = "G_Attack6";
+
+        animationName[2, 0] = "G_Attack_Special1";
+        animationName[3, 0] = "G_Attack_Special2";
+
         boss = GameObject.Find("Boss");
         player = GameObject.Find("Player");
 
@@ -79,7 +94,14 @@ public class BossAI : Boss
 
     public void MoveUpdate()
     {
-        boss.transform.position = Vector3.Slerp(player.transform.position, boss.transform.position, 3f);
+        
+        boss.transform.position = 
+            Vector3.MoveTowards(boss.transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+        
+        Vector3 direction = (player.transform.position - boss.transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        boss.transform.rotation = lookRotation;
+
     }
 
     public void Attack1Update()
