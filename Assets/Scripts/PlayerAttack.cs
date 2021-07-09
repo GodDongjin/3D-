@@ -15,15 +15,13 @@ public class PlayerAttack : Player
     {
         if(Input.GetMouseButtonDown(0))
 		{
-            if (!isAttack && attackCombo == 0)
+            if (state != Player_State.Attack && attackCombo == 0)
 			{
-                isClick = true;
                 MouseRotate();
-                isAttack = true;
+                ChangeState(Player_State.Attack);
             }
 		}
-        IsWalk(isWalk);
-        IsAttack(isAttack);
+       
     }
 
     private void OnTriggerStay(Collider other)

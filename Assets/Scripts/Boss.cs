@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum AI_State
 {
-    Idle, Move, Attack1, Attack2, skill, Stiffness, Die
+    Idle, Move, Attack1, Attack2, Skill1, Skill2, Stiffness, Die
 }
 
 public class Boss : MonoBehaviour
@@ -19,7 +19,7 @@ public class Boss : MonoBehaviour
 
     public static float hp;
     public static float damege;
-    public static float moveSpeed = 5f;
+    public static float moveSpeed = 3f;
 
 
    

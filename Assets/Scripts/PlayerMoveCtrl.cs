@@ -7,84 +7,99 @@ using UnityEngine;
 
 public class PlayerMoveCtrl : Player
 {
-    
-    float v, h;
+	float v, h;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = GameObject.Find("Player");
-    }
+	// Start is called before the first frame update
+	void Start()
+	{
+		player = GameObject.Find("Player");
+		playerRig = player.gameObject.GetComponent<Rigidbody>();
+	}
 
-    private void FixedUpdate()
-    {
-        if(!isAttack)
+	private void FixedUpdate()
+	{
+		if (state == Player_State.Move)
 		{
-            //캐릭터 움직임
-            Move();
-            //플레이어 회전
-            Rotate();
-        }
+			//캐릭터 움직임
+			Move();
+			//플레이어 회전
+			Rotate();
+		}
 
-        //if (isAttack && isClick)
-		//{
-        //    
-        //    MouseRotate();
-        //    
-        //}
-    }
+		if(state == Player_State.Dash)
+		{
+			Dash();
+		}
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) ||
-            Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
-        {
-            isWalk = true;
-            //isAttack = false;
-        }
+	// Update is called once per frame
+	void Update()
+	{
+		if (state != Player_State.Dash && state != Player_State.Attack)
+		{
+			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) ||
+		   Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+			{
+				ChangeState(Player_State.Move);
+			}
 
-        if (Input.GetKeyUp(KeyCode.W) && Input.GetKeyUp(KeyCode.S) &&
-            Input.GetKeyUp(KeyCode.A) && Input.GetKeyUp(KeyCode.D))
-        {
-            isWalk = false;
-            //isAttack = false;
-        }
-        IsWalk(isWalk);
-        IsAttack(isAttack);
-       
-    }
+			else if (!Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S) &&
+				!Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.D))
+			{
+				ChangeState(Player_State.Idle);
+			}
+		}
 
-    private void Move()
-    {
-        v = Input.GetAxisRaw("Vertical");
-        h = Input.GetAxisRaw("Horizontal");
-        
-        movePos = new Vector3(h, 0f, v).normalized;
 
-        player.transform.position += moveSpeed * movePos * Time.deltaTime;
+		if (Input.GetKeyDown(KeyCode.LeftShift) && state != Player_State.Dash)
+		{
+			ChangeState(Player_State.Dash);
+			v = Input.GetAxisRaw("Vertical");
+			h = Input.GetAxisRaw("Horizontal");
 
-        
-    }
-    private void Rotate()
-    {
-       player.transform.LookAt(player.transform.position + movePos);
-    }
+			movePos = new Vector3(h, 0f, v).normalized;
+			playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
+		}
+	}
 
- //   public void MouseRotate()
+	private void Move()
+	{
+		v = Input.GetAxisRaw("Vertical");
+		h = Input.GetAxisRaw("Horizontal");
+
+		movePos = new Vector3(h, 0f, v).normalized;
+
+		player.transform.position += moveSpeed * movePos * Time.deltaTime;
+	}
+
+	private void Rotate()
+	{
+		//Quaternion lookRotation = Quaternion.Lerp(boss.transform.rotation, Quaternion.LookRotation(direction), 0.5f);
+		//player.transform.rotation = Quaternion.LookRotation(movePos);
+
+		player.transform.LookAt(player.transform.position + movePos);
+	}
+
+
+	private void Dash()
+	{
+		v = Input.GetAxisRaw("Vertical");
+		h = Input.GetAxisRaw("Horizontal");
+
+		movePos = new Vector3(h, 0f, v).normalized;
+
+		playerRig.AddForce(movePos * dashSpeed, ForceMode.Impulse);
+	}
+
+	//IEnumerator Dash()
 	//{
- //       ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	//	float startTime = Time.time;
 
- //       if (Physics.Raycast(ray, out hit))
- //       {
- //           movePos = hit.point;
- //       }
-
- //       Vector3 direction = (movePos - player.transform.position).normalized;
- //       Quaternion lookRotation = Quaternion.LookRotation(direction);
- //       player.transform.rotation = lookRotation;
-
- //       //player.transform.LookAt(player.transform.position + movePos);
- //       //isClick = false;
- //   }
+	//	while (Time.time < startTime + dashTime)
+	//	{
+	//		playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
+	
+	//		yield return null;
+	//	}
+	//}
 }
