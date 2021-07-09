@@ -58,10 +58,12 @@ public class PlayerMoveCtrl : Player
 			h = Input.GetAxisRaw("Horizontal");
 
 			movePos = new Vector3(h, 0f, v).normalized;
+
+			Rotate();
 			playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
 		}
 	}
-
+	
 	private void Move()
 	{
 		v = Input.GetAxisRaw("Vertical");
@@ -83,12 +85,12 @@ public class PlayerMoveCtrl : Player
 
 	private void Dash()
 	{
-		v = Input.GetAxisRaw("Vertical");
-		h = Input.GetAxisRaw("Horizontal");
-
-		movePos = new Vector3(h, 0f, v).normalized;
-
-		playerRig.AddForce(movePos * dashSpeed, ForceMode.Impulse);
+		//v = Input.GetAxisRaw("Vertical");
+		//h = Input.GetAxisRaw("Horizontal");
+		//
+		//movePos = new Vector3(h, 0f, v).normalized;
+		//
+		//playerRig.AddForce(movePos * dashSpeed, ForceMode.Impulse);
 	}
 
 	//IEnumerator Dash()

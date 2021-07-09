@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 	public static bool isEnemyHit = false;
 
 
+	//플레이어 상태를 변경 시키면서 모든 상태에 해당하는 값을 초기화 해준다.
 	public static void ChangeState(Player_State nextState)
 	{
 		state = nextState;
@@ -78,21 +79,7 @@ public class Player : MonoBehaviour
 			Vector3 direction = (movePos - player.transform.position).normalized;
 			Quaternion lookRotation = Quaternion.LookRotation(direction);
 			player.transform.rotation = lookRotation;
-
-			//player.transform.Translate(direction * 100f * Time.deltaTime);
 		}
 
 	}
-
-	public static void MouseMove()
-	{
-		if (isClick)
-		{
-
-			//player.transform.position = Vector3.Slerp(player.transform.position, movePos, 0.5f);
-		}
-	}
-
-
-
 }

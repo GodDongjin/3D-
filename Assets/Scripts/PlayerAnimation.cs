@@ -57,7 +57,6 @@ public class PlayerAnimation : Player
 					animator.SetFloat("combo", attackCombo);
 
 					MouseRotate();
-					MouseMove();
 					isClick = false;
 
 					//isClick = false;	

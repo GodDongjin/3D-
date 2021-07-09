@@ -8,7 +8,9 @@ public class BossAI : Boss
 	int index;
 	string[,] animationName = new string[4, 3];
 
+	
 
+	public GameObject[] prefabs;
 
 	// Start is called before the first frame update
 	void Start()
@@ -24,12 +26,14 @@ public class BossAI : Boss
 		animationName[2, 0] = "G_Attack_Special1";
 		animationName[3, 0] = "G_Attack_Special2";
 
+		nameOfThePrefab = prefabs[index].name;
+
 		boss = GameObject.Find("Boss");
 		player = GameObject.Find("Player");
 
 		animator = gameObject.GetComponent<Animator>();
 
-		state = AI_State.Idle;
+		state = AI_State.Skill1;
 		ChangeState(state);
 
 	}
@@ -134,7 +138,22 @@ public class BossAI : Boss
 
 	public void Skill1Update()
 	{
+		nameOfThePrefab = prefabs[index].name;
+		if(!isEffect)
+		{
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack_Special1"))
+			{
+				float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
+				if (normalizedTime >= 0.4)
+				{
+					Vector3 vector3 = boss.transform.position + transform.forward * 2;
+					Instantiate(prefabs[index], vector3, Quaternion.identity);
+					isEffect = true;
+				}
+			}
+		}
+		
 	}
 
 	public void Skill2Update()
@@ -234,6 +253,7 @@ public class BossAI : Boss
 
 		while (true)
 		{
+			
 			yield return new WaitUntil(() => BossAnimatorEnd("G_Attack_Special1"));
 
 			ChangeState(AI_State.Idle);

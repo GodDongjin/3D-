@@ -11,7 +11,8 @@ public class Boss : MonoBehaviour
 {
     public static GameObject boss;
     public static GameObject player;
-    
+   
+   
     [SerializeField]
     public static AI_State state;
 
@@ -21,6 +22,12 @@ public class Boss : MonoBehaviour
     public static float damege;
     public static float moveSpeed = 3f;
 
+    public static string nameOfThePrefab;
 
-   
+    public bool isEffect = false;
+
+    private static int index;
+
+
+
 }
