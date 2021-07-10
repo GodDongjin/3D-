@@ -10,8 +10,10 @@ public enum Player_State
 public class Player : MonoBehaviour
 {
 	public static GameObject player;
+	public GameObject hitPrefabs;
 	public static Animator animator;
 	public static Rigidbody playerRig;
+
 
 	public static Player_State state;
 
@@ -19,7 +21,7 @@ public class Player : MonoBehaviour
 	public static Ray ray;
 	static RaycastHit hit;
 
-	public float maxHp;
+	public float maxHp = 100f;
 	public float currentHp;
 	public float moveSpeed;
 	public float dashSpeed = 0.5f;
@@ -71,8 +73,12 @@ public class Player : MonoBehaviour
 		{
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-			if (Physics.Raycast(ray, out hit))
+			//레이케스트 특정 오브젝트 무시하는 코드
+			int layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
+
+			if (Physics.Raycast(ray, out hit, layerMask))
 			{
+				
 				movePos = hit.point;
 			}
 
@@ -81,5 +87,12 @@ public class Player : MonoBehaviour
 			player.transform.rotation = lookRotation;
 		}
 
+	}
+
+	public void PlayerHpLose(float damege)
+	{
+		currentHp = currentHp - damege;
+		//Debug.Log(damege + "를 입었다");
+		
 	}
 }

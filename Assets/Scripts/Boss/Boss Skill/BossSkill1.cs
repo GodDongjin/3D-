@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossSkill1 : MonoBehaviour
+public class BossEffect : MonoBehaviour
 {
 	public GameObject Effect;
 	PlayerInfo playerInfo;
 	public ParticleSystem particle;
+	Collider collider;
 
 	Animator bossAni;
 
@@ -19,7 +20,7 @@ public class BossSkill1 : MonoBehaviour
 		bossAni = GameObject.Find("Boss").GetComponent<Animator>();
 		playerInfo = GameObject.Find("Player").GetComponent<PlayerInfo>();
 		particle = Effect.GetComponentInChildren<ParticleSystem>();
-
+		collider = Effect.GetComponent<Collider>();
 	}
 
 	private void Update()
@@ -33,6 +34,14 @@ public class BossSkill1 : MonoBehaviour
 			}
 		}
 	}
+
+	//private void OnTriggerStay(Collider other)
+	//{
+	//	if (other.gameObject.name != "Player")
+	//	{
+	//		StopAllCoroutines();
+	//	}
+	//}
 
 	private void OnTriggerExit(Collider other)
 	{

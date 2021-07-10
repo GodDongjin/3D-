@@ -35,6 +35,9 @@ public class PlayerMoveCtrl : Player
 	// Update is called once per frame
 	void Update()
 	{
+		
+
+
 		if (state != Player_State.Dash && state != Player_State.Attack)
 		{
 			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) ||
@@ -54,54 +57,40 @@ public class PlayerMoveCtrl : Player
 		if (Input.GetKeyDown(KeyCode.LeftShift) && state != Player_State.Dash)
 		{
 			ChangeState(Player_State.Dash);
-			v = Input.GetAxisRaw("Vertical");
-			h = Input.GetAxisRaw("Horizontal");
-
-			movePos = new Vector3(h, 0f, v).normalized;
+			
 
 			Rotate();
 			playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
 		}
+
+		//player.transform.Rotate(0, player.transform.tra.y, 0);
 	}
 	
 	private void Move()
 	{
+
 		v = Input.GetAxisRaw("Vertical");
 		h = Input.GetAxisRaw("Horizontal");
 
 		movePos = new Vector3(h, 0f, v).normalized;
+		player.transform.position += movePos * moveSpeed * Time.deltaTime;
 
-		player.transform.position += moveSpeed * movePos * Time.deltaTime;
+		Debug.Log(movePos);
+		Debug.Log("PlayerPos " + player.transform.position + "movePos" + movePos);
 	}
 
 	private void Rotate()
 	{
 		//Quaternion lookRotation = Quaternion.Lerp(boss.transform.rotation, Quaternion.LookRotation(direction), 0.5f);
 		//player.transform.rotation = Quaternion.LookRotation(movePos);
+		v = Input.GetAxisRaw("Vertical");
+		h = Input.GetAxisRaw("Horizontal");
+			
+		movePos = new Vector3(h, 0f, v).normalized;
 
 		player.transform.LookAt(player.transform.position + movePos);
+
+		//Debug.Log();
+		//Debug.Log("RotateMovePos " + movePos + "playerRotate " + player.transform.position);
 	}
-
-
-	private void Dash()
-	{
-		//v = Input.GetAxisRaw("Vertical");
-		//h = Input.GetAxisRaw("Horizontal");
-		//
-		//movePos = new Vector3(h, 0f, v).normalized;
-		//
-		//playerRig.AddForce(movePos * dashSpeed, ForceMode.Impulse);
-	}
-
-	//IEnumerator Dash()
-	//{
-	//	float startTime = Time.time;
-
-	//	while (Time.time < startTime + dashTime)
-	//	{
-	//		playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
-	
-	//		yield return null;
-	//	}
-	//}
 }

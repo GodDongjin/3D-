@@ -119,7 +119,7 @@ public class BossAI : Boss
 			ChangeState(AI_State.Idle);
 		}
 
-		Debug.Log(dis);
+		//Debug.Log(dis);
 	}
 
 	public void Attack1Update()
@@ -203,10 +203,6 @@ public class BossAI : Boss
 	{
 		animator.SetBool("Move", true);
 
-		//while(true)
-		//{
-		//
-		//}
 		if (dis < 3f)
 		{
 			ChangeState(AI_State.Idle);

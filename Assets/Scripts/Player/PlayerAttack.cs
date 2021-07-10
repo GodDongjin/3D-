@@ -24,14 +24,17 @@ public class PlayerAttack : Player
        
     }
 
-    private void OnTriggerStay(Collider other)
+    
+    private void OnTriggerEnter(Collider other)
     {
-        if (isEnemyHit)
+        if (!isEnemyHit && state == Player_State.Attack)
         {
-            if (other.tag == "Enemy")
+            if (other.name == "Boss")
             {
-                other.gameObject.SetActive(false);
-
+                isEnemyHit = true;
+                Vector3 bossPos = GameManager.instance.g_Boss.transform.position;
+                Vector3 hitPrefabsPos = new Vector3(bossPos.x, bossPos.y + 3, bossPos.z);
+                Instantiate(hitPrefabs, hitPrefabsPos, Quaternion.identity);
             }
         }
     }

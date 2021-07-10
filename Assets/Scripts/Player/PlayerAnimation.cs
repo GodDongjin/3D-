@@ -40,7 +40,7 @@ public class PlayerAnimation : Player
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[(int)attackCombo]))
 		{
 			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
+			
 			if (0.7 <= normalizedTime && normalizedTime <= 0.9)
 			{
 				if (Input.GetMouseButtonDown(0))
@@ -52,6 +52,7 @@ public class PlayerAnimation : Player
 						ChangeState(Player_State.Idle);
 						return;
 					}
+					isEnemyHit = false;
 					isClick = true;
 					attackCombo += 1;
 					animator.SetFloat("combo", attackCombo);
@@ -65,16 +66,17 @@ public class PlayerAnimation : Player
 			}
 			else if (normalizedTime >= 0.9)
 			{
+				isEnemyHit = false;
 				attackCombo = 0;
 				animator.SetFloat("combo", attackCombo);
 				ChangeState(Player_State.Idle);
 				Debug.Log("1ÃÊ Áö³²");
 			}
 
-			if (0.2 <= normalizedTime && normalizedTime <= 0.6)
-			{
-				isEnemyHit = true;
-			}
+			//if (0.2 <= normalizedTime && normalizedTime <= 0.6)
+			//{
+			//	isEnemyHit = true;
+			//}
 
 			//isEnemyHit = false;
 		}

@@ -4902,7 +4902,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0.25
+    scalar: 0
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -9690,8 +9690,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8632717348514136463}
-  - component: {fileID: 98687788568346483}
   - component: {fileID: 8351557925467277277}
+  - component: {fileID: 9048569412856557419}
   m_Layer: 0
   m_Name: ConjureLavaPool
   m_TagString: Untagged
@@ -9715,20 +9715,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &98687788568346483
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8632717348514136560}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 5
-  m_Height: 0
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8351557925467277277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9742,6 +9728,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Effect: {fileID: 8632717348514136560}
+  particle: {fileID: 8632717348853303799}
+--- !u!135 &9048569412856557419
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8632717348514136560}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8632717348665561615
 GameObject:
   m_ObjectHideFlags: 0
@@ -9819,7 +9819,7 @@ ParticleSystem:
   serializedVersion: 7
   lengthInSec: 3
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -9892,7 +9892,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 8
       minScalar: 3.5
       maxCurve:
         serializedVersion: 2
@@ -13445,7 +13445,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
     type: 0
     collisionMode: 0
@@ -13628,7 +13628,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -19607,7 +19607,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0.25
+    scalar: 0
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -19667,7 +19667,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6
+      scalar: 4
       minScalar: 3
       maxCurve:
         serializedVersion: 2
