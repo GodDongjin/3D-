@@ -10,7 +10,7 @@ public enum AI_State
 public class Boss : MonoBehaviour
 {
     public static GameObject boss;
-    public static GameObject player;
+    
    
    
     [SerializeField]
@@ -18,15 +18,29 @@ public class Boss : MonoBehaviour
 
     public static Animator animator;
 
-    public static float hp;
-    public static float damege;
+    public float maxHp = 100f;
+    public float currentHp;
+    public static float damege = 10f;
     public static float moveSpeed = 3f;
 
     public static string nameOfThePrefab;
 
     public bool isEffect = false;
+    public bool isChase = false;
+    public bool isPlayerHit  = false;
+
+    //플레이어 한테 줄 피격판정
+    public static bool isHeavyRigidity = false;
+    public static bool isLightRigidity = false;
 
     private static int index;
+
+    public void BossHpLose(float damege)
+    {
+        currentHp = currentHp - damege;
+        //Debug.Log(damege + "를 입었다");
+
+    }
 
 
 

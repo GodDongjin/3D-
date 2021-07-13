@@ -8,9 +8,9 @@ public class BossAI : Boss
 	int index;
 	string[,] animationName = new string[4, 3];
 
-	
-
 	public GameObject[] prefabs;
+	public List<BoxCollider> l_BossBoxCollider = new List<BoxCollider>();
+	public PlayerAnimation player;
 
 	// Start is called before the first frame update
 	void Start()
@@ -29,11 +29,21 @@ public class BossAI : Boss
 		nameOfThePrefab = prefabs[index].name;
 
 		boss = GameObject.Find("Boss");
-		player = GameObject.Find("Player");
+		player = GameObject.Find("Player").GetComponent<PlayerAnimation>();
 
 		animator = gameObject.GetComponent<Animator>();
 
-		state = AI_State.Skill1;
+		l_BossBoxCollider.Add(GameObject.Find(" R Foot").GetComponentInChildren<BoxCollider>());
+		l_BossBoxCollider.Add(GameObject.Find(" R Hand").GetComponentInChildren<BoxCollider>());
+		l_BossBoxCollider.Add(GameObject.Find(" L Foot").GetComponentInChildren<BoxCollider>());
+		l_BossBoxCollider.Add(GameObject.Find(" L Hand").GetComponentInChildren<BoxCollider>());
+
+		for (int i = 0; i < l_BossBoxCollider.Count; i++)
+		{
+			l_BossBoxCollider[i].enabled = false;
+		}
+
+		state = AI_State.Attack1;
 		ChangeState(state);
 
 	}
@@ -72,6 +82,11 @@ public class BossAI : Boss
 	{
 		state = nextState;
 
+		for (int i = 0; i < l_BossBoxCollider.Count; i++)
+		{
+			l_BossBoxCollider[i].enabled = false;
+		}
+
 		animator.SetBool("Attack1", false);
 		animator.SetBool("Attack2", false);
 		animator.SetBool("Skill1", false);
@@ -95,22 +110,28 @@ public class BossAI : Boss
 
 	public void IdleUpdate()
 	{
+
+		for (int i = 0; i < l_BossBoxCollider.Count; i++)
+		{
+			l_BossBoxCollider[i].enabled = false;
+		}
+
 		//플레이어랑 보스 거리 차이 체크
-		Vector3 direction = (player.transform.position - boss.transform.position).normalized;
-		Quaternion lookRotation = Quaternion.Lerp(boss.transform.rotation, Quaternion.LookRotation(direction), 1f);
-		boss.transform.rotation = lookRotation;
+		Trun();
 
 	}
 
 	public void MoveUpdate()
 	{
+		for (int i = 0; i < l_BossBoxCollider.Count; i++)
+		{
+			l_BossBoxCollider[i].enabled = false;
+		}
+
 		boss.transform.position =
 			Vector3.MoveTowards(boss.transform.position, player.transform.position, moveSpeed * Time.deltaTime);
 
-		Vector3 direction = (player.transform.position - boss.transform.position).normalized;
-		//Quaternion lookRotation = Quaternion.LookRotation(direction);
-		Quaternion lookRotation = Quaternion.Lerp(boss.transform.rotation, Quaternion.LookRotation(direction), 0.5f);
-		boss.transform.rotation = lookRotation;
+		Trun();
 
 		dis = Vector3.Distance(boss.transform.position, player.transform.position);
 
@@ -124,22 +145,79 @@ public class BossAI : Boss
 
 	public void Attack1Update()
 	{
-		//StartCoroutine(CoroutineAttack1());
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack1"))
+		{
+			ColliderOnOff(1);
+			isHeavyRigidity = true;
+			isLightRigidity = false;
+		}
 
-		//ChangeState(AI_State.Idle);
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack2"))
+		{
+			ColliderOnOff(3);
+			isHeavyRigidity = true;
+			isLightRigidity = false;
+		}
+
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack4"))
+		{
+			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+			if (normalizedTime <= 0.2f)
+			{
+				isPlayerHit = false;
+			}
+
+			if (!isPlayerHit)
+			{
+				for (int i = 0; i < l_BossBoxCollider.Count; i++)
+				{
+					l_BossBoxCollider[i].enabled = false;
+				}
+				l_BossBoxCollider[1].enabled = true;
+				l_BossBoxCollider[3].enabled = true;
+			}
+			else
+			{
+				for (int i = 0; i < l_BossBoxCollider.Count; i++)
+				{
+					l_BossBoxCollider[i].enabled = false;
+				}
+			}
+
+			isHeavyRigidity = true;
+			isLightRigidity = false;
+		}
 	}
 
 	public void Attack2Update()
 	{
-		//StartCoroutine(CoroutineAttack2());
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack3"))
+		{
+			ColliderOnOff(2);
+			isHeavyRigidity = true;
+			isLightRigidity = false;
+		}
 
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack5_Opp"))
+		{
+			ColliderOnOff(0);
+			isHeavyRigidity = true;
+			isLightRigidity = false;
+		}
 
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack6"))
+		{
+			ColliderOnOff(3);
+			isHeavyRigidity = true;
+			isLightRigidity = false;
+		}
 	}
 
 	public void Skill1Update()
 	{
 		nameOfThePrefab = prefabs[index].name;
-		if(!isEffect)
+		if (!isEffect)
 		{
 			if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack_Special1"))
 			{
@@ -153,12 +231,14 @@ public class BossAI : Boss
 				}
 			}
 		}
-		
+
 	}
 
 	public void Skill2Update()
 	{
-
+		ColliderOnOff(1);
+		isHeavyRigidity = true;
+		isLightRigidity = false;
 	}
 
 	//코루틴 
@@ -169,6 +249,8 @@ public class BossAI : Boss
 		if (dis <= 3f)
 		{
 			int randAction = Random.Range(0, 10);
+
+			yield return new WaitForSeconds(1f);
 
 			switch (randAction)
 			{
@@ -233,6 +315,7 @@ public class BossAI : Boss
 	{
 		animator.SetBool("Attack2", true);
 
+
 		while (true)
 		{
 			yield return new WaitUntil(() => BossAnimatorEnd("G_Attack6"));
@@ -247,9 +330,11 @@ public class BossAI : Boss
 	{
 		animator.SetBool("Skill1", true);
 
+
+
 		while (true)
 		{
-			
+
 			yield return new WaitUntil(() => BossAnimatorEnd("G_Attack_Special1"));
 
 			ChangeState(AI_State.Idle);
@@ -261,6 +346,7 @@ public class BossAI : Boss
 	IEnumerator CoroutineSkill2()
 	{
 		animator.SetBool("Skill2", true);
+
 
 		while (true)
 		{
@@ -275,7 +361,6 @@ public class BossAI : Boss
 	//보스 애니메이션 끝났는지 확인
 	bool BossAnimatorEnd(string animatorName)
 	{
-
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName(animatorName))
 		{
 			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -289,12 +374,104 @@ public class BossAI : Boss
 		return false;
 	}
 
-	float BossTargetDistance(GameObject gameObject, GameObject target)
+	public void BossPlayerHit(string animatorName)
 	{
-		dis = Vector3.Distance(gameObject.transform.position, target.transform.position);
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName(animatorName))
+		{
+			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-		return dis;
+			if (normalizedTime >= 0.9)
+			{
+
+			}
+		}
 	}
 
+	public void Trun()
+	{
+
+		Vector3 direction = (player.transform.position - boss.transform.position).normalized;
+		Quaternion lookRotation = Quaternion.Lerp(boss.transform.rotation, Quaternion.LookRotation(direction), 3f * Time.deltaTime);
+		boss.transform.rotation = lookRotation;
+
+	}
+
+	public void ColliderOnOff(int index)
+	{
+		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+		if (normalizedTime <= 0.2f)
+		{
+			isPlayerHit = false;
+		}
+
+		if (!isPlayerHit)
+		{
+			for (int i = 0; i < l_BossBoxCollider.Count; i++)
+			{
+				l_BossBoxCollider[i].enabled = false;
+			}
+			l_BossBoxCollider[index].enabled = true;
+		}
+		else
+		{
+			for (int i = 0; i < l_BossBoxCollider.Count; i++)
+			{
+				l_BossBoxCollider[i].enabled = false;
+			}
+		}
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+
+		if (other.name == "Player")
+		{
+			if (!isPlayerHit)
+			{
+				Debug.Log("딱 한번이라메");
+				StartCoroutine(OnDamege(damege, isHeavyRigidity, isLightRigidity));
+				//StartCoroutine(CollrderOff());
+				isPlayerHit = true;
+
+			}
+
+		}
+	}
+
+
+
+	IEnumerator OnDamege(float damege, bool big, bool light)
+	{
+		player.PlayerHpLose(damege, big, light);
+
+		yield return new WaitForSeconds(0.5f);
+
+	}
+
+
+
+	//IEnumerator CollrderOn(int index)
+	//{
+	//	Debug.Log("코루틴 실행");
+	//	//if (isPlayerHit)
+	//	//{
+	//	l_BossBoxCollider[index].enabled = true;
+	//	//}
+	//
+	//
+	//	yield return null;
+	//}
+	//
+	//IEnumerator CollrderOff()
+	//{
+	//	for (int i = 0; i < l_BossBoxCollider.Count; i++)
+	//	{
+	//		l_BossBoxCollider[index].enabled = false;
+	//	}
+	//
+	//
+	//	yield break;
+	//}
 
 }

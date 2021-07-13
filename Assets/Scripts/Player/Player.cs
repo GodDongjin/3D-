@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Player_State
 {
-	Idle, Move, Attack, Dash, AttackDash
+	Idle, Move, Attack, Dash, AttackDash, HeavyRigidity, LightRigidity
 }
 
 public class Player : MonoBehaviour
@@ -34,37 +34,71 @@ public class Player : MonoBehaviour
 	public static bool isWalk = false;
 	public static bool isDash = false;
 	public static bool isIdle = false;
-	
+	//피격판정
+	public static bool isHeavyRigidity;
+	public static bool isLightRigidity;
+
+
 	public static bool isClick = false;
 	public static bool isEnemyHit = false;
 
+	
 
 	//플레이어 상태를 변경 시키면서 모든 상태에 해당하는 값을 초기화 해준다.
-	public static void ChangeState(Player_State nextState)
+	public void ChangeState(Player_State nextState)
 	{
 		state = nextState;
 
 		isAttack = false;
 		isWalk = false;
 		isDash = false;
+		isHeavyRigidity = false;
+		isLightRigidity = false;
 		isIdle = false;
+		isClick = true;
 
 		attackCombo = 0;
 
 		switch (state)
 		{
-			case Player_State.Idle: isIdle = true; isAttack = false; isWalk = false; isDash = false; break;
-			case Player_State.Move: isIdle = false; isAttack = false; isWalk = true; isDash = false; break;
-			case Player_State.Attack: isIdle = false; isAttack = true; isWalk = false; isDash = false; break;
-			case Player_State.Dash: isIdle = false; isAttack = false; isWalk = false; isDash = true; break;
-			case Player_State.AttackDash: isIdle = false; isAttack = true; isWalk = false; isDash = true; break;
+			case Player_State.Idle: 
+				isIdle = true; isAttack = false; isWalk = false; isDash = false;
+				isHeavyRigidity = false; isLightRigidity = false; break;
+
+			case Player_State.Move: 
+				isIdle = false; isAttack = false; isWalk = true; isDash = false;
+				isHeavyRigidity = false; isLightRigidity = false; break;
+			
+			case Player_State.Attack: 
+				isIdle = false; isAttack = true; isWalk = false; isDash = false;
+				isHeavyRigidity = false; isLightRigidity = false; break;
+			
+			case Player_State.Dash: 
+				isIdle = false; isAttack = false; isWalk = false; isDash = true;
+				isHeavyRigidity = false; isLightRigidity = false; break;
+
+			case Player_State.HeavyRigidity: 
+				isIdle = false; isAttack = false; isWalk = false; isDash = false; 
+				isHeavyRigidity = true; isLightRigidity = false; break;
+
+			case Player_State.LightRigidity: 
+				isIdle = false; isAttack = false; isWalk = false; isDash = false;
+				isHeavyRigidity = false; isLightRigidity = true; break;
 		}
 
 
 		animator.SetBool("IsDash", isDash);
+		//Debug.Log("IsDash" + isHeavyRigidity);
 		animator.SetBool("IsAttack", isAttack);
+		//Debug.Log("IsAttack" + isHeavyRigidity);
 		animator.SetBool("IsWalk", isWalk);
+		//Debug.Log("IsWalk" + isHeavyRigidity);
 		animator.SetBool("IsIdle", isIdle);
+		//Debug.Log("IsIdle" + isHeavyRigidity);
+		animator.SetBool("isHeavyRigidity", isHeavyRigidity);
+		
+		animator.SetBool("isLightRigidity", isLightRigidity);
+		//Debug.Log(isHeavyRigidity);
 		animator.SetFloat("combo", attackCombo);
 	}
 	public static void MouseRotate()
@@ -74,12 +108,13 @@ public class Player : MonoBehaviour
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 			//레이케스트 특정 오브젝트 무시하는 코드
-			int layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
+			int layerMask = (-1) - (1 << LayerMask.NameToLayer("Boss"));
 
-			if (Physics.Raycast(ray, out hit, layerMask))
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
 			{
-				
 				movePos = hit.point;
+				Debug.Log(hit.point);
+				Debug.Log(hit.collider.name);
 			}
 
 			Vector3 direction = (movePos - player.transform.position).normalized;
@@ -89,10 +124,20 @@ public class Player : MonoBehaviour
 
 	}
 
-	public void PlayerHpLose(float damege)
+	public void PlayerHpLose(float damege, bool big, bool light)
 	{
 		currentHp = currentHp - damege;
-		//Debug.Log(damege + "를 입었다");
+		if (big)
+		{
+			ChangeState(Player_State.HeavyRigidity);
+		}
+
+		else if (light)
+		{
+			ChangeState(Player_State.LightRigidity);
+		}
+
+		Debug.Log(damege + "를 입었다");
 		
 	}
 }

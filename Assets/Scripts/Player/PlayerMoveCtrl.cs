@@ -26,19 +26,16 @@ public class PlayerMoveCtrl : Player
 			Rotate();
 		}
 
-		if(state == Player_State.Dash)
-		{
-			Dash();
-		}
+		//if(state == Player_State.Dash)
+		//{
+		//	Dash();
+		//}
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		
-
-
-		if (state != Player_State.Dash && state != Player_State.Attack)
+		if (state != Player_State.Dash && state != Player_State.Attack && state != Player_State.HeavyRigidity)
 		{
 			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) ||
 		   Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))

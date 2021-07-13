@@ -8,6 +8,7 @@ public class BossEffect : MonoBehaviour
 	PlayerInfo playerInfo;
 	public ParticleSystem particle;
 	Collider collider;
+	BoxCollider bossBoxCollider;
 
 	Animator bossAni;
 
@@ -21,6 +22,7 @@ public class BossEffect : MonoBehaviour
 		playerInfo = GameObject.Find("Player").GetComponent<PlayerInfo>();
 		particle = Effect.GetComponentInChildren<ParticleSystem>();
 		collider = Effect.GetComponent<Collider>();
+		//bossBoxCollider
 	}
 
 	private void Update()
@@ -57,8 +59,8 @@ public class BossEffect : MonoBehaviour
 		{
 			if(!isTrigger)
 			{
-				isTrigger = true;
 				StartCoroutine(BossSkillAttack());
+				isTrigger = true;
 			}
 			if(isTrigger)
 			{
@@ -68,21 +70,10 @@ public class BossEffect : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerStay(Collider other)
-	{
-		if(!other.gameObject)
-		{
-			
-		}
-	}
-
-	
-	
-
 	//보스 스킬 첫 공격 대미지
 	IEnumerator BossSkillAttack()
 	{
-		playerInfo.PlayerHpLose(20f);
+		playerInfo.PlayerHpLose(20f, true, false);
 		Debug.Log(20f + "를 입었다");
 
 		yield return new WaitForSeconds(0.5f);
@@ -97,7 +88,7 @@ public class BossEffect : MonoBehaviour
 	{
 		while(true)
 		{
-			playerInfo.PlayerHpLose(5f);
+			playerInfo.PlayerHpLose(5f, true, false);
 			Debug.Log(10f + "를 입었다");
 
 			yield return new WaitForSeconds(0.5f);

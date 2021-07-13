@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayerAttack : Player
 {
+    BossInfo boss;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        boss = GameObject.Find("Boss").GetComponent<BossInfo>();
     }
 
     // Update is called once per frame
@@ -17,6 +19,7 @@ public class PlayerAttack : Player
 		{
             if (state != Player_State.Attack && attackCombo == 0)
 			{
+                
                 MouseRotate();
                 ChangeState(Player_State.Attack);
             }
@@ -35,6 +38,8 @@ public class PlayerAttack : Player
                 Vector3 bossPos = GameManager.instance.g_Boss.transform.position;
                 Vector3 hitPrefabsPos = new Vector3(bossPos.x, bossPos.y + 3, bossPos.z);
                 Instantiate(hitPrefabs, hitPrefabsPos, Quaternion.identity);
+
+                boss.BossHpLose(10f);
             }
         }
     }

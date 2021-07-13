@@ -22,6 +22,7 @@ public class PlayerAnimation : Player
 	// Update is called once per frame
 	void Update()
 	{
+		
 		//animator.SetBool("IsWalk", isWalk);
 
 		if (state == Player_State.Attack)
@@ -33,6 +34,13 @@ public class PlayerAnimation : Player
 		{
 			Dash();
 		}
+
+		if(state == Player_State.HeavyRigidity || state == Player_State.LightRigidity)
+		{
+			Rigidity();
+		}
+
+		
 	}
 
 	private void AttackCombo()
@@ -94,115 +102,144 @@ public class PlayerAnimation : Player
 			}
 		}
 	}
-		//private void Attack1()
-		//{		
 
-		//}
+	private void Rigidity()
+	{
+		if (isHeavyRigidity)
+		{
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName("Damage_Front_Big_ver_B"))
+			{
+				float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+				if (normalizedTime >= 0.8)
+				{
+					ChangeState(Player_State.Idle);
+				}
+			}
+		}
+		else if (isLightRigidity)
+		{
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName("Damage_Front_Small_ver_A"))
+			{
+				float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+				if (normalizedTime >= 0.8)
+				{
+					ChangeState(Player_State.Idle);
+				}
+			}
+		}
+	}
 
-		//private void Attack2()
-		//{
-		//	if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[1]))
-		//	{
-		//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-		//		if (0.8 <= normalizedTime && normalizedTime <= 1)
-		//		{
-		//			if (Input.GetKeyDown(KeyCode.Space))
-		//			{
-		//				attackCombo += 1;
-		//				animator.SetFloat("combo", attackCombo);
 
-		//			}
-		//		}
-		//		else if (normalizedTime >= 1)
-		//		{
-		//			isAttack = false;
-		//			Debug.Log("1초 지남");
-		//		return;
-		//		}
-		//	}
+	//플레이어 공격 코드(수정 전)
+	//private void Attack1()
+	//{		
+
+	//}
+
+	//private void Attack2()
+	//{
+	//	if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[1]))
+	//	{
+	//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+	//		if (0.8 <= normalizedTime && normalizedTime <= 1)
+	//		{
+	//			if (Input.GetKeyDown(KeyCode.Space))
+	//			{
+	//				attackCombo += 1;
+	//				animator.SetFloat("combo", attackCombo);
+
+	//			}
+	//		}
+	//		else if (normalizedTime >= 1)
+	//		{
+	//			isAttack = false;
+	//			Debug.Log("1초 지남");
+	//		return;
+	//		}
+	//	}
 
 
-		//}
+	//}
 
-		//private void Attack3()
-		//{
+	//private void Attack3()
+	//{
 
-		//	if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[2]))
-		//	{
-		//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-		//		if (0.8 <= normalizedTime && normalizedTime <= 1)
-		//		{
-		//			if (Input.GetKeyDown(KeyCode.Space))
-		//			{
-		//				attackCombo += 1;
-		//				animator.SetFloat("combo", attackCombo);
+	//	if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[2]))
+	//	{
+	//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+	//		if (0.8 <= normalizedTime && normalizedTime <= 1)
+	//		{
+	//			if (Input.GetKeyDown(KeyCode.Space))
+	//			{
+	//				attackCombo += 1;
+	//				animator.SetFloat("combo", attackCombo);
 
-		//				//break;
+	//				//break;
 
-		//			}
-		//		}
-		//		else if (normalizedTime >= 1)
-		//		{
-		//			isAttack = false;
-		//			Debug.Log("1초 지남");
-		//			return;
-		//		}
+	//			}
+	//		}
+	//		else if (normalizedTime >= 1)
+	//		{
+	//			isAttack = false;
+	//			Debug.Log("1초 지남");
+	//			return;
+	//		}
 
-		//	}
+	//	}
 
-		//}
+	//}
 
-		//private void Attack4()
-		//{
-		//	//animator.Play(name[3], 0);
-		//	if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[3]))
-		//	{
-		//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-		//		if (0.8 <= normalizedTime && normalizedTime <= 1)
-		//		{
-		//			if (Input.GetKeyDown(KeyCode.Space))
-		//			{
-		//				attackCombo += 1;
-		//				animator.SetFloat("combo", attackCombo);
+	//private void Attack4()
+	//{
+	//	//animator.Play(name[3], 0);
+	//	if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[3]))
+	//	{
+	//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+	//		if (0.8 <= normalizedTime && normalizedTime <= 1)
+	//		{
+	//			if (Input.GetKeyDown(KeyCode.Space))
+	//			{
+	//				attackCombo += 1;
+	//				animator.SetFloat("combo", attackCombo);
 
-		//				//break;
+	//				//break;
 
-		//			}
-		//		}
-		//		else if (normalizedTime >= 1)
-		//		{
-		//			isAttack = false;
-		//			Debug.Log("1초 지남");
-		//			return;
-		//		}
+	//			}
+	//		}
+	//		else if (normalizedTime >= 1)
+	//		{
+	//			isAttack = false;
+	//			Debug.Log("1초 지남");
+	//			return;
+	//		}
 
-		//	}
-		//}
+	//	}
+	//}
 
-		//private void Attack5()
-		//{
+	//private void Attack5()
+	//{
 
-		//if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[4]))
-		//	{
-		//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-		//		//if (0.8 <= normalizedTime && normalizedTime <= 1)
-		//		//{
-		//		//	if (Input.GetKeyDown(KeyCode.Space))
-		//		//	{
-		//		//		attackCombo += 1;
-		//		//		animator.SetFloat("combo", attackCombo);
-		//		//		//break;
-		//		//		//StartCoroutine(Attack2());
-		//		//	}
-		//		//}
-		//		/*else*/ if (normalizedTime >= 1)
-		//		{
-		//			isAttack = false;
-		//			Debug.Log("1초 지남");
-		//			return;
-		//		}
+	//if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[4]))
+	//	{
+	//		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+	//		//if (0.8 <= normalizedTime && normalizedTime <= 1)
+	//		//{
+	//		//	if (Input.GetKeyDown(KeyCode.Space))
+	//		//	{
+	//		//		attackCombo += 1;
+	//		//		animator.SetFloat("combo", attackCombo);
+	//		//		//break;
+	//		//		//StartCoroutine(Attack2());
+	//		//	}
+	//		//}
+	//		/*else*/ if (normalizedTime >= 1)
+	//		{
+	//			isAttack = false;
+	//			Debug.Log("1초 지남");
+	//			return;
+	//		}
 
-		//	}
-		//}
-	
+	//	}
+	//}
+
 }
