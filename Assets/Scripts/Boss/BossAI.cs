@@ -43,7 +43,7 @@ public class BossAI : Boss
 			l_BossBoxCollider[i].enabled = false;
 		}
 
-		state = AI_State.Attack1;
+		state = AI_State.Idle;
 		ChangeState(state);
 
 	}
@@ -59,7 +59,7 @@ public class BossAI : Boss
 			case AI_State.Attack2: Attack2Update(); break;
 			case AI_State.Skill1: Skill1Update(); break;
 			case AI_State.Skill2: Skill2Update(); break;
-			case AI_State.Stiffness: IdleUpdate(); break;
+			case AI_State.Rigidity: IdleUpdate(); break;
 			case AI_State.Die: IdleUpdate(); break;
 		}
 
@@ -76,6 +76,10 @@ public class BossAI : Boss
 		}
 
 
+		Debug.Log(distance);
+
+		HeavyHit();
+		BossPlayerDistance();
 	}
 
 	public void ChangeState(AI_State nextState)
@@ -92,6 +96,7 @@ public class BossAI : Boss
 		animator.SetBool("Skill1", false);
 		animator.SetBool("Skill2", false);
 		animator.SetBool("Move", false);
+		animator.SetBool("HeavyHit", false);
 
 		StopAllCoroutines();
 
@@ -103,7 +108,7 @@ public class BossAI : Boss
 			case AI_State.Attack2: StartCoroutine(CoroutineAttack2()); break;
 			case AI_State.Skill1: StartCoroutine(CoroutineSkill1()); break;
 			case AI_State.Skill2: StartCoroutine(CoroutineSkill2()); break;
-			case AI_State.Stiffness: break;
+			case AI_State.Rigidity: StartCoroutine(CoroutineHit()); break;
 			case AI_State.Die: break;
 		}
 	}
@@ -116,8 +121,12 @@ public class BossAI : Boss
 			l_BossBoxCollider[i].enabled = false;
 		}
 
-		//플레이어랑 보스 거리 차이 체크
-		Trun();
+		if(distance < 8f)
+		{
+			//플레이어랑 보스 거리 차이 체크
+			Trun();
+		}
+		
 
 	}
 
@@ -133,7 +142,6 @@ public class BossAI : Boss
 
 		Trun();
 
-		dis = Vector3.Distance(boss.transform.position, player.transform.position);
 
 		if (dis < 5f)
 		{
@@ -194,14 +202,14 @@ public class BossAI : Boss
 	{
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack3"))
 		{
-			ColliderOnOff(2);
+			ColliderOnOff(0);
 			isHeavyRigidity = true;
 			isLightRigidity = false;
 		}
 
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack5_Opp"))
 		{
-			ColliderOnOff(0);
+			ColliderOnOff(2);
 			isHeavyRigidity = true;
 			isLightRigidity = false;
 		}
@@ -241,41 +249,59 @@ public class BossAI : Boss
 		isLightRigidity = false;
 	}
 
+	public void HeavyHit()
+	{
+		if(currentRigidity >= maxRigidity)
+		{
+			ChangeState(AI_State.Rigidity);
+			//Debug.Log("경직");
+			currentRigidity = 0;
+		}
+	}
+
 	//코루틴 
 	IEnumerator CoroutineIdel()
 	{
-		dis = Vector3.Distance(boss.transform.position, player.transform.position);
-
-		if (dis <= 3f)
-		{
-			int randAction = Random.Range(0, 10);
-
-			yield return new WaitForSeconds(1f);
-
-			switch (randAction)
+		
+		//if(distance < 10f)
+		//{
+			if (distance <= 3f)
 			{
-				case 0: state = AI_State.Attack1; break;
-				case 1: state = AI_State.Attack1; break;
-				case 2: state = AI_State.Attack1; break;
-				case 3: state = AI_State.Attack1; break;
-				case 4: state = AI_State.Attack2; break;
-				case 5: state = AI_State.Attack2; break;
-				case 6: state = AI_State.Attack2; break;
-				case 7: state = AI_State.Attack2; break;
-				case 8: state = AI_State.Skill2; break;
-				case 9: state = AI_State.Skill2; break;
-				case 10: state = AI_State.Skill1; break;
+				int randAction = Random.Range(0, 10);
+
+				yield return new WaitForSeconds(1f);
+
+				switch (randAction)
+				{
+					case 0: state = AI_State.Attack1; break;
+					case 1: state = AI_State.Attack1; break;
+					case 2: state = AI_State.Attack1; break;
+					case 3: state = AI_State.Attack1; break;
+					case 4: state = AI_State.Attack2; break;
+					case 5: state = AI_State.Attack2; break;
+					case 6: state = AI_State.Attack2; break;
+					case 7: state = AI_State.Attack2; break;
+					case 8: state = AI_State.Skill2; break;
+					case 9: state = AI_State.Skill2; break;
+					case 10: state = AI_State.Skill1; break;
+				}
+
+				//Debug.Log("쫒아가");
+				ChangeState(state);
 			}
-
-			Debug.Log("쫒아가");
-			ChangeState(state);
-		}
-		if (dis > 3f)
-		{
-			ChangeState(AI_State.Move);
-			Debug.Log("따라가");
-		}
-
+			if (distance > 3f)
+			{
+				ChangeState(AI_State.Move);
+				//Debug.Log("따라가");
+			}
+			
+				
+			
+		//}
+		//else
+		//{
+		//	ChangeState(AI_State.Idle);
+		//}
 
 		yield break;
 
@@ -285,7 +311,7 @@ public class BossAI : Boss
 	{
 		animator.SetBool("Move", true);
 
-		if (dis < 3f)
+		if (distance < 3f)
 		{
 			ChangeState(AI_State.Idle);
 		}
@@ -358,6 +384,20 @@ public class BossAI : Boss
 		}
 	}
 
+	IEnumerator CoroutineHit()
+	{
+		animator.SetBool("HeavyHit", true);
+
+		while (true)
+		{
+			yield return new WaitUntil(() => BossAnimatorEnd("G_HeavyHit From Front"));
+
+			ChangeState(AI_State.Idle);
+
+			yield break;
+		}
+	}
+
 	//보스 애니메이션 끝났는지 확인
 	bool BossAnimatorEnd(string animatorName)
 	{
@@ -372,19 +412,6 @@ public class BossAI : Boss
 		}
 
 		return false;
-	}
-
-	public void BossPlayerHit(string animatorName)
-	{
-		if (animator.GetCurrentAnimatorStateInfo(0).IsName(animatorName))
-		{
-			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
-			if (normalizedTime >= 0.9)
-			{
-
-			}
-		}
 	}
 
 	public void Trun()
@@ -429,7 +456,7 @@ public class BossAI : Boss
 		{
 			if (!isPlayerHit)
 			{
-				Debug.Log("딱 한번이라메");
+				//Debug.Log("딱 한번이라메");
 				StartCoroutine(OnDamege(damege, isHeavyRigidity, isLightRigidity));
 				//StartCoroutine(CollrderOff());
 				isPlayerHit = true;
@@ -449,7 +476,10 @@ public class BossAI : Boss
 
 	}
 
-
+	public void BossPlayerDistance()
+	{
+		distance = Vector3.Distance(boss.transform.position, player.transform.position);
+	}
 
 	//IEnumerator CollrderOn(int index)
 	//{

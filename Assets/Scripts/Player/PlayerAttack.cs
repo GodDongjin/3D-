@@ -19,7 +19,6 @@ public class PlayerAttack : Player
 		{
             if (state != Player_State.Attack && attackCombo == 0)
 			{
-                
                 MouseRotate();
                 ChangeState(Player_State.Attack);
             }
@@ -39,7 +38,9 @@ public class PlayerAttack : Player
                 Vector3 hitPrefabsPos = new Vector3(bossPos.x, bossPos.y + 3, bossPos.z);
                 Instantiate(hitPrefabs, hitPrefabsPos, Quaternion.identity);
 
-                boss.BossHpLose(10f);
+                //boss.BossHpLose(damege, rigidity);
+
+                GameManager.instance.g_Boss.BossHpLose(damege, rigidity);
             }
         }
     }

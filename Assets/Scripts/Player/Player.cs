@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
 	public float currentHp;
 	public float moveSpeed;
 	public float dashSpeed = 0.5f;
+	public float rigidity = 10f;
+	public float damege = 10f;
 
 	public static float attackCombo = 0f;
 	public int maxLevel;

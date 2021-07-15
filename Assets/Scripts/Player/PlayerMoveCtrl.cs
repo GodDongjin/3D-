@@ -72,8 +72,8 @@ public class PlayerMoveCtrl : Player
 		movePos = new Vector3(h, 0f, v).normalized;
 		player.transform.position += movePos * moveSpeed * Time.deltaTime;
 
-		Debug.Log(movePos);
-		Debug.Log("PlayerPos " + player.transform.position + "movePos" + movePos);
+		//Debug.Log(movePos);
+		// Debug.Log("PlayerPos " + player.transform.position + "movePos" + movePos);
 	}
 
 	private void Rotate()

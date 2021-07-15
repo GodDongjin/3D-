@@ -4,22 +4,25 @@ using UnityEngine;
 
 public enum AI_State
 {
-    Idle, Move, Attack1, Attack2, Skill1, Skill2, Stiffness, Die
+    Idle, Move, Attack1, Attack2, Skill1, Skill2, Rigidity, Die
 }
 
 public class Boss : MonoBehaviour
 {
     public static GameObject boss;
-    
-   
-   
+
+    public static Transform startPos;
+
     [SerializeField]
     public static AI_State state;
 
     public static Animator animator;
 
-    public float maxHp = 100f;
-    public float currentHp;
+    public static float maxHp = 200f;
+    public static float currentHp;
+    public static float maxRigidity = 100f;
+    public static float currentRigidity = 0;
+
     public static float damege = 10f;
     public static float moveSpeed = 3f;
 
@@ -35,11 +38,17 @@ public class Boss : MonoBehaviour
 
     private static int index;
 
-    public void BossHpLose(float damege)
+    public static float distance;
+
+    public void BossHpLose(float damege, float rigidityDamege)
     {
         currentHp = currentHp - damege;
-        //Debug.Log(damege + "를 입었다");
 
+        if(currentRigidity <= maxRigidity)
+		{
+            currentRigidity = currentRigidity + rigidityDamege;
+        }
+       
     }
 
 
