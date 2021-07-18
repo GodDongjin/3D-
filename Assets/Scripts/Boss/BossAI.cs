@@ -76,7 +76,7 @@ public class BossAI : Boss
 		}
 
 
-		Debug.Log(distance);
+		//Debug.Log(distance);
 
 		HeavyHit();
 		BossPlayerDistance();

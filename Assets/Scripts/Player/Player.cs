@@ -7,6 +7,11 @@ public enum Player_State
 	Idle, Move, Attack, Dash, AttackDash, HeavyRigidity, LightRigidity
 }
 
+public class PlayerInfor
+{
+	
+}
+
 public class Player : MonoBehaviour
 {
 	public static GameObject player;
@@ -15,22 +20,27 @@ public class Player : MonoBehaviour
 	public static Rigidbody playerRig;
 
 
+	public PlayerInfor playerInfor = new PlayerInfor();
+
 	public static Player_State state;
 
 	public static Vector3 movePos;
 	public static Ray ray;
 	static RaycastHit hit;
 
-	public float maxHp = 100f;
-	public float currentHp;
-	public float moveSpeed;
-	public float dashSpeed = 0.5f;
-	public float rigidity = 10f;
-	public float damege = 10f;
+	public static float maxHp;
+	public static float currentHp;
+	public static float maxMp;
+	public static float currentMp;
+	public static float damege;
+	public static int lv;
+	public static float maxExperience;
+	public static float currentExperience;
+	public static float moveSpeed = 4f;
+	public static float dashSpeed = 0.5f;
 
+	public float rigidity = 10f;
 	public static float attackCombo = 0f;
-	public int maxLevel;
-	public int currentLevel;
 
 	public static bool isAttack = false;
 	public static bool isWalk = false;
@@ -129,6 +139,7 @@ public class Player : MonoBehaviour
 	public void PlayerHpLose(float damege, bool big, bool light)
 	{
 		currentHp = currentHp - damege;
+
 		if (big)
 		{
 			ChangeState(Player_State.HeavyRigidity);
@@ -142,4 +153,5 @@ public class Player : MonoBehaviour
 		Debug.Log(damege + "를 입었다");
 		
 	}
+
 }

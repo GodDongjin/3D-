@@ -14,6 +14,14 @@ public class PlayerMoveCtrl : Player
 	{
 		player = GameObject.Find("Player");
 		playerRig = player.gameObject.GetComponent<Rigidbody>();
+
+		//inventoryUi = GameObject.Find("Inventory");
+		//
+		//if (inventoryUi.gameObject.activeSelf)
+		//{
+		//	inventoryUi.SetActive(false);
+		//}
+
 	}
 
 	private void FixedUpdate()
@@ -54,15 +62,16 @@ public class PlayerMoveCtrl : Player
 		if (Input.GetKeyDown(KeyCode.LeftShift) && state != Player_State.Dash)
 		{
 			ChangeState(Player_State.Dash);
-			
+
 
 			Rotate();
 			playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
 		}
 
+		InventoryOnOff();
 		//player.transform.Rotate(0, player.transform.tra.y, 0);
 	}
-	
+
 	private void Move()
 	{
 
@@ -82,12 +91,30 @@ public class PlayerMoveCtrl : Player
 		//player.transform.rotation = Quaternion.LookRotation(movePos);
 		v = Input.GetAxisRaw("Vertical");
 		h = Input.GetAxisRaw("Horizontal");
-			
+
 		movePos = new Vector3(h, 0f, v).normalized;
 
 		player.transform.LookAt(player.transform.position + movePos);
 
 		//Debug.Log();
 		//Debug.Log("RotateMovePos " + movePos + "playerRotate " + player.transform.position);
+	}
+
+	private void InventoryOnOff()
+	{
+		//if (Input.GetKeyDown(KeyCode.I))
+		//{
+		//	if (!inventoryUi.gameObject.activeSelf)
+		//	{
+		//		inventoryUi.SetActive(true);
+		//	}
+		//
+		//	else if (inventoryUi.gameObject.activeSelf)
+		//	{
+		//		inventoryUi.SetActive(false);
+		//	}
+		//
+		//	
+		//}
 	}
 }
