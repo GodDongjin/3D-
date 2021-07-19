@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class SkiilePaticles : MonoBehaviour
 {
-	
-	
-	void OnParticleCollision(Collider collider)
+	//private void OnParticleCollision(GameObject other)
+	//{
+	//	Debug.Log(other.name);
+	//}
+
+
+	private void OnTriggerEnter(Collider other)
 	{
-		Debug.Log(collider.name);
+		if(other.name == "Boss")
+		{
+			Debug.Log("보스 스킬 맞음");
+		}
 	}
 
-	
 }

@@ -40,6 +40,10 @@ public class PlayerAnimation : Player
 			Rigidity();
 		}
 
+		if(state == Player_State.Skiile1)
+		{
+			Skille();
+		}
 		
 	}
 
@@ -129,7 +133,20 @@ public class PlayerAnimation : Player
 		}
 	}
 
-
+	private void Skille()
+	{
+		if(isSkiile)
+		{
+			if(animator.GetCurrentAnimatorStateInfo(0).IsName("3"))
+			{
+				float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+				if (normalizedTime >= 0.8)
+				{
+					ChangeState(Player_State.Idle);
+				}
+			}
+		}
+	}
 	//플레이어 공격 코드(수정 전)
 	//private void Attack1()
 	//{		

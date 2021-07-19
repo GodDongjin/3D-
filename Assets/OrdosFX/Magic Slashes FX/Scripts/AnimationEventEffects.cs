@@ -56,4 +56,14 @@ public class AnimationEventEffects : MonoBehaviour {
         }
         Destroy(instance, Effects[EffectNumber].DestroyAfter);
     }
+
+	private void OnParticleCollision(GameObject other)
+	{
+        Debug.Log(other.name);
+	}
+
+	private void OnParticleTrigger()
+	{
+		
+	}
 }
