@@ -43,7 +43,7 @@ public class PlayerMoveCtrl : Player
 	// Update is called once per frame
 	void Update()
 	{
-		if (state != Player_State.Dash && state != Player_State.Attack && state != Player_State.HeavyRigidity)
+		if (state != Player_State.Dash && state != Player_State.Attack && state != Player_State.HeavyRigidity && state != Player_State.Skiile1)
 		{
 			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) ||
 		   Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))

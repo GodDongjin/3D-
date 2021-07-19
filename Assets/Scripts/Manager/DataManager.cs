@@ -27,4 +27,22 @@ public class DataManager : MonoBehaviour
 	{
         return dataBase.player[playerLv];
 	}
+
+    public ItemDB GetItemInfo(int itemId)
+	{
+        for(int i = 0; i < dataBase.items.Count; i++)
+		{
+            if(dataBase.items[i].id == itemId)
+			{
+                Debug.Log(dataBase.items[i].id);
+                Debug.Log(dataBase.items[i].imageName);
+                Debug.Log(dataBase.items[i].type);
+                //Debug.Log(dataBase.items[i].imageName);
+                return dataBase.items[i];
+
+            }
+		}
+
+        return null;
+	}
 }

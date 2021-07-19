@@ -1,0 +1,5 @@
+id,name,image,itemType,value
+1,hpPotion,Health Potion,Used,100
+2,mpPotion,,Used,100
+3,attckPotion,,Used,10
+4,speedPotion,,Used,3

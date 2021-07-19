@@ -34,7 +34,7 @@ public class BossInfo : Boss
 	{
 		_BossInfomation.maxHp = maxHp;
 		_BossInfomation.currentHp = currentHp;
-		Debug.Log("sfjks " + _BossInfomation.currentHp);
+		//Debug.Log("sfjks " + _BossInfomation.currentHp);
 	}
 
 }

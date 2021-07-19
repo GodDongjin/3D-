@@ -54,14 +54,14 @@ public class InventoryUI : MonoBehaviour
 	public void AcquireItem(Item _item, int _count = 1)
 	{
 		//아이템이 무기 종류가 아니면 실행
-		if (Item.ItemType.Equipment != _item.itemType)
+		if ("Equipment" != _item.itmeInfo.itemType)
 		{
 			for (int i = 0; i < slots.Length; i++)
 			{
 				if (slots[i].item != null)
 				{
 					//슬롯에 아이템이 있다 그럼 아이템 갯수를 전달
-					if (slots[i].item.itemName == _item.itemName)
+					if (slots[i].item.itmeInfo.itemId == _item.itmeInfo.itemId)
 					{
 						//if (slots[i].itemCount < 99)
 						//{

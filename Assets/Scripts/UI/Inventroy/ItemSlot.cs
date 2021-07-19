@@ -27,9 +27,9 @@ public class ItemSlot : MonoBehaviour
 	{
 		item = _item;
 		itemCount = _count;
-		itemImage.sprite = item.itemImage;
+		itemImage.sprite = Resources.Load<Sprite>(_item.itmeInfo.itemImageName);
 
-		if (item.itemType != Item.ItemType.Equipment)
+		if (item.itmeInfo.itemType != "Equipment")
 		{
 			go_countImgae.SetActive(true);
 			text_count.text = itemCount.ToString();

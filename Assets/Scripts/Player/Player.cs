@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Player_State
 {
-	Idle, Move, Attack, Dash, AttackDash, HeavyRigidity, LightRigidity
+	Idle, Move, Attack, Skiile1, Dash, AttackDash, HeavyRigidity, LightRigidity
 }
 
 public class PlayerInfor
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
 	public static bool isWalk = false;
 	public static bool isDash = false;
 	public static bool isIdle = false;
+	public static bool isSkiile = false;
 	//피격판정
 	public static bool isHeavyRigidity;
 	public static bool isLightRigidity;
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
 	{
 		state = nextState;
 
+		isSkiile = false;	
 		isAttack = false;
 		isWalk = false;
 		isDash = false;
@@ -75,27 +77,32 @@ public class Player : MonoBehaviour
 		{
 			case Player_State.Idle: 
 				isIdle = true; isAttack = false; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile = false; break;
 
 			case Player_State.Move: 
 				isIdle = false; isAttack = false; isWalk = true; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile = false; break;
 			
 			case Player_State.Attack: 
 				isIdle = false; isAttack = true; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile = false; break;
 			
 			case Player_State.Dash: 
 				isIdle = false; isAttack = false; isWalk = false; isDash = true;
-				isHeavyRigidity = false; isLightRigidity = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile = false; break;
 
 			case Player_State.HeavyRigidity: 
 				isIdle = false; isAttack = false; isWalk = false; isDash = false; 
-				isHeavyRigidity = true; isLightRigidity = false; break;
+				isHeavyRigidity = true; isLightRigidity = false; isSkiile = false; break;
 
 			case Player_State.LightRigidity: 
 				isIdle = false; isAttack = false; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = true; break;
+				isHeavyRigidity = false; isLightRigidity = true; isSkiile = false; break;
+
+			case Player_State.Skiile1:
+				isIdle = false; isAttack = false; isWalk = false; isDash = false;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile = true; break;
+
 		}
 
 
@@ -110,8 +117,12 @@ public class Player : MonoBehaviour
 		animator.SetBool("isHeavyRigidity", isHeavyRigidity);
 		
 		animator.SetBool("isLightRigidity", isLightRigidity);
+
+		animator.SetBool("isSkiil1", isSkiile);
 		//Debug.Log(isHeavyRigidity);
 		animator.SetFloat("combo", attackCombo);
+
+
 	}
 	public static void MouseRotate()
 	{

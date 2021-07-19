@@ -5,7 +5,10 @@ using UnityEngine;
 public class ItemDB
 {
     public int id;
-    public int name;
+    public int value;
+    public string name;
+    public string imageName;
+    public string type;
 }
 
 public class PlayerDB
@@ -43,7 +46,11 @@ public class DataBase : MonoBehaviour
             items.Add(new ItemDB());
         
             items[i].id = int.Parse((m_dictionaryData[i]["id"].ToString()));
-            items[i].name = int.Parse((m_dictionaryData[i]["name"].ToString()));
+            items[i].name = m_dictionaryData[i]["name"].ToString();
+            items[i].imageName = m_dictionaryData[i]["image"].ToString();
+            items[i].type = m_dictionaryData[i]["itemType"].ToString();
+            items[i].value = int.Parse((m_dictionaryData[i]["value"].ToString()));
+
         }
 
         m_dictionaryData.Clear();
@@ -64,6 +71,8 @@ public class DataBase : MonoBehaviour
 		}
 
     }
+
+   
 	
 
 }

@@ -70,7 +70,7 @@ public class PlayerInfo : Player
 		_PlayerInfomation.maxExperience = maxExperience;
 		_PlayerInfomation.currentExperience = currentExperience;
 
-		Debug.Log(currentHp);
+		//Debug.Log(currentHp);
 	}
 
 
@@ -85,10 +85,10 @@ public class PlayerInfo : Player
 
 
 
-		Debug.Log("maxHp " + maxHp);
-		Debug.Log("maxMp " + maxMp);
-		Debug.Log("damege " + damege);
-		Debug.Log("maxExperience " + maxExperience);
+		//Debug.Log("maxHp " + maxHp);
+		//Debug.Log("maxMp " + maxMp);
+		//Debug.Log("damege " + damege);
+		//Debug.Log("maxExperience " + maxExperience);
 	}
 	
 }

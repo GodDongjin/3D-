@@ -17,6 +17,8 @@ public class Interaction : Player
     private GameObject colliderObject;
     [SerializeField]
     private InventoryUI inventory;
+    [SerializeField]
+    private Item currentItem;
 
 	private void Start()
 	{
@@ -41,8 +43,8 @@ public class Interaction : Player
 	{
         if(isPickup)
 		{
-            inventory.AcquireItem(colliderObject.transform.GetComponent<ItemPickup>().item);
-            Debug.Log(colliderObject.transform.GetComponent<ItemPickup>().item.itemName + " »πµÊ«ﬂΩ¿¥œ¥Ÿ. ");
+            inventory.AcquireItem(colliderObject.transform.GetComponent<Item>());
+            Debug.Log(colliderObject.transform.GetComponent<Item>().itmeInfo.itemName + " »πµÊ«ﬂΩ¿¥œ¥Ÿ. ");
             Destroy(colliderObject.transform.gameObject);
             InfoDisappear();
 		}
@@ -57,9 +59,10 @@ public class Interaction : Player
             if(other.transform != null)
 			{
                 colliderObject = other.gameObject;
+                currentItem = other.gameObject.GetComponent<Item>();
                 isPickup = true;
                 text.gameObject.SetActive(true);
-                text.text = other.transform.GetComponent<ItemPickup>().item.itemName + " »πµÊ (G) ";
+                text.text = other.transform.GetComponent<Item>().itmeInfo.itemName + " »πµÊ (G) ";
             }
         }
 		else
