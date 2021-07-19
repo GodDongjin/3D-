@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkiilePaticles : MonoBehaviour
+public class SkiilePaticles : Player
 {
-	//private void OnParticleCollision(GameObject other)
-	//{
-	//	Debug.Log(other.name);
-	//}
+	BossAI boss;
 
-
+	private void Start()
+	{
+		boss = GameObject.Find("Boss").GetComponent<BossAI>();
+	}
 	private void OnTriggerEnter(Collider other)
 	{
 		if(other.name == "Boss")
 		{
-			Debug.Log("보스 스킬 맞음");
+			boss.BossHpLose(skilleDamege, rigidity);
 		}
 	}
 

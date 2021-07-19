@@ -12,6 +12,7 @@ public class PlayerAttack : Player
     void Start()
     {
         boss = GameObject.Find("Boss").GetComponent<BossInfo>();
+        skilles = GameObject.Find("Player").GetComponentInChildren<AnimationEventEffects>();
         //ps = GetComponent<ParticleSystem>();
     }
 
@@ -29,12 +30,22 @@ public class PlayerAttack : Player
 
         if(Input.GetKeyDown(KeyCode.Q))
 		{
-            if(state != Player_State.Skiile1)
+            if(state != Player_State.Skille1)
 			{
-                ChangeState(Player_State.Skiile1);
+                skilles.EffectNumber = 0;
+                ChangeState(Player_State.Skille1);
             }
 		}
-       
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (state != Player_State.Skille2)
+            {
+                skilles.EffectNumber = 5;
+                ChangeState(Player_State.Skille2);
+            }
+        }
+
     }
 
     //ParticleSystemTriggerEventType
