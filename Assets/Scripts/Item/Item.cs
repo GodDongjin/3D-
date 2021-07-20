@@ -10,6 +10,8 @@ public class Item : MonoBehaviour
 	{
 		public int itemId;
 		public int itemValue;
+		public int itemBuyGold;
+		public int itemSellGold;
 		public string itemName;         //아이템 이름  
 		public string itemType;
 		public string itemImageName;        //아이템 이미지
@@ -36,6 +38,8 @@ public class Item : MonoBehaviour
 		itmeInfo.itemValue = DataManager.instance.GetItemInfo(itmeInfo.itemId).value;
 		itmeInfo.itemType = DataManager.instance.GetItemInfo(itmeInfo.itemId).type;
 		itmeInfo.itemImageName = DataManager.instance.GetItemInfo(itmeInfo.itemId).imageName;
+		itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(itmeInfo.itemId).buyGold;
+		itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(itmeInfo.itemId).sellGold;
 
 		Debug.Log(itmeInfo.itemName);
 		Debug.Log(itmeInfo.itemValue);

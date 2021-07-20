@@ -6,9 +6,12 @@ public class ItemDB
 {
     public int id;
     public int value;
+    public int buyGold;
+    public int sellGold;
     public string name;
     public string imageName;
     public string type;
+    
 }
 
 public class PlayerDB
@@ -50,6 +53,9 @@ public class DataBase : MonoBehaviour
             items[i].imageName = m_dictionaryData[i]["image"].ToString();
             items[i].type = m_dictionaryData[i]["itemType"].ToString();
             items[i].value = int.Parse((m_dictionaryData[i]["value"].ToString()));
+            items[i].buyGold = int.Parse((m_dictionaryData[i]["buyGold"].ToString()));
+            items[i].sellGold = int.Parse((m_dictionaryData[i]["sellGold"].ToString()));
+
 
         }
 

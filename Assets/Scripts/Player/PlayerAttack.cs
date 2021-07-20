@@ -32,7 +32,6 @@ public class PlayerAttack : Player
 		{
             if(state != Player_State.Skille1)
 			{
-                skilles.EffectNumber = 0;
                 ChangeState(Player_State.Skille1);
             }
 		}
@@ -41,7 +40,6 @@ public class PlayerAttack : Player
         {
             if (state != Player_State.Skille2)
             {
-                skilles.EffectNumber = 5;
                 ChangeState(Player_State.Skille2);
             }
         }

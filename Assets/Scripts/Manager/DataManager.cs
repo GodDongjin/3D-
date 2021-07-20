@@ -34,9 +34,9 @@ public class DataManager : MonoBehaviour
 		{
             if(dataBase.items[i].id == itemId)
 			{
-                Debug.Log(dataBase.items[i].id);
-                Debug.Log(dataBase.items[i].imageName);
-                Debug.Log(dataBase.items[i].type);
+                //Debug.Log(dataBase.items[i].id);
+                //Debug.Log(dataBase.items[i].imageName);
+                //Debug.Log(dataBase.items[i].type);
                 //Debug.Log(dataBase.items[i].imageName);
                 return dataBase.items[i];
 
