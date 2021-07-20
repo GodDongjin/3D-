@@ -10,7 +10,7 @@ public class CSVReader : MonoBehaviour
     public static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
 
     public static char[] TRIM_CHARS = { '\"' };
-
+ 
 
 
     public static List<Dictionary<string, object>> Read(string file)

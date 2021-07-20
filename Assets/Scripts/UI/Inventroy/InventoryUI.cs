@@ -8,21 +8,33 @@ public class InventoryUI : MonoBehaviour
     public bool isClear = false;
 
     [SerializeField]
-    private GameObject go_InventoryBase;
+    private GameObject equipmentInventoryBase;
     [SerializeField]
-    private GameObject go_SlotsParent;
+    private GameObject equipmentSlotsParent;
 
-    private ItemSlot[] slots;
+    [SerializeField]
+    private GameObject stuffInventoryBase;
+    [SerializeField]
+    private GameObject stuffSlotsParent;
+
+    private ItemSlot[] equipmentSlots;
+    private ItemSlot[] stuffSlots;
+    [SerializeField]
+    private Item item;
 
     // Start is called before the first frame update
     void Start()
     {
-        slots = go_SlotsParent.GetComponentsInChildren<ItemSlot>();
+        equipmentSlots = equipmentSlotsParent.GetComponentsInChildren<ItemSlot>();
+        stuffSlots = stuffSlotsParent.GetComponentsInChildren<ItemSlot>();
+
+        LoadInventory();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         TryOpenInventory();
         ClearInventory();
 
@@ -43,13 +55,13 @@ public class InventoryUI : MonoBehaviour
 
     private void OpenInventory()
     {
-        go_InventoryBase.SetActive(true);
+        equipmentInventoryBase.SetActive(true);
         //inventoryActivated = true;
     }
 
     private void CloseInventory()
     {
-        go_InventoryBase.SetActive(false);
+        equipmentInventoryBase.SetActive(false);
         //inventoryActivated = false;
     }
 
@@ -58,16 +70,16 @@ public class InventoryUI : MonoBehaviour
         //아이템이 무기 종류가 아니면 실행
         if ("Used" == _item.itmeInfo.itemType)
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < stuffSlots.Length; i++)
             {
-                if (slots[i].item != null)
+                if (stuffSlots[i].item != null)
                 {
                     //슬롯에 아이템이 있다 그럼 아이템 갯수를 전달
-                    if (slots[i].item.itmeInfo.itemId == _item.itmeInfo.itemId)
+                    if (stuffSlots[i].item.itmeInfo.itemId == _item.itmeInfo.itemId)
                     {
                         //if (slots[i].itemCount < 99)
                         //{
-                        slots[i].SetSlotCount(_count);
+                        stuffSlots[i].SetSlotCount(_count);
                         return;
                         //}
                     }
@@ -75,26 +87,26 @@ public class InventoryUI : MonoBehaviour
 
             }
 
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < stuffSlots.Length; i++)
             {
-                if (slots[i].item == null)
+                if (stuffSlots[i].item == null)
                 {
-                    slots[i].AddItem(_item, _count);
+                    stuffSlots[i].AddItem(_item, _count);
                     return;
                 }
 
-                if (slots[i].item != null)
+                if (stuffSlots[i].item != null)
                 {
-                    slots[i].AddItem(_item, _count);
+                    stuffSlots[i].AddItem(_item, _count);
                     return;
                 }
             }
         }
         else
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < equipmentSlots.Length; i++)
             {
-                if (slots[i].slotType.ToString() == _item.itmeInfo.itemType)
+                if (equipmentSlots[i].slotType.ToString() == _item.itmeInfo.itemType)
                 {
                     //if (slots[i].item == null)
                     //{
@@ -118,7 +130,7 @@ public class InventoryUI : MonoBehaviour
                     // 
                     //
                     //}z
-                    slots[i].AddItem(_item);
+                    equipmentSlots[i].AddItem(_item);
                         return;
                 }
 
@@ -133,16 +145,50 @@ public class InventoryUI : MonoBehaviour
     {
         if(isClear)
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < equipmentSlots.Length; i++)
             {
-                Debug.Log(slots[i].slotType);
-                if (slots[i].item != null)
+                Debug.Log(equipmentSlots[i].slotType);
+                if (equipmentSlots[i].item != null)
                 {
-                    slots[i].ClearSlot();
+                    equipmentSlots[i].ClearSlot();
                 }
             }
             isClear = false;
         }
         
     }
+
+    public void LoadInventory()
+	{
+        for (int i = 0; i < stuffSlots.Length; i++)
+        {
+            stuffSlots[i].itemCount = DataManager.instance.GetStuffInventoryInfo(i).stuffCount;
+            item.itmeInfo.itemId = DataManager.instance.GetStuffInventoryInfo(i).stuffId;
+            item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+            item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+            item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
+            item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+            item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+            item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+
+            stuffSlots[i].AddItem(item, stuffSlots[i].itemCount);
+        }
+
+
+        for (int i = 0; i < equipmentSlots.Length; i++)
+		{
+            equipmentSlots[i].item.itmeInfo.itemId = DataManager.instance.GetEquipmentInventoryInfo(i).equipmentId;
+            equipmentSlots[i].item.itmeInfo.itemName = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).name;
+            equipmentSlots[i].item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).imageName;
+            equipmentSlots[i].item.itmeInfo.itemType = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).type;
+            equipmentSlots[i].item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).value;
+            equipmentSlots[i].item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).buyGold;
+            equipmentSlots[i].item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).sellGold;
+
+            equipmentSlots[i].AddItem(equipmentSlots[i].item);
+		}
+
+      
+
+	}
 }
