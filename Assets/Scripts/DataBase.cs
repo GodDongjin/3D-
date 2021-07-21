@@ -100,7 +100,7 @@ public class DataBase : MonoBehaviour
 			equipmentInven.Add(new EquipmentInventory());
 
 			equipmentInven[i].equipmentId = int.Parse((m_dictionaryData[i]["EquipmentId"].ToString()));
-
+			Debug.Log("왜 안되죠? " + equipmentInven[i].equipmentId);
 		}
 
 		m_dictionaryData.Clear();

@@ -29,12 +29,13 @@ public class InventoryUI : MonoBehaviour
         stuffSlots = stuffSlotsParent.GetComponentsInChildren<ItemSlot>();
 
         LoadInventory();
+        LoadstuffInventory();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
         TryOpenInventory();
         ClearInventory();
 
@@ -68,7 +69,7 @@ public class InventoryUI : MonoBehaviour
     public void AcquireItem(Item _item, int _count = 1)
     {
         //아이템이 무기 종류가 아니면 실행
-        if ("Used" == _item.itmeInfo.itemType)
+        if ("Stuff" == _item.itmeInfo.itemType)
         {
             for (int i = 0; i < stuffSlots.Length; i++)
             {
@@ -131,7 +132,7 @@ public class InventoryUI : MonoBehaviour
                     //
                     //}z
                     equipmentSlots[i].AddItem(_item);
-                        return;
+                    return;
                 }
 
             }
@@ -143,7 +144,7 @@ public class InventoryUI : MonoBehaviour
 
     public void ClearInventory()
     {
-        if(isClear)
+        if (isClear)
         {
             for (int i = 0; i < equipmentSlots.Length; i++)
             {
@@ -155,11 +156,37 @@ public class InventoryUI : MonoBehaviour
             }
             isClear = false;
         }
-        
+
     }
 
     public void LoadInventory()
-	{
+    {
+        for (int j = 0; j < equipmentSlots.Length; j++)
+        {
+            item.itmeInfo.itemId = DataManager.instance.GetEquipmentInventoryInfo(j).equipmentId;
+            if(item.itmeInfo.itemId != 0)
+			{
+                item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+                item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+                item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
+                item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+                item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+                item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+                for (int i = 0; i < equipmentSlots.Length; i++)
+                {
+                    if (equipmentSlots[i].slotType.ToString() == item.itmeInfo.itemType)
+                    {
+                        equipmentSlots[i].AddItem(item);
+                    }
+                }
+            }
+
+         
+        }
+    }
+
+    public void LoadstuffInventory()
+    {
         for (int i = 0; i < stuffSlots.Length; i++)
         {
             stuffSlots[i].itemCount = DataManager.instance.GetStuffInventoryInfo(i).stuffCount;
@@ -173,22 +200,5 @@ public class InventoryUI : MonoBehaviour
 
             stuffSlots[i].AddItem(item, stuffSlots[i].itemCount);
         }
-
-
-        for (int i = 0; i < equipmentSlots.Length; i++)
-		{
-            equipmentSlots[i].item.itmeInfo.itemId = DataManager.instance.GetEquipmentInventoryInfo(i).equipmentId;
-            equipmentSlots[i].item.itmeInfo.itemName = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).name;
-            equipmentSlots[i].item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).imageName;
-            equipmentSlots[i].item.itmeInfo.itemType = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).type;
-            equipmentSlots[i].item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).value;
-            equipmentSlots[i].item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).buyGold;
-            equipmentSlots[i].item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(equipmentSlots[i].item.itmeInfo.itemId).sellGold;
-
-            equipmentSlots[i].AddItem(equipmentSlots[i].item);
-		}
-
-      
-
-	}
+    }
 }
