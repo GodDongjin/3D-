@@ -24,11 +24,26 @@ public class ShpSlot : MonoBehaviour
 	private GameObject go_nameImgae;
 	[SerializeField]
 	private GameObject go_glodImgae;
+	[SerializeField]
+	private GameObject go_countImage;
 
+	[SerializeField]
+	private Button button;
+
+	private void Start()
+	{
+		button = this.gameObject.GetComponent<Button>();
+		button.onClick.AddListener(OnClickButton);
+	}
 	// Update is called once per frame
 	void Update()
 	{
 
+	}
+
+	public void OnClickButton()
+	{
+		ClearSlot();
 	}
 
 	// Start is called before the first frame update
@@ -57,8 +72,10 @@ public class ShpSlot : MonoBehaviour
 				itemImage.sprite = sprites[i];
 				text_name.text = itemName;
 				text_glod.text = itemGold.ToString();
+				text_count.text = itemCount.ToString();
 				go_nameImgae.SetActive(true);
 				go_glodImgae.SetActive(true);
+				go_countImage.SetActive(true);
 				SetColor(1);
 			}
 			
@@ -85,7 +102,10 @@ public class ShpSlot : MonoBehaviour
 		SetColor(0);
 
 		text_count.text = "0";
-		go_countImgae.SetActive(false);
+
+		go_nameImgae.SetActive(false);
+		go_glodImgae.SetActive(false);
+		go_countImage.SetActive(false);
 	}
 
 

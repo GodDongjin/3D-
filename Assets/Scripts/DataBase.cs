@@ -84,8 +84,8 @@ public class DataBase : MonoBehaviour
 			player._MaxHp = float.Parse((m_dictionaryData[i]["maxHp"].ToString()));
 			player._MaxMp = float.Parse((m_dictionaryData[i]["maxMp"].ToString()));
 			player._MoveSpeed = float.Parse((m_dictionaryData[i]["moveSpeed"].ToString()));
-			player._Damage = int.Parse((m_dictionaryData[i]["damage"].ToString()));
-			player._Gold = int.Parse((m_dictionaryData[i]["gold"].ToString()));
+			player._Damage = float.Parse((m_dictionaryData[i]["damege"].ToString()));
+			player._Gold = float.Parse((m_dictionaryData[i]["gold"].ToString()));
 
 
 		}

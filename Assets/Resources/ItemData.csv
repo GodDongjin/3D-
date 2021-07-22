@@ -3,6 +3,7 @@ id,name,image,itemType,value,buyGold,sellGold
 2,mpPotion,MpPotion,Stuff,100,10,4
 3,attckPotion,AttckPotion,Stuff,10,15,6
 4,speedPotion,SpeedPotion,Stuff,3,15,6
+5,coolDownPotion,CoolDownPotion,Stuff,2,20,8
 6,basicArmor1,BasicArmor1,HeadArmor,10,25,15
 7,basicArmor2,BasicArmor2,shoulderArmor,10,25,15
 8,basicArmor3,BasicArmor3,TopArmor,10,25,15

@@ -4,7 +4,7 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 1729840402284382006
-    second: item_0
+    second: CoolDownPotion
   - first:
       213: 148264454483829304
     second: BasicArmor1
@@ -1286,6 +1286,27 @@ TextureImporter:
       bones: []
       spriteID: ecddc28abc2f29210800000000000000
       internalID: 1338398995796254158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CoolDownPotion
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 7
+        width: 38
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63787484ea0a10810800000000000000
+      internalID: 1729840402284382006
       vertices: []
       indices: 
       edges: []
