@@ -73,7 +73,7 @@ public class BossEffect : MonoBehaviour
 	//보스 스킬 첫 공격 대미지
 	IEnumerator BossSkillAttack()
 	{
-		playerInfo.PlayerHpLose(20f, true, false);
+		playerInfo.PlayerHpLose(20f);
 		Debug.Log(20f + "를 입었다");
 
 		yield return new WaitForSeconds(0.5f);
@@ -88,7 +88,7 @@ public class BossEffect : MonoBehaviour
 	{
 		while(true)
 		{
-			playerInfo.PlayerHpLose(5f, true, false);
+			playerInfo.PlayerHpLose(5f);
 			Debug.Log(10f + "를 입었다");
 
 			yield return new WaitForSeconds(0.5f);

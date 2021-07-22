@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 	public GameObject hitPrefabs;
 	public static Animator animator;
 	public static Rigidbody playerRig;
-	public AnimationEventEffects skilles;
+	public SkiilePaticles skilles;
 
 	public PlayerInfor playerInfor = new PlayerInfor();
 
@@ -36,11 +36,13 @@ public class Player : MonoBehaviour
 	public static int lv;
 	public static float maxExperience;
 	public static float currentExperience;
-	public static float moveSpeed = 4f;
+	public static float moveSpeed;
 	public static float dashSpeed = 0.5f;
 	public static float skilleDamege = 10;
+	public static float gold = 0;
+	public static float useMp;
 
-	public float rigidity = 10f;
+	public static float rigidity = 10f;
 	public static float attackCombo = 0f;
 
 	public static bool isAttack = false;
@@ -49,6 +51,17 @@ public class Player : MonoBehaviour
 	public static bool isIdle = false;
 	public static bool isSkiile1 = false;
 	public static bool isSkiile2 = false;
+
+	//스킬이 나갔는지 판단
+	public static bool isSkille = false;
+
+	//스킬 쿨타임
+	public static float maxSkille1Cooldown;
+	public static float maxSkille2Cooldown;
+	public static float currentSkille1Cooldown;
+	public static float currentSkille2Cooldown;
+	public static bool isSkille1Cooldown = false;
+	public static bool isSkille2Cooldown = false;
 	//피격판정
 	public static bool isHeavyRigidity;
 	public static bool isLightRigidity;
@@ -64,6 +77,7 @@ public class Player : MonoBehaviour
 	{
 		state = nextState;
 
+		isSkille = false;
 		isSkiile1 = false;
 		isSkiile2 = false;
 		isAttack = false;
@@ -144,8 +158,26 @@ public class Player : MonoBehaviour
 			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
 			{
 				movePos = hit.point;
-				Debug.Log(hit.point);
-				Debug.Log(hit.collider.name);
+				//Debug.Log(hit.point);
+				//Debug.Log(hit.collider.name);
+			}
+
+			Vector3 direction = (movePos - player.transform.position).normalized;
+			Quaternion lookRotation = Quaternion.LookRotation(direction);
+			player.transform.rotation = lookRotation;
+		}
+		if(!isSkille)
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+			//레이케스트 특정 오브젝트 무시하는 코드
+			int layerMask = (1 << LayerMask.NameToLayer("Ground"));
+
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+			{
+				movePos = hit.point;
+				//Debug.Log(hit.point);
+				//Debug.Log(hit.collider.name);
 			}
 
 			Vector3 direction = (movePos - player.transform.position).normalized;
@@ -155,22 +187,54 @@ public class Player : MonoBehaviour
 
 	}
 
-	public void PlayerHpLose(float damege, bool big, bool light)
+	public void PlayerHpLose(float damege)
 	{
 		currentHp = currentHp - damege;
 
-		if (big)
-		{
-			ChangeState(Player_State.HeavyRigidity);
-		}
-
-		else if (light)
-		{
-			ChangeState(Player_State.LightRigidity);
-		}
-
-		Debug.Log(damege + "를 입었다");
+		ChangeState(Player_State.HeavyRigidity);
 		
+
+
+		
+	}
+
+	public void SkilleCooldown()
+	{
+		if(isSkille1Cooldown)
+		{
+			currentSkille1Cooldown = currentSkille1Cooldown - Time.deltaTime;
+
+			//Debug.Log("쿨타임 " + currentSkille1Cooldown);
+
+			if(0 >= currentSkille1Cooldown)
+			{
+				currentSkille1Cooldown = maxSkille1Cooldown;
+				isSkille1Cooldown = false;	
+			}
+		}
+
+		if (isSkille2Cooldown)
+		{
+			currentSkille2Cooldown = currentSkille2Cooldown - Time.deltaTime;
+
+			//Debug.Log("쿨타임 " + currentSkille2Cooldown);
+
+			if (0 >= currentSkille2Cooldown)
+			{
+				currentSkille2Cooldown = maxSkille2Cooldown;
+				isSkille2Cooldown = false;
+			}
+		}
+	}
+
+	public void UseMp()
+	{
+		currentMp = currentMp - useMp;
+
+		if(currentMp <= 0)
+		{
+			currentMp = 0;
+		}
 	}
 
 }

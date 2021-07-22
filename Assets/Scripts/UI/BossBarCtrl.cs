@@ -12,7 +12,7 @@ public class BossBarCtrl : MonoBehaviour
 
 	public Image nextHpBar, curHpBar;
 
-    public int hpSingleBar = 100;
+    public int hpSingleBar = 500;
 
     public float maxHP = 100;
     public float currHp = 100;
@@ -29,6 +29,7 @@ public class BossBarCtrl : MonoBehaviour
 
         maxHP = Boss._BossInfomation.maxHp;
         currHp = Boss._BossInfomation.currentHp;
+        hpSingleBar = 500;
     }
 
     // Update is called once per frame

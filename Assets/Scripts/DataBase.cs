@@ -16,11 +16,11 @@ public class ItemDB
 
 public class PlayerDB
 {
-	public int _Lv;
 	public float _MaxHp;
 	public float _MaxMp;
 	public float _Damage;
-	public float _MaxExperience;
+	public float _MoveSpeed;
+	public float _Gold;
 }
 
 public class EquipmentInventory
@@ -51,7 +51,7 @@ public class DataBase : MonoBehaviour
 	public DataFileName dataFileName = new DataFileName();
 
 	public List<ItemDB> items = new List<ItemDB>();
-	public List<PlayerDB> player = new List<PlayerDB>();
+	public PlayerDB player = new PlayerDB();
 	public List<EquipmentInventory> equipmentInven = new List<EquipmentInventory>();
 	public List<StuffInventory> stuffInven = new List<StuffInventory>();
 
@@ -80,13 +80,12 @@ public class DataBase : MonoBehaviour
 
 		for (int i = 0; i < m_dictionaryData.Count; i++)
 		{
-			player.Add(new PlayerDB());
-
-			player[i]._Lv = int.Parse((m_dictionaryData[i]["Lv"].ToString()));
-			player[i]._MaxHp = int.Parse((m_dictionaryData[i]["maxHp"].ToString()));
-			player[i]._MaxMp = int.Parse((m_dictionaryData[i]["maxMp"].ToString()));
-			player[i]._Damage = int.Parse((m_dictionaryData[i]["damage"].ToString()));
-			player[i]._MaxExperience = int.Parse((m_dictionaryData[i]["maxExperience"].ToString()));
+			
+			player._MaxHp = float.Parse((m_dictionaryData[i]["maxHp"].ToString()));
+			player._MaxMp = float.Parse((m_dictionaryData[i]["maxMp"].ToString()));
+			player._MoveSpeed = float.Parse((m_dictionaryData[i]["moveSpeed"].ToString()));
+			player._Damage = int.Parse((m_dictionaryData[i]["damage"].ToString()));
+			player._Gold = int.Parse((m_dictionaryData[i]["gold"].ToString()));
 
 
 		}

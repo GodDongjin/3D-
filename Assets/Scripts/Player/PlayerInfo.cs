@@ -12,8 +12,16 @@ public class PlayerInfo : Player
 		public float maxMp;
 		public float currentMp;
 		public float damege;
+		public float moveSpeed;
 		public float maxExperience;
 		public float currentExperience;
+		public float maxSkille1Cooldown;
+		public float maxSkille2Cooldown;
+		public float currentSkille1Cooldown;
+		public float currentSkille2Cooldown;
+		public bool isCooldown1;
+		public bool isCooldown2;
+
 	}
 
 	public PlayerInfomation _PlayerInfomation;
@@ -46,18 +54,25 @@ public class PlayerInfo : Player
 
 	private void Awake()
 	{
-		lv = 2;
-		SetPlayerInfo(lv);
+		SetPlayerInfo();
 
 		currentHp = maxHp;
-		
+		currentMp = maxHp;
+
 		_PlayerInfomation.maxHp = maxHp;
 		_PlayerInfomation.currentHp = maxHp;
 		_PlayerInfomation.maxMp = maxMp;
 		_PlayerInfomation.currentMp = maxMp;
 		_PlayerInfomation.damege = damege;
+		_PlayerInfomation.moveSpeed = moveSpeed;
 		_PlayerInfomation.maxExperience = maxExperience;
 		_PlayerInfomation.currentExperience = 0;
+		_PlayerInfomation.maxSkille1Cooldown = maxSkille1Cooldown;
+		_PlayerInfomation.maxSkille2Cooldown= maxSkille2Cooldown;
+		_PlayerInfomation.currentSkille1Cooldown = currentSkille1Cooldown;
+		_PlayerInfomation.currentSkille2Cooldown = currentSkille2Cooldown;
+		_PlayerInfomation.isCooldown1 = isSkille1Cooldown;
+		_PlayerInfomation.isCooldown2 = isSkille2Cooldown;
 	}
 
 	private void Update()
@@ -69,26 +84,29 @@ public class PlayerInfo : Player
 		_PlayerInfomation.damege = damege;
 		_PlayerInfomation.maxExperience = maxExperience;
 		_PlayerInfomation.currentExperience = currentExperience;
+		_PlayerInfomation.maxSkille1Cooldown = maxSkille1Cooldown;
+		_PlayerInfomation.maxSkille2Cooldown = maxSkille2Cooldown;
+		_PlayerInfomation.currentSkille1Cooldown = currentSkille1Cooldown;
+		_PlayerInfomation.currentSkille2Cooldown = currentSkille2Cooldown;
+		_PlayerInfomation.isCooldown1 = isSkille1Cooldown;
+		_PlayerInfomation.isCooldown2 = isSkille2Cooldown;
 
 		//Debug.Log(currentHp);
 	}
 
 
-	public void SetPlayerInfo(int lv)
+	public void SetPlayerInfo()
 	{
-		lv = lv - 1;
-		maxHp = DataManager.instance.GetPlayerInfo(lv)._MaxHp;
-		maxMp = DataManager.instance.GetPlayerInfo(lv)._MaxMp;
-		damege = DataManager.instance.GetPlayerInfo(lv)._Damage;
-		maxExperience = DataManager.instance.GetPlayerInfo(lv)._MaxExperience;
 
+		maxHp = DataManager.instance.GetPlayerInfo()._MaxHp;
+		maxMp = DataManager.instance.GetPlayerInfo()._MaxMp;
+		damege = DataManager.instance.GetPlayerInfo()._Damage;
+		moveSpeed = DataManager.instance.GetPlayerInfo()._MoveSpeed;
+		gold = DataManager.instance.GetPlayerInfo()._Gold; ;
+		Debug.Log("moveSpeed " + moveSpeed);
 
-
-
-		//Debug.Log("maxHp " + maxHp);
-		//Debug.Log("maxMp " + maxMp);
-		//Debug.Log("damege " + damege);
-		//Debug.Log("maxExperience " + maxExperience);
 	}
+
+
 	
 }

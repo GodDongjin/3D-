@@ -18,10 +18,10 @@ public class Boss : MonoBehaviour
 
     public static Animator animator;
 
-    public static float maxHp = 200f;
+    public static float maxHp = 1000;
     public static float currentHp;
-    public static float maxRigidity = 100f;
-    public static float currentRigidity = 0;
+    public static float maxRigidity = 300f;
+    public static float currentRigidity = maxRigidity;
 
     public static float damege = 10f;
     public static float moveSpeed = 3f;
@@ -46,10 +46,11 @@ public class Boss : MonoBehaviour
 
         if(currentRigidity <= maxRigidity)
 		{
-            currentRigidity = currentRigidity + rigidityDamege;
+            currentRigidity = currentRigidity - rigidityDamege;
         }
        
     }
+
 
 
 

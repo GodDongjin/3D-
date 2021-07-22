@@ -36,6 +36,23 @@ public class InventoryUI : MonoBehaviour
     void Update()
     {
 
+        
+        if(Input.GetKeyDown(KeyCode.Alpha6))
+		{
+            item.itmeInfo.itemId = 1;
+            item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+            item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+            item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
+            item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+            item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+            item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+
+            Debug.Log(item.name);
+
+            AcquireItem(item);
+		}
+
+
         TryOpenInventory();
         ClearInventory();
 
@@ -68,14 +85,14 @@ public class InventoryUI : MonoBehaviour
 
     public void AcquireItem(Item _item, int _count = 1)
     {
-        //¾ÆÀÌÅÛÀÌ ¹«±â Á¾·ù°¡ ¾Æ´Ï¸é ½ÇÇà
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         if ("Stuff" == _item.itmeInfo.itemType)
         {
             for (int i = 0; i < stuffSlots.Length; i++)
             {
                 if (stuffSlots[i].item != null)
                 {
-                    //½½·Ô¿¡ ¾ÆÀÌÅÛÀÌ ÀÖ´Ù ±×·³ ¾ÆÀÌÅÛ °¹¼ö¸¦ Àü´Þ
+                    //ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½×·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     if (stuffSlots[i].item.itmeInfo.itemId == _item.itmeInfo.itemId)
                     {
                         //if (slots[i].itemCount < 99)
