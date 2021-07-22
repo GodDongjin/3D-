@@ -23,9 +23,9 @@ public class DataManager : MonoBehaviour
         dataBase = GameObject.Find("GameManager").GetComponent<DataBase>();
     }
 
-    public PlayerDB GetPlayerInfo(int playerLv)
+    public PlayerDB GetPlayerInfo()
 	{
-        return dataBase.player[playerLv];
+        return dataBase.player;
 	}
 
     public ItemDB GetItemInfo(int itemId)

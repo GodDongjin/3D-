@@ -5,11 +5,14 @@ using UnityEngine;
 public class PlayerAnimation : Player
 {
 	string[] name = new string[7];
+	string[] skill1Name = new string[3];
+
 	float index = 0f;
 	// Start is called before the first frame update
 	void Start()
 	{
 		animator = gameObject.GetComponent<Animator>();
+		skilles = GameObject.Find("Player").GetComponentInChildren<SkiilePaticles>();
 
 		name[0] = "Base Layer.Attack_7Combo_1";
 		name[1] = "Base Layer.Attack_7Combo_2";
@@ -17,12 +20,15 @@ public class PlayerAnimation : Player
 		name[3] = "Base Layer.Attack_7Combo_4";
 		name[4] = "Base Layer.Attack_7Combo_5";
 		name[5] = "Base Layer.Attack_7Combo_6";
+
+		skill1Name[0] = "Base Layer.Attack_3Combo_1";
+		skill1Name[1] = "Base Layer.Attack_4Combo_4_Inplace";
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 		//animator.SetBool("IsWalk", isWalk);
 
 		if (state == Player_State.Attack)
@@ -35,16 +41,18 @@ public class PlayerAnimation : Player
 			Dash();
 		}
 
-		if(state == Player_State.HeavyRigidity || state == Player_State.LightRigidity)
+		if (state == Player_State.HeavyRigidity || state == Player_State.LightRigidity)
 		{
 			Rigidity();
 		}
 
-		if(state == Player_State.Skille1 || state == Player_State.Skille2)
+		if (state == Player_State.Skille1 || state == Player_State.Skille2)
 		{
 			Skille();
 		}
-		
+
+		SkilleCooldown();
+
 	}
 
 	private void AttackCombo()
@@ -52,7 +60,7 @@ public class PlayerAnimation : Player
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName(name[(int)attackCombo]))
 		{
 			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-			
+
 			if (0.7 <= normalizedTime && normalizedTime <= 0.9)
 			{
 				if (Input.GetMouseButtonDown(0))
@@ -82,7 +90,7 @@ public class PlayerAnimation : Player
 				attackCombo = 0;
 				animator.SetFloat("combo", attackCombo);
 				ChangeState(Player_State.Idle);
-				Debug.Log("1초 지남");
+				//Debug.Log("1초 지남");
 			}
 
 			//if (0.2 <= normalizedTime && normalizedTime <= 0.6)
@@ -135,13 +143,24 @@ public class PlayerAnimation : Player
 
 	private void Skille()
 	{
-		if(isSkiile1)
+		if (isSkiile1)
 		{
-			if(animator.GetCurrentAnimatorStateInfo(0).IsName("3"))
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName(skill1Name[0]))
 			{
 				float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+		
+				if (0.3 <= normalizedTime && isSkille ==  false)
+				{
+					isSkille = true;
+					skilles.InstantiateEffect(0);
+				}
+
+
 				if (normalizedTime >= 0.8)
 				{
+					
+					skilles.EffectDestory(0);
+					//Destroy(skilles);
 					ChangeState(Player_State.Idle);
 				}
 			}
@@ -149,11 +168,24 @@ public class PlayerAnimation : Player
 
 		if (isSkiile2)
 		{
-			if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName(skill1Name[1]))
 			{
 				float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+				
+				if (0.3 <= normalizedTime && isSkille == false)
+				{
+					
+					isSkille = true;
+					
+					skilles.InstantiateEffect(1);
+				}
+
+
 				if (normalizedTime >= 0.8)
 				{
+
+					skilles.EffectDestory(1);
+					//Destroy(skilles);
 					ChangeState(Player_State.Idle);
 				}
 			}

@@ -71,16 +71,16 @@ public class Interaction : Player
 		}
 	}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Item")
-        {
-            if (other.transform != null)
-            {
-                InfoDisappear();
-            }
-        }
-    }
+   // private void OnTriggerExit(Collider other)
+   // {
+   //     if (other.tag == "Item")
+   //     {
+   //         if (other.transform != null)
+   //         {
+   //             InfoDisappear();
+   //         }
+   //     }
+   // }
 
 	private void InfoDisappear()
 	{

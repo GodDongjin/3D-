@@ -43,7 +43,7 @@ public class BossAI : Boss
 			l_BossBoxCollider[i].enabled = false;
 		}
 
-		state = AI_State.Idle;
+		state = AI_State.Skill2;
 		ChangeState(state);
 
 	}
@@ -74,8 +74,11 @@ public class BossAI : Boss
 		{
 			animator.SetBool("Attack2", true);
 		}
-
-
+		if(Input.GetKeyDown(KeyCode.T))
+		{
+			currentRigidity = 0;
+		}
+		
 		//Debug.Log(distance);
 
 		HeavyHit();
@@ -90,6 +93,7 @@ public class BossAI : Boss
 		{
 			l_BossBoxCollider[i].enabled = false;
 		}
+		isPlayerHit = false;
 
 		animator.SetBool("Attack1", false);
 		animator.SetBool("Attack2", false);
@@ -97,6 +101,7 @@ public class BossAI : Boss
 		animator.SetBool("Skill2", false);
 		animator.SetBool("Move", false);
 		animator.SetBool("HeavyHit", false);
+		
 
 		StopAllCoroutines();
 
@@ -127,7 +132,7 @@ public class BossAI : Boss
 			Trun();
 		}
 		
-
+		
 	}
 
 	public void MoveUpdate()
@@ -148,6 +153,7 @@ public class BossAI : Boss
 			ChangeState(AI_State.Idle);
 		}
 
+		
 		//Debug.Log(dis);
 	}
 
@@ -156,8 +162,7 @@ public class BossAI : Boss
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack1"))
 		{
 			ColliderOnOff(1);
-			isHeavyRigidity = true;
-			isLightRigidity = false;
+			
 		}
 
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack2"))
@@ -196,6 +201,7 @@ public class BossAI : Boss
 			isHeavyRigidity = true;
 			isLightRigidity = false;
 		}
+
 	}
 
 	public void Attack2Update()
@@ -203,23 +209,19 @@ public class BossAI : Boss
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack3"))
 		{
 			ColliderOnOff(0);
-			isHeavyRigidity = true;
-			isLightRigidity = false;
 		}
 
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack5_Opp"))
 		{
 			ColliderOnOff(2);
-			isHeavyRigidity = true;
-			isLightRigidity = false;
 		}
 
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack6"))
 		{
 			ColliderOnOff(3);
-			isHeavyRigidity = true;
-			isLightRigidity = false;
 		}
+
+		
 	}
 
 	public void Skill1Update()
@@ -240,22 +242,28 @@ public class BossAI : Boss
 			}
 		}
 
+		
+
 	}
 
 	public void Skill2Update()
 	{
-		ColliderOnOff(1);
-		isHeavyRigidity = true;
-		isLightRigidity = false;
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("G_Attack_Special2"))
+		{
+			ColliderOnOff(0);
+			//ColliderOnOff(1);
+		}
+
+	
 	}
 
 	public void HeavyHit()
 	{
-		if(currentRigidity >= maxRigidity)
+		if(currentRigidity <= 0)
 		{
 			ChangeState(AI_State.Rigidity);
+			currentRigidity = maxRigidity;
 			//Debug.Log("경직");
-			currentRigidity = 0;
 		}
 	}
 
@@ -329,8 +337,8 @@ public class BossAI : Boss
 
 		while (true)
 		{
+			
 			yield return new WaitUntil(() => BossAnimatorEnd("G_Attack4"));
-
 			ChangeState(AI_State.Idle);
 
 			yield break;
@@ -340,10 +348,11 @@ public class BossAI : Boss
 	IEnumerator CoroutineAttack2()
 	{
 		animator.SetBool("Attack2", true);
-
-
+		
+		
 		while (true)
 		{
+			
 			yield return new WaitUntil(() => BossAnimatorEnd("G_Attack6"));
 
 			ChangeState(AI_State.Idle);
@@ -360,9 +369,7 @@ public class BossAI : Boss
 
 		while (true)
 		{
-
 			yield return new WaitUntil(() => BossAnimatorEnd("G_Attack_Special1"));
-
 			ChangeState(AI_State.Idle);
 
 			yield break;
@@ -377,7 +384,6 @@ public class BossAI : Boss
 		while (true)
 		{
 			yield return new WaitUntil(() => BossAnimatorEnd("G_Attack_Special2"));
-
 			ChangeState(AI_State.Idle);
 
 			yield break;
@@ -391,12 +397,15 @@ public class BossAI : Boss
 		while (true)
 		{
 			yield return new WaitUntil(() => BossAnimatorEnd("G_HeavyHit From Front"));
+			yield return new WaitForSeconds(2f);
 
 			ChangeState(AI_State.Idle);
 
 			yield break;
 		}
 	}
+
+	
 
 	//보스 애니메이션 끝났는지 확인
 	bool BossAnimatorEnd(string animatorName)
@@ -405,7 +414,7 @@ public class BossAI : Boss
 		{
 			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-			if (normalizedTime >= 0.9)
+			if (normalizedTime >= 0.8)
 			{
 				return true;
 			}
@@ -426,13 +435,9 @@ public class BossAI : Boss
 	public void ColliderOnOff(int index)
 	{
 		float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+		isPlayerHit = false;
 
-		if (normalizedTime <= 0.2f)
-		{
-			isPlayerHit = false;
-		}
-
-		if (!isPlayerHit)
+		if (!isPlayerHit && normalizedTime <= 0.2)
 		{
 			for (int i = 0; i < l_BossBoxCollider.Count; i++)
 			{
@@ -440,7 +445,7 @@ public class BossAI : Boss
 			}
 			l_BossBoxCollider[index].enabled = true;
 		}
-		else
+		else if(isPlayerHit)
 		{
 			for (int i = 0; i < l_BossBoxCollider.Count; i++)
 			{
@@ -457,7 +462,9 @@ public class BossAI : Boss
 			if (!isPlayerHit)
 			{
 				//Debug.Log("딱 한번이라메");
-				StartCoroutine(OnDamege(damege, isHeavyRigidity, isLightRigidity));
+				//StartCoroutine(OnDamege(damege));
+				player.PlayerHpLose(damege);
+				Debug.Log("데미지" + damege);
 				//StartCoroutine(CollrderOff());
 				isPlayerHit = true;
 
@@ -468,9 +475,9 @@ public class BossAI : Boss
 
 
 
-	IEnumerator OnDamege(float damege, bool big, bool light)
+	IEnumerator OnDamege(float damege)
 	{
-		player.PlayerHpLose(damege, big, light);
+		player.PlayerHpLose(damege);
 
 		yield return new WaitForSeconds(0.5f);
 

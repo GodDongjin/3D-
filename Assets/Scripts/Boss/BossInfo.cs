@@ -26,6 +26,8 @@ public class BossInfo : Boss
 		_BossInfomation.maxHp = maxHp;
 		_BossInfomation.currentHp = currentHp;
 		_BossInfomation.distance = distance;
+		_BossInfomation.maxRigidity = maxRigidity;
+		_BossInfomation.currentRigidity = maxRigidity;
 
 		_BossInfomation.startPos = startPos;
 	}
@@ -34,6 +36,8 @@ public class BossInfo : Boss
 	{
 		_BossInfomation.maxHp = maxHp;
 		_BossInfomation.currentHp = currentHp;
+		_BossInfomation.maxRigidity = maxRigidity;
+		_BossInfomation.currentRigidity = currentRigidity;
 		//Debug.Log("sfjks " + _BossInfomation.currentHp);
 	}
 

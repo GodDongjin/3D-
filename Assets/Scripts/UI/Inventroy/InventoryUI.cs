@@ -35,6 +35,21 @@ public class InventoryUI : MonoBehaviour
     void Update()
     {
         
+        if(Input.GetKeyDown(KeyCode.Alpha6))
+		{
+            item.itmeInfo.itemId = 1;
+            item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+            item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+            item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
+            item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+            item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+            item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+
+            Debug.Log(item.name);
+
+            AcquireItem(item);
+		}
+
         TryOpenInventory();
         ClearInventory();
 
