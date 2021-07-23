@@ -27,16 +27,16 @@ public class Interaction : Player
 	// Update is called once per frame
 	void Update()
     {
-        TryAction();
+        //TryAction();
         
     }
 
     private void TryAction()
 	{
-        if(Input.GetKeyDown(KeyCode.G))
-		{
-            Pickup();
-		}
+        //if(Input.GetKeyDown(KeyCode.G))
+		//{
+        //    Pickup();
+		//}
 	}
 
     private void Pickup()

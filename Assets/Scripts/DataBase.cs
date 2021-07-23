@@ -86,7 +86,7 @@ public class DataBase : MonoBehaviour
 			player._MoveSpeed = float.Parse((m_dictionaryData[i]["moveSpeed"].ToString()));
 			player._Damage = float.Parse((m_dictionaryData[i]["damege"].ToString()));
 			player._Gold = float.Parse((m_dictionaryData[i]["gold"].ToString()));
-
+			Debug.Log("PlayerGold " + player._Gold);
 
 		}
 
@@ -99,7 +99,7 @@ public class DataBase : MonoBehaviour
 			equipmentInven.Add(new EquipmentInventory());
 
 			equipmentInven[i].equipmentId = int.Parse((m_dictionaryData[i]["EquipmentId"].ToString()));
-			Debug.Log("왜 안되죠? " + equipmentInven[i].equipmentId);
+			
 		}
 
 		m_dictionaryData.Clear();
@@ -122,44 +122,44 @@ public class DataBase : MonoBehaviour
 	{
 		//using (var writer = new CsvFileWriter("Assets/Resources/PlayerInfo.csv"))
 		//{
-		//	List<string> columns = new List<string>() { "StuffId", "StuffCount" };// making Index Row
+		//	List<string> columns = new List<string>() { "maxHp", "maxMp", "moveSpeed", "damege", "glod"};// making Index Row
 		//	writer.WriteRow(columns);
 		//	columns.Clear();
 		//
-		//	columns.Add(info.Level.ToString()); // Level
-		//	columns.Add(info.HP.ToString());  // HP
-		//	columns.Add(info.MP.ToString()); // MP
-		//	columns.Add(info.ATK.ToString()); // ATK
-		//	columns.Add(info.SPEED.ToString()); // SPEED
-		//	columns.Add(inventory.Gold.ToString()); // GOLD
-		//	columns.Add(info.SP.ToString()); // SP
-		//	columns.Add(info.SP_FirePunch.ToString()); // SP_FirePunch
-		//	columns.Add(info.SP_EnergyBall.ToString()); // SP_EnergyBall
-		//	columns.Add(info.SP_Meteor.ToString()); // SP_Meteor
-		//	columns.Add(info.SP_Blizard.ToString()); // SP_Blizard
-		//	columns.Add(info.SP_Shild.ToString()); // SP_Shild
-		//	columns.Add(equip.slot[0].itemID.ToString()); // Equip_Head
-		//	columns.Add(equip.slot[3].itemID.ToString()); // Equip_Foot
-		//	columns.Add(equip.slot[1].itemID.ToString()); // Equip_Staff
-		//	columns.Add(equip.slot[2].itemID.ToString()); // Equip_Body
-		//	columns.Add(inventory.potionSlot.GetComponent<UI_Inventory_Slot>().itemID.ToString()); // PotionSlot
-		//	string tempInventory = "";
-		//	for (int i = 0; i < inventory.slot.Length; i++)
-		//	{
-		//		tempInventory += inventory.slot[i].itemID.ToString();
-		//		if (i < inventory.slot.Length - 1) tempInventory += '|';
-		//	}
-		//	columns.Add(tempInventory);
-		//	string tempItemCount = "";
-		//	for (int i = 0; i < inventory.slot.Length; i++)
-		//	{
-		//		tempItemCount += inventory.slot[i].itemCount.ToString();
-		//		if (i < inventory.slot.Length - 1) tempItemCount += '|';
-		//	}
-		//	columns.Add(tempItemCount);
-		//	columns.Add(info.Exp.ToString()); // EXP
-		//
-		//
+		//	//columns.Add(player._Gold.ToString()); // Level
+		////	columns.Add(info.HP.ToString());  // HP
+		////	columns.Add(info.MP.ToString()); // MP
+		////	columns.Add(info.ATK.ToString()); // ATK
+		////	columns.Add(info.SPEED.ToString()); // SPEED
+		////	columns.Add(inventory.Gold.ToString()); // GOLD
+		////	columns.Add(info.SP.ToString()); // SP
+		////	columns.Add(info.SP_FirePunch.ToString()); // SP_FirePunch
+		////	columns.Add(info.SP_EnergyBall.ToString()); // SP_EnergyBall
+		////	columns.Add(info.SP_Meteor.ToString()); // SP_Meteor
+		////	columns.Add(info.SP_Blizard.ToString()); // SP_Blizard
+		////	columns.Add(info.SP_Shild.ToString()); // SP_Shild
+		////	columns.Add(equip.slot[0].itemID.ToString()); // Equip_Head
+		////	columns.Add(equip.slot[3].itemID.ToString()); // Equip_Foot
+		////	columns.Add(equip.slot[1].itemID.ToString()); // Equip_Staff
+		////	columns.Add(equip.slot[2].itemID.ToString()); // Equip_Body
+		////	columns.Add(inventory.potionSlot.GetComponent<UI_Inventory_Slot>().itemID.ToString()); // PotionSlot
+		////	string tempInventory = "";
+		////	for (int i = 0; i < inventory.slot.Length; i++)
+		////	{
+		////		tempInventory += inventory.slot[i].itemID.ToString();
+		////		if (i < inventory.slot.Length - 1) tempInventory += '|';
+		////	}
+		////	columns.Add(tempInventory);
+		////	string tempItemCount = "";
+		////	for (int i = 0; i < inventory.slot.Length; i++)
+		////	{
+		////		tempItemCount += inventory.slot[i].itemCount.ToString();
+		////		if (i < inventory.slot.Length - 1) tempItemCount += '|';
+		////	}
+		////	columns.Add(tempItemCount);
+		////	columns.Add(info.Exp.ToString()); // EXP
+		////
+		////
 		//	writer.WriteRow(columns);
 		//}
 	}

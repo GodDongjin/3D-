@@ -37,7 +37,7 @@ public class DataManager : MonoBehaviour
                 //Debug.Log(dataBase.items[i].id);
                 //Debug.Log(dataBase.items[i].imageName);
                 //Debug.Log(dataBase.items[i].type);
-                //Debug.Log(dataBase.items[i].imageName);
+                //Debug.Log(dataBase.items[i].buyGold);
                 return dataBase.items[i];
 
             }

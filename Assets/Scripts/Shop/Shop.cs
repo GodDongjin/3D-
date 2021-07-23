@@ -26,7 +26,9 @@ public class Shop : MonoBehaviour
 	{
 		shopSlots = shopSlotsParent.GetComponentsInChildren<ShpSlot>();
 		button.onClick.AddListener(OnClickButton);
+		
 
+		item = gameObject.GetComponent<Item>();
 	}
 
 	// Update is called once per frame
@@ -52,7 +54,7 @@ public class Shop : MonoBehaviour
 		{
 			for (int i = 0; i < shopSlots.Length; i++)
 			{
-
+				
 				shopSlots[i].AddItem(RandomItem(), count);
 
 			}
@@ -75,12 +77,12 @@ public class Shop : MonoBehaviour
 			int randomId = Random.Range(1, 5);
 			int randomCount = Random.Range(1, 10);
 			item.itmeInfo.itemId = DataManager.instance.GetItemInfo(randomId).id;
-			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(randomId).imageName;
-			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(randomId).name;
-			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(randomId).sellGold;
-			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(randomId).buyGold;
-			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(randomId).value;
-			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(randomId).type;
+			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
 			count = randomCount;
 
 		}
@@ -88,26 +90,26 @@ public class Shop : MonoBehaviour
 		{
 			int randomId = Random.Range(5, 10);
 			item.itmeInfo.itemId = DataManager.instance.GetItemInfo(randomId).id;
-			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(randomId).imageName;
-			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(randomId).name;
-			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(randomId).sellGold;
-			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(randomId).buyGold;
-			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(randomId).value;
-			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(randomId).type;
+			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
 			count = 1;
 
 		}
 
 		else if (rand >= 70 && rand < 90)
 		{
-			int randomId = Random.Range(10, 16);
+			int randomId = Random.Range(11, 16);
 			item.itmeInfo.itemId = DataManager.instance.GetItemInfo(randomId).id;
-			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(randomId).imageName;
-			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(randomId).name;
-			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(randomId).sellGold;
-			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(randomId).buyGold;
-			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(randomId).value;
-			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(randomId).type;
+			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
 			count = 1;
 
 		}
@@ -115,12 +117,12 @@ public class Shop : MonoBehaviour
 		{
 			int randomId = Random.Range(16, 24);
 			item.itmeInfo.itemId = DataManager.instance.GetItemInfo(randomId).id;
-			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(randomId).imageName;
-			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(randomId).name;
-			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(randomId).sellGold;
-			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(randomId).buyGold;
-			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(randomId).value;
-			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(randomId).type;
+			item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+			item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+			item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+			item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+			item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
 			count = 1;
 		}
 

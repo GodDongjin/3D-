@@ -37,7 +37,7 @@ TextureImporter:
     second: RareArmor5
   - first:
       213: 4007190700247948102
-    second: RareArmor
+    second: RareArmor6
   - first:
       213: -2882509143171135784
     second: AdvancedArmor1
@@ -103,7 +103,7 @@ TextureImporter:
     second: RareArmor1
   - first:
       213: -4453151780960196759
-    second: RareArmor
+    second: RareArmor6
   - first:
       213: 949564113808094320
     second: AdvancedArmor1
@@ -535,7 +535,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RareArmor
+      name: RareArmor6
       rect:
         serializedVersion: 2
         x: 60

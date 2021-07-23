@@ -237,4 +237,9 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	public void UseGold(float num)
+	{
+		gold = gold - num;
+	}
+
 }

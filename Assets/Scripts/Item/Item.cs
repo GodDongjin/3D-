@@ -6,7 +6,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
 	[System.Serializable]
-	public class ItmeInfo
+	public struct ItemInfo
 	{
 		public int itemId;
 		public int itemValue;
@@ -15,11 +15,10 @@ public class Item : MonoBehaviour
 		public string itemName;         //아이템 이름  
 		public string itemType;
 		public string itemImageName;        //아이템 이미지
-		public GameObject itemPrefab;   //아이템의 프리팹
 	}
 
 	//[SerializeField]
-	public ItmeInfo itmeInfo;
+	public ItemInfo itmeInfo;
 	//public string weaponType;
 
 	//public enum ItemType
@@ -34,17 +33,17 @@ public class Item : MonoBehaviour
 
 	void Start()
 	{
-		itmeInfo.itemName = DataManager.instance.GetItemInfo(itmeInfo.itemId).name;
-		itmeInfo.itemValue = DataManager.instance.GetItemInfo(itmeInfo.itemId).value;
-		itmeInfo.itemType = DataManager.instance.GetItemInfo(itmeInfo.itemId).type;
-		itmeInfo.itemImageName = DataManager.instance.GetItemInfo(itmeInfo.itemId).imageName;
-		itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(itmeInfo.itemId).buyGold;
-		itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(itmeInfo.itemId).sellGold;
-
-		Debug.Log(itmeInfo.itemName);
-		Debug.Log(itmeInfo.itemValue);
-		Debug.Log(itmeInfo.itemType);
-		Debug.Log(itmeInfo.itemImageName);
+		//itmeInfo.itemName = DataManager.instance.GetItemInfo(itmeInfo.itemId).name;
+		//itmeInfo.itemValue = DataManager.instance.GetItemInfo(itmeInfo.itemId).value;
+		//itmeInfo.itemType = DataManager.instance.GetItemInfo(itmeInfo.itemId).type;
+		//itmeInfo.itemImageName = DataManager.instance.GetItemInfo(itmeInfo.itemId).imageName;
+		//itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(itmeInfo.itemId).buyGold;
+		//itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(itmeInfo.itemId).sellGold;
+		//
+		//Debug.Log(itmeInfo.itemName);
+		//Debug.Log(itmeInfo.itemValue);
+		//Debug.Log(itmeInfo.itemType);
+		//Debug.Log(itmeInfo.itemImageName);
 	}
 
 	//public void SetItemInfo(int itemId)

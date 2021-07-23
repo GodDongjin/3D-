@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ShpSlot : MonoBehaviour
 {
+
 	public Item item;   //획득한 아이템
 	public int itemCount;   //회득한 아이템의 개수
 	public string itemName;
@@ -30,20 +31,42 @@ public class ShpSlot : MonoBehaviour
 	[SerializeField]
 	private Button button;
 
+	[SerializeField]
+	private InventoryUI inventory;
+
+
+	[SerializeField]
+	PlayerInfo player;
+
+
+
 	private void Start()
 	{
 		button = this.gameObject.GetComponent<Button>();
 		button.onClick.AddListener(OnClickButton);
+		player = GameObject.Find("Player").GetComponent<PlayerInfo>();
+
+		Debug.Log(player._PlayerInfomation.currentGold);
+
+		item = gameObject.GetComponent<Item>();
 	}
 	// Update is called once per frame
 	void Update()
 	{
-
+		
 	}
 
 	public void OnClickButton()
 	{
-		ClearSlot();
+		if (player._PlayerInfomation.currentGold >= item.itmeInfo.itemBuyGold)
+		{
+			player.UseGold(itemGold);
+			ClearSlot();
+		}
+		if (player._PlayerInfomation.currentGold < item.itmeInfo.itemBuyGold)
+		{
+			Debug.Log("돌아 가세요!!!!!!!!!");
+		}
 	}
 
 	// Start is called before the first frame update
@@ -56,9 +79,7 @@ public class ShpSlot : MonoBehaviour
 
 	public void AddItem(Item _item, int _count = 1)
 	{
-		//if(slotType == SlotType.Stuff)
-		//      {
-		item = _item;
+		item.itmeInfo = _item.itmeInfo;
 		itemCount = _count;
 		itemName = _item.itmeInfo.itemName;
 		itemGold = _item.itmeInfo.itemBuyGold;
@@ -78,9 +99,9 @@ public class ShpSlot : MonoBehaviour
 				go_countImage.SetActive(true);
 				SetColor(1);
 			}
-			
-
 		}
+
+		
 	}
 
 	public void SetSlotCount(int _count)
@@ -96,6 +117,9 @@ public class ShpSlot : MonoBehaviour
 
 	public void ClearSlot()
 	{
+		
+		inventory.StuffSlotAddItem(this.item, itemCount);
+
 		item = null;
 		itemCount = 0;
 		itemImage.sprite = null;

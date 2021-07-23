@@ -14,7 +14,7 @@ public class InventoryUI : MonoBehaviour
 	private Button shopBotton;
 
 	[SerializeField]
-	private GameObject equipmentInventoryBase;
+	public GameObject equipmentInventoryBase;
 	[SerializeField]
 	private GameObject equipmentSlotsParent;
 
@@ -28,7 +28,7 @@ public class InventoryUI : MonoBehaviour
 	[SerializeField]
 	private Item item;
 
-	
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -36,8 +36,8 @@ public class InventoryUI : MonoBehaviour
 		stuffSlots = stuffSlotsParent.GetComponentsInChildren<ItemSlot>();
 		armorBotton.onClick.AddListener(OnClickArmorButton);
 		//shopBotton.onClick.AddListener(OnClickShopButton);
-		LoadInventory();
-		LoadstuffInventory();
+		//LoadInventory();
+		//LoadstuffInventory();
 	}
 
 	// Update is called once per frame
@@ -97,6 +97,32 @@ public class InventoryUI : MonoBehaviour
 		//inventoryActivated = false;
 	}
 
+	public void StuffSlotAddItem(Item _item, int _count = 1)
+	{
+		item = _item;
+
+		for (int i = 0; i < stuffSlots.Length; i++)
+		{
+			if (stuffSlots[i].item != null)
+			{
+				//���Կ� �������� �ִ� �׷� ������ ������ ����
+				if (stuffSlots[i].item.itmeInfo.itemId == item.itmeInfo.itemId)
+				{
+					if (stuffSlots[i].itemCount < 99)
+					{
+						stuffSlots[i].SetSlotCount(_count);
+						return;
+					}
+				}
+			}
+			else if (stuffSlots[i].item == null)
+			{
+				stuffSlots[i].AddItem(item, _count);
+				return;
+			}
+		}
+	}
+
 	public void AcquireItem(Item _item, int _count = 1)
 	{
 		//�������� ���� ������ �ƴϸ� ����
@@ -117,17 +143,7 @@ public class InventoryUI : MonoBehaviour
 					}
 				}
 
-			}
-
-			for (int i = 0; i < stuffSlots.Length; i++)
-			{
 				if (stuffSlots[i].item == null)
-				{
-					stuffSlots[i].AddItem(_item, _count);
-					return;
-				}
-
-				if (stuffSlots[i].item != null)
 				{
 					stuffSlots[i].AddItem(_item, _count);
 					return;
@@ -138,33 +154,16 @@ public class InventoryUI : MonoBehaviour
 		{
 			for (int i = 0; i < equipmentSlots.Length; i++)
 			{
+
+
 				if (equipmentSlots[i].slotType.ToString() == _item.itmeInfo.itemType)
 				{
-					//if (slots[i].item == null)
-					//{
-					//
-					//    //Debug.Log(slots[i].item.name);
-					//    slots[i].AddItem(_item);
-					//    return;
-					//
-					//}
-					//else if (slots[i].item != null)
-					//{
-					//    Debug.Log(slots[i].item.itmeInfo.itemName);
-					//    if (slots[i].item.itmeInfo.itemName != _item.itmeInfo.itemName)
-					//    {
-					//        //Debug.Log(slots[i].item.name);
-					//        slots[i].ClearSlot();
-					//        slots[i].AddItem(_item);
-					//        return;
-					//    }
-					//    else return;
-					// 
-					//
-					//}z
+
 					equipmentSlots[i].AddItem(_item);
 					return;
 				}
+
+
 
 			}
 
@@ -172,6 +171,58 @@ public class InventoryUI : MonoBehaviour
 
 
 	}
+	//if (slots[i].item == null)
+	//{
+	//
+	//    //Debug.Log(slots[i].item.name);
+	//    slots[i].AddItem(_item);
+	//    return;
+	//
+	//}
+	//else if (slots[i].item != null)
+	//{
+	//    Debug.Log(slots[i].item.itmeInfo.itemName);
+	//    if (slots[i].item.itmeInfo.itemName != _item.itmeInfo.itemName)
+	//    {
+	//        //Debug.Log(slots[i].item.name);
+	//        slots[i].ClearSlot();
+	//        slots[i].AddItem(_item);
+	//        return;
+	//    }
+	//    else return;
+	// 
+	//
+	//}z
+
+	public void SlotCheck(ItemSlot Slot)
+	{
+		for (int i = 0; i < equipmentSlots.Length; i++)
+		{
+
+			if (equipmentSlots[i].slotType.ToString() == Slot.item.itmeInfo.itemType)
+			{
+				if (equipmentSlots[i].item != null)
+				{
+					Debug.Log("인벤토리안에 아이템 " + Slot.item.itmeInfo.itemName);
+					Debug.Log("인벤토리안에 아이템 " + equipmentSlots[i].item.itmeInfo.itemName);
+
+					Item itme = equipmentSlots[i].item;
+					equipmentSlots[i].AddItem(Slot.item);
+					Slot.AddItem(itme);
+				}
+				else if (equipmentSlots[i].item == null)
+				{
+					equipmentSlots[i].AddItem(Slot.item);
+					Slot.ClearSlot();
+				}
+			}
+
+
+
+		}
+
+	}
+
 
 	public void ClearInventory()
 	{

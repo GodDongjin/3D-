@@ -13,12 +13,12 @@ id,name,image,itemType,value,buyGold,sellGold
 12,rareArmor1,RareArmor1,HeadArmor,15,50,30
 13,rareArmor2,RareArmor2,shoulderArmor,15,50,30
 14,rareArmor3,RareArmor3,TopArmor,15,50,30
-15,rareArmor4,RareArmor4,PantsArmor,15,50,30
-16,rareArmor5,RareArmor5,GlovesArmor,15,50,30
+15,rareArmor4,RareArmor4,GlovesArmor,15,50,30
+16,rareArmor5,RareArmor5,PantsArmor,15,50,30
 17,rareArmor6,RareArmor6,ShoesArmor,15,50,30
 18,advancedArmor1,AdvancedArmor1,HeadArmor,20,80,50
 19,advancedArmor2,AdvancedArmor2,shoulderArmor,20,80,50
 20,advancedArmor3,AdvancedArmor3,TopArmor,20,80,50
-21,advancedArmor4,AdvancedArmor4,PantsArmor,20,80,50
-22,advancedArmor5,AdvancedArmor5,GlovesArmor,20,80,50
+21,advancedArmor4,AdvancedArmor4,GlovesArmor,20,80,50
+22,advancedArmor5,AdvancedArmor5,PantsArmor,20,80,50
 23,advancedArmor6,AdvancedArmor6,ShoesArmor,20,80,50

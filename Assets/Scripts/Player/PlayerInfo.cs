@@ -19,6 +19,7 @@ public class PlayerInfo : Player
 		public float maxSkille2Cooldown;
 		public float currentSkille1Cooldown;
 		public float currentSkille2Cooldown;
+		public float currentGold;
 		public bool isCooldown1;
 		public bool isCooldown2;
 
@@ -52,7 +53,7 @@ public class PlayerInfo : Player
 	//public float _maxExperience;
 	//public float _currentExperience;
 
-	private void Awake()
+	private void Start()
 	{
 		SetPlayerInfo();
 
@@ -73,6 +74,7 @@ public class PlayerInfo : Player
 		_PlayerInfomation.currentSkille2Cooldown = currentSkille2Cooldown;
 		_PlayerInfomation.isCooldown1 = isSkille1Cooldown;
 		_PlayerInfomation.isCooldown2 = isSkille2Cooldown;
+		_PlayerInfomation.currentGold = gold;
 	}
 
 	private void Update()
@@ -90,6 +92,7 @@ public class PlayerInfo : Player
 		_PlayerInfomation.currentSkille2Cooldown = currentSkille2Cooldown;
 		_PlayerInfomation.isCooldown1 = isSkille1Cooldown;
 		_PlayerInfomation.isCooldown2 = isSkille2Cooldown;
+		_PlayerInfomation.currentGold = gold;
 
 		//Debug.Log(currentHp);
 	}
