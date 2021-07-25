@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
 
 			Vector3 direction = (movePos - player.transform.position).normalized;
 			Quaternion lookRotation = Quaternion.LookRotation(direction);
-			player.transform.rotation = lookRotation;
+			player.transform.rotation.Equals(new Vector3(player.transform.rotation.x, lookRotation.y, player.transform.position.z));
 		}
 		if(!isSkille)
 		{
@@ -192,10 +192,6 @@ public class Player : MonoBehaviour
 		currentHp = currentHp - damege;
 
 		ChangeState(Player_State.HeavyRigidity);
-		
-
-
-		
 	}
 
 	public void SkilleCooldown()
@@ -241,5 +237,27 @@ public class Player : MonoBehaviour
 	{
 		gold = gold - num;
 	}
+
+	public void ItemHpUp(float value)
+	{
+		maxHp = maxHp + value;
+	}
+	public void ItemMpUp(float value)
+	{
+
+		maxMp = maxMp + value;
+	}
+
+	public void ItemDamegeUp(float value)
+	{
+
+		damege = damege + value;
+	}
+
+	public void ItemMoveSpeedUp(float value)
+	{
+		moveSpeed = moveSpeed + value;
+	}
+	
 
 }

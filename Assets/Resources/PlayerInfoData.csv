@@ -1,2 +1,2 @@
-maxHp,maxMp,moveSpeed,damege,gold
-100,100,4,10,1000
+maxHp,maxMp,moveSpeed,damege,currentGold
+100,100,4,10,90560

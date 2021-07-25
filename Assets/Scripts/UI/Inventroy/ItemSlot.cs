@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public enum SlotType
 {
 	HeadArmor,
-	shoulderArmor,
+	ShoulderArmor,
 	PantsArmor,
 	TopArmor,
 	GlovesArmor,
@@ -15,10 +15,13 @@ public enum SlotType
 	Stuff
 }
 
-public class ItemSlot : MonoBehaviour, IPointerClickHandler//,  IDragHandler
+public class ItemSlot : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
 	[SerializeField]
-	public Item item;   //획득한 아이템
+	private Item item = new Item();   //획득한 아이템
+	public float imteId;
+	public string itemName;
+	public string itemType;
 	public int itemCount;   //회득한 아이템의 개수
 	public Image itemImage; //아이템의 이미지
 
@@ -37,11 +40,110 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler//,  IDragHandler
 
 	[SerializeField]
 	private InventoryUI InventoryUI;
+	[SerializeField]
+	private Shop shopUI;
+	[SerializeField]
+	PlayerInfo player;
+
+
+	public bool isCilck;
 
 
 	private void Start()
 	{
-		uiCamera = GameObject.Find("UiCamera").GetComponent<Camera>();
+		//uiCamera = GameObject.Find("UiCamera").GetComponent<Camera>();
+		player = GameObject.Find("Player").GetComponent<PlayerInfo>();
+
+	}
+
+	private void Update()
+	{
+
+		if (isCilck)
+		{
+			if (item != null)
+			{
+				if (item.itmeInfo.itemType == "Stuff")
+				{
+					if (Input.GetKeyDown(KeyCode.Alpha1))
+					{
+						if (InventoryUI.equipmentInventoryBase.activeSelf == true)
+						{
+
+							InventoryUI.SlotCheck(this, 0, itemCount);
+
+						}
+					}
+					else if (Input.GetKeyDown(KeyCode.Alpha2))
+					{
+						if (InventoryUI.equipmentInventoryBase.activeSelf == true)
+						{
+
+							InventoryUI.SlotCheck(this, 1, itemCount);
+
+						}
+					}
+				}
+				if (item.itmeInfo.itemType != "Stuff")
+				{
+					if (InventoryUI.equipmentInventoryBase.activeSelf == true)
+					{
+						InventoryUI.SlotCheck(this);
+						isCilck = false;
+						return;
+
+					}
+					else if (shopUI.shopBase.activeSelf == true)
+					{
+						player.UseGold(-item.itmeInfo.itemSellGold);
+						SetSlotCount(-1);
+
+
+					}
+
+				}
+			}
+
+		}
+
+		//if(item.itmeInfo.itemId == 0)
+		//{
+		//	item.itmeInfo.itemImageName = null;
+		//	item.itmeInfo.itemName = null;
+		//	item.itmeInfo.itemBuyGold = 0;
+		//	item.itmeInfo.itemType = null;
+		//	item.itmeInfo.itemValue = 0;
+		//	item.itmeInfo.itemSellGold = 0;
+		//}
+
+	}
+
+	public Item GetItem()
+	{
+		return item;
+	}
+	public void SetItem(Item _item, int count = 1)
+	{
+		item = _item;
+		itemCount = count;
+
+		Sprite[] sprites = Resources.LoadAll<Sprite>("item");
+		for (int i = 0; i < sprites.Length; i++)
+		{
+			if (sprites[i].name == _item.itmeInfo.itemImageName)
+			{
+				itemImage.sprite = sprites[i];
+				SetColor(1);
+
+			}
+			if (item.itmeInfo.itemType == "Stuff")
+			{
+				go_countImgae.SetActive(true);
+				text_count.text = itemCount.ToString();
+			}
+			
+
+		}
 	}
 
 	// 이미지의 투명도 조절
@@ -57,8 +159,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler//,  IDragHandler
 	{
 		//if(slotType == SlotType.Stuff)
 		//      {
-		item = _item;
+
+		item.itmeInfo.itemId = _item.itmeInfo.itemId;
+		item.itmeInfo.itemImageName = _item.itmeInfo.itemImageName;
+		item.itmeInfo.itemName = _item.itmeInfo.itemName;
+		item.itmeInfo.itemType = _item.itmeInfo.itemType;
+		item.itmeInfo.itemValue = _item.itmeInfo.itemValue;
+		item.itmeInfo.itemBuyGold = _item.itmeInfo.itemBuyGold;
 		itemCount = _count;
+		itemName = _item.itmeInfo.itemName;
+		itemType = _item.itmeInfo.itemType;
 
 		Sprite[] sprites = Resources.LoadAll<Sprite>("item");
 		for (int i = 0; i < sprites.Length; i++)
@@ -67,11 +177,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler//,  IDragHandler
 			{
 				itemImage.sprite = sprites[i];
 				SetColor(1);
+
 			}
 			if (item.itmeInfo.itemType == "Stuff")
 			{
 				go_countImgae.SetActive(true);
 				text_count.text = itemCount.ToString();
+
 				//	SetColor(1);
 			}
 			//}
@@ -145,28 +257,81 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler//,  IDragHandler
 		go_countImgae.SetActive(false);
 	}
 
-	public void OnPointerClick(PointerEventData eventData)
+	public void OnPointerUp(PointerEventData eventData)
+	{
+
+		isCilck = false;
+
+
+	}
+	public void OnPointerDown(PointerEventData eventData)
 	{
 		if (eventData.button == PointerEventData.InputButton.Right)
 		{
-			if (item != null)
-			{
-
-				if (item.itmeInfo.itemType != "Stuff")
-				{
-					if (InventoryUI.equipmentInventoryBase.activeSelf == true)
-					{
-						InventoryUI.SlotCheck(this);
-					}
-				}
-				else
-				{
-					SetSlotCount(-1);
-				}
-			}
-
+			isCilck = true;
 		}
 	}
+	public void PlayerInfoUpdate(Item item, float value)
+	{
+		if (item.itmeInfo.itemType == "HeadArmor")
+		{
+			player.ItemMpUp(value);
+		}
+		if (item.itmeInfo.itemType == "ShoulderArmor")
+		{
+			player.ItemDamegeUp(value);
+		}
+		if (item.itmeInfo.itemType == "TopArmor")
+		{
+			player.ItemHpUp(value);
+		}
+		if (item.itmeInfo.itemType == "GlovesArmor")
+		{
+			player.ItemDamegeUp(value);
+		}
+		if (item.itmeInfo.itemType == "PantsArmor")
+		{
+			player.ItemHpUp(value);
+		}
+		if (item.itmeInfo.itemType == "ShoesArmor")
+		{
+			player.ItemMoveSpeedUp(value);
+		}
+
+
+	}
+
+	//public void SlotCheck(int index = 0)
+	//{
+	//	if (InventoryUI.equipmentSlots[6 + index].item.itmeInfo.itemId > 0)
+	//	{
+	//		
+	//		if (InventoryUI.equipmentSlots[6 + index].item.itmeInfo.itemId == item.itmeInfo.itemId)
+	//		{
+	//			InventoryUI.equipmentSlots[6 + index].AddItem(item, itemCount);
+	//			//InventoryUI.equipmentSlots[6 + index].SetSlotCount(itemCount);
+	//			ClearSlot();
+	//			return;
+	//		}
+	//		else if(InventoryUI.equipmentSlots[6 + index].item.itmeInfo.itemId != item.itmeInfo.itemId)
+	//		{
+	//			Item tempItem = new Item();
+	//			tempItem = item;
+	//			int tempCoumt = itemCount;
+	//
+	//			AddItem(tempItem);
+	//			InventoryUI.equipmentSlots[6 + index].AddItem(item, itemCount);
+	//			
+	//			return;
+	//		}
+	//	}
+	//	else if (InventoryUI.equipmentSlots[6 + index].item.itmeInfo.itemId == 0)
+	//	{
+	//		InventoryUI.equipmentSlots[6 + index].AddItem(item, itemCount);
+	//		ClearSlot();
+	//		return;
+	//	}
+	//}
 
 	//public void OnDrag(PointerEventData eventData)
 	//{

@@ -9,14 +9,14 @@ public class Shop : MonoBehaviour
 	private Button button;
 
 	[SerializeField]
-	private GameObject shopBase;
+	public GameObject shopBase;
 	[SerializeField]
 	private GameObject shopSlotsParent;
 
 	private ShpSlot[] shopSlots;
 
 	[SerializeField]
-	private Item item;
+	private Item item = new Item();
 
 	public int count;
 
@@ -28,7 +28,7 @@ public class Shop : MonoBehaviour
 		button.onClick.AddListener(OnClickButton);
 		
 
-		item = gameObject.GetComponent<Item>();
+		//item = gameObject.GetComponent<Item>();
 	}
 
 	// Update is called once per frame

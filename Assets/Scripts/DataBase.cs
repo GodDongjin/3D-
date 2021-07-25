@@ -26,12 +26,14 @@ public class PlayerDB
 public class EquipmentInventory
 {
 	public int equipmentId;
+	public int itemCount;
+
 }
 
 public class StuffInventory
 {
-	public int stuffId;
-	public int stuffCount;
+	public int itemId;
+	public int itemCount;
 }
 
 public class DataFileName
@@ -80,13 +82,12 @@ public class DataBase : MonoBehaviour
 
 		for (int i = 0; i < m_dictionaryData.Count; i++)
 		{
-			
+
 			player._MaxHp = float.Parse((m_dictionaryData[i]["maxHp"].ToString()));
 			player._MaxMp = float.Parse((m_dictionaryData[i]["maxMp"].ToString()));
 			player._MoveSpeed = float.Parse((m_dictionaryData[i]["moveSpeed"].ToString()));
 			player._Damage = float.Parse((m_dictionaryData[i]["damege"].ToString()));
-			player._Gold = float.Parse((m_dictionaryData[i]["gold"].ToString()));
-			Debug.Log("PlayerGold " + player._Gold);
+			player._Gold = float.Parse((m_dictionaryData[i]["currentGold"].ToString()));
 
 		}
 
@@ -99,7 +100,8 @@ public class DataBase : MonoBehaviour
 			equipmentInven.Add(new EquipmentInventory());
 
 			equipmentInven[i].equipmentId = int.Parse((m_dictionaryData[i]["EquipmentId"].ToString()));
-			
+			equipmentInven[i].itemCount = int.Parse((m_dictionaryData[i]["itemCount"].ToString()));
+			//Debug.Log(equipmentInven[i].equipmentId);
 		}
 
 		m_dictionaryData.Clear();
@@ -110,59 +112,101 @@ public class DataBase : MonoBehaviour
 		{
 			stuffInven.Add(new StuffInventory());
 
-			stuffInven[i].stuffId = int.Parse((m_dictionaryData[i]["StuffId"].ToString()));
-			stuffInven[i].stuffCount = int.Parse((m_dictionaryData[i]["StuffCount"].ToString()));
+			stuffInven[i].itemId = int.Parse((m_dictionaryData[i]["itemId"].ToString()));
+			stuffInven[i].itemCount = int.Parse((m_dictionaryData[i]["itemCount"].ToString()));
 
 		}
 
 
 	}
 
-	public void SaveData()
+	private void Update()
 	{
-		//using (var writer = new CsvFileWriter("Assets/Resources/PlayerInfo.csv"))
+		//if (Input.GetKeyDown(KeyCode.P))
 		//{
-		//	List<string> columns = new List<string>() { "maxHp", "maxMp", "moveSpeed", "damege", "glod"};// making Index Row
-		//	writer.WriteRow(columns);
-		//	columns.Clear();
-		//
-		//	//columns.Add(player._Gold.ToString()); // Level
-		////	columns.Add(info.HP.ToString());  // HP
-		////	columns.Add(info.MP.ToString()); // MP
-		////	columns.Add(info.ATK.ToString()); // ATK
-		////	columns.Add(info.SPEED.ToString()); // SPEED
-		////	columns.Add(inventory.Gold.ToString()); // GOLD
-		////	columns.Add(info.SP.ToString()); // SP
-		////	columns.Add(info.SP_FirePunch.ToString()); // SP_FirePunch
-		////	columns.Add(info.SP_EnergyBall.ToString()); // SP_EnergyBall
-		////	columns.Add(info.SP_Meteor.ToString()); // SP_Meteor
-		////	columns.Add(info.SP_Blizard.ToString()); // SP_Blizard
-		////	columns.Add(info.SP_Shild.ToString()); // SP_Shild
-		////	columns.Add(equip.slot[0].itemID.ToString()); // Equip_Head
-		////	columns.Add(equip.slot[3].itemID.ToString()); // Equip_Foot
-		////	columns.Add(equip.slot[1].itemID.ToString()); // Equip_Staff
-		////	columns.Add(equip.slot[2].itemID.ToString()); // Equip_Body
-		////	columns.Add(inventory.potionSlot.GetComponent<UI_Inventory_Slot>().itemID.ToString()); // PotionSlot
-		////	string tempInventory = "";
-		////	for (int i = 0; i < inventory.slot.Length; i++)
-		////	{
-		////		tempInventory += inventory.slot[i].itemID.ToString();
-		////		if (i < inventory.slot.Length - 1) tempInventory += '|';
-		////	}
-		////	columns.Add(tempInventory);
-		////	string tempItemCount = "";
-		////	for (int i = 0; i < inventory.slot.Length; i++)
-		////	{
-		////		tempItemCount += inventory.slot[i].itemCount.ToString();
-		////		if (i < inventory.slot.Length - 1) tempItemCount += '|';
-		////	}
-		////	columns.Add(tempItemCount);
-		////	columns.Add(info.Exp.ToString()); // EXP
-		////
-		////
-		//	writer.WriteRow(columns);
+		//SaveData();
+		//SaveItemData();
 		//}
 	}
+
+	public void SaveData()
+	{
+		using (var writer = new CsvFileWriter("Assets/Resources/PlayerInfoData.csv"))
+		{
+			List<string> columns = new List<string>() { "maxHp", "maxMp", "moveSpeed", "damege", "currentGold" };// making Index Row
+			writer.WriteRow(columns);
+			columns.Clear();
+			PlayerInfo player = GameManager.instance.g_playerInfo.GetComponent<PlayerInfo>();
+			columns.Add(player._PlayerInfomation.maxHp.ToString());  // HP
+			columns.Add(player._PlayerInfomation.maxMp.ToString());
+			columns.Add(player._PlayerInfomation.moveSpeed.ToString());
+			columns.Add(player._PlayerInfomation.damege.ToString());
+			columns.Add(player._PlayerInfomation.currentGold.ToString());
+			writer.WriteRow(columns);
+			columns.Clear();
+
+		}
+
+
+	}
+
+	public void SaveItemData()
+	{
+		using (var writer = new CsvFileWriter("Assets/Resources/stuffInvenData.csv"))
+		{
+			List<string> columns = new List<string>() { "itemId", "itemCount" };
+
+			for (int i = 0; i < 2; i++)
+			{
+				// making Index Row
+				writer.WriteRow(columns);
+				columns.Clear();
+				ItemSlot slot = GameManager.instance.inventory.equipmentSlots[6 + i];
+				if (slot.GetItem() != null)
+				{
+					columns.Add(slot.GetItem().itmeInfo.itemId.ToString());
+					columns.Add(slot.itemCount.ToString());
+				}
+				else if (slot.GetItem().itmeInfo.itemId == 0)
+				{
+					int num = 0;
+					columns.Add(num.ToString());
+				}
+			}
+			writer.WriteRow(columns);
+			columns.Clear();
+		}
+	}
+
+	public void SaveArmorData()
+	{
+		using (var writer = new CsvFileWriter("Assets/Resources/EquipmentInvenData.csv"))
+		{
+			List<string> columns = new List<string>() { "EquipmentId", "itemCount" };
+
+			for (int i = 0; i < 6; i++)
+			{
+				// making Index Row
+				writer.WriteRow(columns);
+				columns.Clear();
+				ItemSlot slot = GameManager.instance.inventory.equipmentSlots[i];
+				if (slot.GetItem() != null)
+				{
+					columns.Add(slot.GetItem().itmeInfo.itemId.ToString());
+					columns.Add(slot.itemCount.ToString());
+				}
+				else if (slot.GetItem().itmeInfo.itemId == 0)
+				{
+					int num = 0;
+					columns.Add(num.ToString());
+				}
+			}
+			writer.WriteRow(columns);
+			columns.Clear();
+		}
+	}
+
+
 
 
 }

@@ -41,13 +41,7 @@ public class Interaction : Player
 
     private void Pickup()
 	{
-        if(isPickup)
-		{
-            inventory.AcquireItem(colliderObject.transform.GetComponent<Item>());
-            Debug.Log(colliderObject.transform.GetComponent<Item>().itmeInfo.itemName + " »πµÊ«ﬂΩ¿¥œ¥Ÿ. ");
-            Destroy(colliderObject.transform.gameObject);
-            InfoDisappear();
-		}
+        
 	}
 
 
@@ -85,7 +79,7 @@ public class Interaction : Player
 	private void InfoDisappear()
 	{
         isPickup = false;
-        text.gameObject.SetActive(false);
+        //text.gameObject.SetActive(false);
     }
 
 

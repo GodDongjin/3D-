@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ShpSlot : MonoBehaviour
 {
 
-	public Item item;   //획득한 아이템
+	public Item item = new Item();   //획득한 아이템
 	public int itemCount;   //회득한 아이템의 개수
 	public string itemName;
 	public int itemGold;
@@ -19,8 +19,6 @@ public class ShpSlot : MonoBehaviour
 	private Text text_name;
 	[SerializeField]
 	private Text text_glod;
-	[SerializeField]
-	private GameObject go_countImgae;
 	[SerializeField]
 	private GameObject go_nameImgae;
 	[SerializeField]
@@ -48,24 +46,23 @@ public class ShpSlot : MonoBehaviour
 
 		Debug.Log(player._PlayerInfomation.currentGold);
 
-		item = gameObject.GetComponent<Item>();
+		//item = gameObject.GetComponent<Item>();
 	}
 	// Update is called once per frame
-	void Update()
-	{
-		
-	}
 
 	public void OnClickButton()
 	{
 		if (player._PlayerInfomation.currentGold >= item.itmeInfo.itemBuyGold)
 		{
 			player.UseGold(itemGold);
+			inventory.StuffSlotAddItem(item, itemCount);
 			ClearSlot();
+			return;
 		}
 		if (player._PlayerInfomation.currentGold < item.itmeInfo.itemBuyGold)
 		{
 			Debug.Log("돌아 가세요!!!!!!!!!");
+			return;
 		}
 	}
 
@@ -118,7 +115,7 @@ public class ShpSlot : MonoBehaviour
 	public void ClearSlot()
 	{
 		
-		inventory.StuffSlotAddItem(this.item, itemCount);
+		
 
 		item = null;
 		itemCount = 0;
