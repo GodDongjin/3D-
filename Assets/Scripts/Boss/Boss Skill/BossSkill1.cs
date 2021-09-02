@@ -27,29 +27,15 @@ public class BossEffect : MonoBehaviour
 
 	private void Update()
 	{
-		if(particle)
-		{
-			if (!particle.IsAlive())
-			{
-				isTrigger = false;	
-				Destroy(Effect);
-			}
-		}
-	}
 
-	//private void OnTriggerStay(Collider other)
-	//{
-	//	if (other.gameObject.name != "Player")
-	//	{
-	//		StopAllCoroutines();
-	//	}
-	//}
+	}
 
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
 		{
-			StopAllCoroutines();
+			StopCoroutine(BossSkillAttack());
+			StopCoroutine(BossSkillContinuousDamage());
 		}
 	}
 	private void OnTriggerEnter(Collider other)
@@ -57,16 +43,16 @@ public class BossEffect : MonoBehaviour
 		Debug.Log("파티클 충돌");
 		if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
 		{
-			if(!isTrigger)
+			if (!isTrigger)
 			{
 				StartCoroutine(BossSkillAttack());
+				StartCoroutine(SkilleDestory());
 				isTrigger = true;
 			}
-			if(isTrigger)
+			if (isTrigger)
 			{
 				StartCoroutine(BossSkillContinuousDamage());
 			}
-			
 		}
 	}
 
@@ -86,12 +72,19 @@ public class BossEffect : MonoBehaviour
 	//보스 스킬 장판 지속딜
 	IEnumerator BossSkillContinuousDamage()
 	{
-		while(true)
+		while (true)
 		{
 			playerInfo.PlayerHpLose(5f);
 			Debug.Log(10f + "를 입었다");
 
 			yield return new WaitForSeconds(0.5f);
 		}
+	}
+
+	IEnumerator SkilleDestory()
+	{
+		yield return new WaitForSeconds(2f);
+
+		Destroy(gameObject);
 	}
 }

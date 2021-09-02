@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Player_State
 {
-	Idle, Move, Attack, Skille1, Skille2, Dash, AttackDash, HeavyRigidity, LightRigidity
+	Idle, Move, Attack, Skille1, Skille2, Dash, AttackDash, HeavyRigidity, LightRigidity, Die
 }
 
 public class PlayerInfor
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 	public static int lv;
 	public static float maxExperience;
 	public static float currentExperience;
-	public static float moveSpeed;
+	public static float moveSpeed = 4;
 	public static float dashSpeed = 0.5f;
 	public static float skilleDamege = 10;
 	public static float gold = 0;
@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
 	public static bool isIdle = false;
 	public static bool isSkiile1 = false;
 	public static bool isSkiile2 = false;
+	public static bool isDie = false;
 
 	//스킬이 나갔는지 판단
 	public static bool isSkille = false;
@@ -58,14 +59,31 @@ public class Player : MonoBehaviour
 	//스킬 쿨타임
 	public static float maxSkille1Cooldown;
 	public static float maxSkille2Cooldown;
+	public static float maxItem1Cooldown;
+	public static float maxItem2Cooldown;
 	public static float currentSkille1Cooldown;
 	public static float currentSkille2Cooldown;
+	public static float currentItem1Cooldown;
+
+	public static float maxAttckItemTiem;
+	public static float currentAttckItemTiem;
+	public static float currentMoveSpeedItemTiem;
+	public static float maxMoveSpeedItemTiem;
+
+	
+	public static float currentItem2Cooldown;
 	public static bool isSkille1Cooldown = false;
 	public static bool isSkille2Cooldown = false;
+	public static bool isItem1Cooldown = false;
+	public static bool isItem2Cooldown = false;
+	public static bool isAttckItem = false;
+	public static bool isMoveSpeedItem = false;
 	//피격판정
 	public static bool isHeavyRigidity;
 	public static bool isLightRigidity;
 
+	//공격판정
+	public static bool isAttckCollider = false;
 
 	public static bool isClick = false;
 	public static bool isEnemyHit = false;
@@ -77,6 +95,7 @@ public class Player : MonoBehaviour
 	{
 		state = nextState;
 
+		
 		isSkille = false;
 		isSkiile1 = false;
 		isSkiile2 = false;
@@ -87,42 +106,47 @@ public class Player : MonoBehaviour
 		isLightRigidity = false;
 		isIdle = false;
 		isClick = true;
-
+		isAttckCollider = false;
+		isDie = false;
 		attackCombo = 0;
 
 		switch (state)
 		{
 			case Player_State.Idle: 
 				isIdle = true; isAttack = false; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; isDie = false; break;
 
 			case Player_State.Move: 
 				isIdle = false; isAttack = false; isWalk = true; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; isDie = false; break;
 			
 			case Player_State.Attack: 
 				isIdle = false; isAttack = true; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; isDie = false; break;
 			
 			case Player_State.Dash: 
 				isIdle = false; isAttack = false; isWalk = false; isDash = true;
-				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; isDie = false; break;
 
 			case Player_State.HeavyRigidity: 
 				isIdle = false; isAttack = false; isWalk = false; isDash = false; 
-				isHeavyRigidity = true; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; break;
+				isHeavyRigidity = true; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; isDie = false; break;
 
 			case Player_State.LightRigidity: 
 				isIdle = false; isAttack = false; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = true; isSkiile1 = false; isSkiile2 = false; break;
+				isHeavyRigidity = false; isLightRigidity = true; isSkiile1 = false; isSkiile2 = false; isDie = false; break;
 
 			case Player_State.Skille1:
 				isIdle = false; isAttack = false; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = true; isSkiile2 = false; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = true; isSkiile2 = false; isDie = false; break;
 
 			case Player_State.Skille2:
 				isIdle = false; isAttack = false; isWalk = false; isDash = false;
-				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = true; break;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = true; isDie = false; break;
+
+			case Player_State.Die:
+				isIdle = false; isAttack = false; isWalk = false; isDash = false;
+				isHeavyRigidity = false; isLightRigidity = false; isSkiile1 = false; isSkiile2 = false; isDie = true; break;
 
 		}
 
@@ -141,6 +165,8 @@ public class Player : MonoBehaviour
 
 		animator.SetBool("isSkill1", isSkiile1);
 		animator.SetBool("isSkill2", isSkiile2);
+
+		animator.SetBool("isDie", isDie);
 		//Debug.Log(isHeavyRigidity);
 		animator.SetFloat("combo", attackCombo);
 
@@ -151,9 +177,9 @@ public class Player : MonoBehaviour
 		if (isClick)
 		{
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
+			isAttckCollider = true;
 			//레이케스트 특정 오브젝트 무시하는 코드
-			int layerMask = (-1) - (1 << LayerMask.NameToLayer("Boss"));
+			int layerMask = (1 << LayerMask.NameToLayer("Ground"));
 
 			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
 			{
@@ -223,16 +249,134 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public void UseMp()
+	public void ItemCooldown()
 	{
-		currentMp = currentMp - useMp;
+		if (isItem1Cooldown)
+		{
+			currentItem1Cooldown = currentItem1Cooldown - Time.deltaTime;
 
-		if(currentMp <= 0)
+			//Debug.Log("쿨타임 " + currentSkille1Cooldown);
+
+			if (0 >= currentItem1Cooldown)
+			{
+				currentItem1Cooldown = maxItem1Cooldown;
+				isItem1Cooldown = false;
+			}
+		}
+
+		if (isItem2Cooldown)
+		{
+			currentItem2Cooldown = currentItem2Cooldown - Time.deltaTime;
+
+			//Debug.Log("쿨타임 " + currentSkille2Cooldown);
+
+			if (0 >= currentItem2Cooldown)
+			{
+				currentItem2Cooldown = maxItem2Cooldown;
+				isItem2Cooldown = false;
+			}
+		}
+	}
+
+	public void ItemTime()
+	{
+		if (isAttckItem)
+		{
+			currentAttckItemTiem = currentAttckItemTiem - Time.deltaTime;
+
+			//Debug.Log("쿨타임 " + currentSkille1Cooldown);
+
+			if (0 >= currentAttckItemTiem)
+			{
+				currentAttckItemTiem = maxAttckItemTiem;
+				isAttckItem = false;
+				for (int i = 0; i < GameManager.instance.ingameInventory.Slots.Length; i++)
+				{
+					if (GameManager.instance.ingameInventory.Slots[i].GetItem().itmeInfo.itemName == "attckPotion")
+					{
+						ItemDamegeUp(-GameManager.instance.ingameInventory.Slots[i].GetItem().itmeInfo.itemValue);
+						return;
+					}
+				}
+				
+			}
+		}
+
+		if (isMoveSpeedItem)
+		{
+			currentMoveSpeedItemTiem = currentMoveSpeedItemTiem - Time.deltaTime;
+
+			//Debug.Log("쿨타임 " + currentSkille1Cooldown);
+
+			if (0 >= currentMoveSpeedItemTiem)
+			{
+				currentMoveSpeedItemTiem = maxMoveSpeedItemTiem;
+				isMoveSpeedItem = false;
+				for (int i = 0; i < GameManager.instance.ingameInventory.Slots.Length; i++)
+				{
+					if (GameManager.instance.ingameInventory.Slots[i].GetItem().itmeInfo.itemName == "speedPotion")
+					{
+						ItemMoveSpeedUp(-GameManager.instance.ingameInventory.Slots[i].GetItem().itmeInfo.itemValue);
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	public void UseMp(float value)
+	{
+		currentMp = currentMp - value;
+
+		if(currentMp >= maxMp)
+		{
+			currentMp = maxMp;
+		}
+	}
+	public void UseHp(float value)
+	{
+		currentHp = currentHp - value;
+
+		if (currentHp >= maxHp)
+		{
+			currentHp = maxHp;
+		}
+	}
+
+	public void UseAttack(float value)
+	{
+		damege = damege - value;
+		//skilleDamege = skilleDamege - value;
+		if (damege <= 0)
+		{
+			damege = 0;
+		}
+	}
+
+	public void UseMoveSpeed(float value)
+	{
+		moveSpeed = moveSpeed - value;
+
+		if (currentMp <= 0)
 		{
 			currentMp = 0;
 		}
 	}
 
+	public void UseCollDown(float value)
+	{
+		currentSkille1Cooldown = currentSkille1Cooldown - value;
+		currentSkille2Cooldown = currentSkille2Cooldown - value;
+
+		if (currentSkille1Cooldown <= 0)
+		{
+			currentSkille1Cooldown = 0;
+		}
+		if (currentSkille2Cooldown <= 0)
+		{
+			currentSkille2Cooldown = 0;
+		}
+	}
 	public void UseGold(float num)
 	{
 		gold = gold - num;
@@ -241,6 +385,7 @@ public class Player : MonoBehaviour
 	public void ItemHpUp(float value)
 	{
 		maxHp = maxHp + value;
+
 	}
 	public void ItemMpUp(float value)
 	{

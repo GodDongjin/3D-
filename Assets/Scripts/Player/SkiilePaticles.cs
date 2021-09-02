@@ -42,6 +42,7 @@ public class SkiilePaticles : Player
 	{
 		if(other.name == "Boss")
 		{
+			isAttckCollider = false;
 			boss.BossHpLose(skilleDamege, rigidity);
 		}
 	}

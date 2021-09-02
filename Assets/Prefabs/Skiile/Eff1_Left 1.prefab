@@ -13605,7 +13605,7 @@ ParticleSystem:
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 2
     inside: 2
     outside: 2
@@ -14634,6 +14634,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16f2cc3107efe8241a98f3bec8b2c1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPrefabs: {fileID: 0}
+  skilles: {fileID: 0}
+  Effects: []
 --- !u!65 &3562008946206377772
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19570,6 +19573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16f2cc3107efe8241a98f3bec8b2c1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPrefabs: {fileID: 0}
+  skilles: {fileID: 0}
+  Effects: []
 --- !u!1 &840764471415870982
 GameObject:
   m_ObjectHideFlags: 0

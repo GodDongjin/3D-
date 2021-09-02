@@ -1,6 +1,6 @@
 id,name,image,itemType,value,buyGold,sellGold
-1,hpPotion,HpPotion,Stuff,100,10,2
-2,mpPotion,MpPotion,Stuff,100,10,4
+1,hpPotion,HpPotion,Stuff,50,10,2
+2,mpPotion,MpPotion,Stuff,50,10,4
 3,attckPotion,AttckPotion,Stuff,10,15,6
 4,speedPotion,SpeedPotion,Stuff,3,15,6
 5,coolDownPotion,CoolDownPotion,Stuff,2,20,8

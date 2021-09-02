@@ -41,11 +41,35 @@ public class CoolDown : MonoBehaviour
             image[1].fillAmount = player._PlayerInfomation.currentSkille2Cooldown / player._PlayerInfomation.maxSkille2Cooldown;
         }
 
+
+        if (player._PlayerInfomation.isItem1Cooldown)
+        {
+            image[2].fillAmount = 1 - (player._PlayerInfomation.currentItem1Cooldown / player._PlayerInfomation.maxItem1Cooldown);
+
+        }
+        else if (!player._PlayerInfomation.isItem1Cooldown)
+        {
+            image[2].fillAmount = player._PlayerInfomation.currentItem1Cooldown / player._PlayerInfomation.maxItem1Cooldown;
+        }
+
+        if (player._PlayerInfomation.isItem2Cooldown)
+        {
+            image[3].fillAmount = 1 - (player._PlayerInfomation.currentItem2Cooldown / player._PlayerInfomation.maxItem2Cooldown);
+        }
+        else if (!player._PlayerInfomation.isItem2Cooldown)
+        {
+            image[3].fillAmount = player._PlayerInfomation.currentItem2Cooldown / player._PlayerInfomation.maxItem2Cooldown;
+        }
+
         int num = (int)player._PlayerInfomation.currentSkille1Cooldown;
         int num2 = (int)player._PlayerInfomation.currentSkille2Cooldown;
+        int num3 = (int)player._PlayerInfomation.currentItem1Cooldown;
+        int num4 = (int)player._PlayerInfomation.currentItem2Cooldown;
 
         text[0].text = num.ToString();
         text[1].text = num2.ToString();
+
+
 
     }
 }

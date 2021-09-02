@@ -141,8 +141,6 @@ public class ItemSlot : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 				go_countImgae.SetActive(true);
 				text_count.text = itemCount.ToString();
 			}
-			
-
 		}
 	}
 

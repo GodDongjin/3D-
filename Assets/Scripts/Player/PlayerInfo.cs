@@ -17,41 +17,24 @@ public class PlayerInfo : Player
 		public float currentExperience;
 		public float maxSkille1Cooldown;
 		public float maxSkille2Cooldown;
+		public float maxItem1Cooldown;
+		public float maxItem2Cooldown;
 		public float currentSkille1Cooldown;
 		public float currentSkille2Cooldown;
+		public float currentItem1Cooldown;
+		public float currentItem2Cooldown;
 		public float currentGold;
 		public bool isCooldown1;
 		public bool isCooldown2;
-
+		public bool isItem1Cooldown;
+		public bool isItem2Cooldown;
+		public bool isDie;
+		
 	}
 
 	public PlayerInfomation _PlayerInfomation;
 
-	//private void Awake()
-	//{
-	//	currentHp = maxHp;
-	//
-	//	_PlayerInfomation.maxHp = maxHp;
-	//	_PlayerInfomation.currentHp = currentHp;
-	//	_PlayerInfomation.distance = distance;
-	//
-	//	_PlayerInfomation.startPos = startPos;
-	//}
-
-	//private void Update()
-	//{
-	//	_BossInfomation.maxHp = maxHp;
-	//	_BossInfomation.currentHp = currentHp;
-	//	Debug.Log("sfjks " + _BossInfomation.currentHp);
-	//}
-
-	//public float _maxHp;
-	//public float _currentHp;
-	//public float _maxMp;
-	//public float _currentMp;
-	//public float _damege;
-	//public float _maxExperience;
-	//public float _currentExperience;
+	
 
 	private void Start()
 	{
@@ -70,10 +53,19 @@ public class PlayerInfo : Player
 		_PlayerInfomation.currentExperience = 0;
 		_PlayerInfomation.maxSkille1Cooldown = maxSkille1Cooldown;
 		_PlayerInfomation.maxSkille2Cooldown= maxSkille2Cooldown;
+		_PlayerInfomation.maxItem1Cooldown= maxItem1Cooldown;
+		_PlayerInfomation.maxItem2Cooldown= maxItem2Cooldown;
 		_PlayerInfomation.currentSkille1Cooldown = currentSkille1Cooldown;
 		_PlayerInfomation.currentSkille2Cooldown = currentSkille2Cooldown;
+		_PlayerInfomation.currentItem1Cooldown = currentItem1Cooldown;
+		_PlayerInfomation.currentItem2Cooldown = currentItem2Cooldown;
+
 		_PlayerInfomation.isCooldown1 = isSkille1Cooldown;
 		_PlayerInfomation.isCooldown2 = isSkille2Cooldown;
+		_PlayerInfomation.isItem1Cooldown = isItem1Cooldown;
+		_PlayerInfomation.isItem2Cooldown = isItem2Cooldown;
+		_PlayerInfomation.isDie = isDie;
+
 		_PlayerInfomation.currentGold = gold;
 	}
 
@@ -88,13 +80,125 @@ public class PlayerInfo : Player
 		_PlayerInfomation.currentExperience = currentExperience;
 		_PlayerInfomation.maxSkille1Cooldown = maxSkille1Cooldown;
 		_PlayerInfomation.maxSkille2Cooldown = maxSkille2Cooldown;
+		_PlayerInfomation.maxItem1Cooldown = maxItem1Cooldown;
+		_PlayerInfomation.maxItem2Cooldown = maxItem2Cooldown;
 		_PlayerInfomation.currentSkille1Cooldown = currentSkille1Cooldown;
 		_PlayerInfomation.currentSkille2Cooldown = currentSkille2Cooldown;
+		_PlayerInfomation.currentItem1Cooldown = currentItem1Cooldown;
+		_PlayerInfomation.currentItem2Cooldown = currentItem2Cooldown;
 		_PlayerInfomation.isCooldown1 = isSkille1Cooldown;
 		_PlayerInfomation.isCooldown2 = isSkille2Cooldown;
+		_PlayerInfomation.isItem1Cooldown = isItem1Cooldown;
+		_PlayerInfomation.isItem2Cooldown = isItem2Cooldown;
+		_PlayerInfomation.isDie = isDie;
 		_PlayerInfomation.currentGold = gold;
 
-		//Debug.Log(currentHp);
+		if (state != Player_State.Die || GameManager.instance.g_Boss.isDie == false)
+		{
+			if (Input.GetKeyDown(KeyCode.Alpha1))
+			{
+				if (isItem1Cooldown == false)
+				{
+					if (GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemName == "hpPotion")
+					{
+						UseHp(-GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemValue);
+						maxItem1Cooldown = 3;
+						isItem1Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[0].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemName == "mpPotion")
+					{
+						UseMp(-GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemValue);
+						maxItem1Cooldown = 3;
+						isItem1Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[0].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemName == "attckPotion")
+					{
+						UseAttack(-GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemValue);
+						maxItem1Cooldown = 8;
+						maxAttckItemTiem = 5;
+						isAttckItem = true;
+						isItem1Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[0].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemName == "speedPotion")
+					{
+						UseMoveSpeed(-GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemValue);
+						maxItem1Cooldown = 8;
+						maxMoveSpeedItemTiem = 3;
+						isMoveSpeedItem = true;
+						isItem1Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[0].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemName == "coolDownPotion")
+					{
+						UseCollDown(-GameManager.instance.ingameInventory.Slots[0].GetItem().itmeInfo.itemValue);
+						maxItem1Cooldown = 12;
+						isItem1Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[0].SetSlotCount(-1);
+					}
+				}
+
+			}
+
+			if (Input.GetKeyDown(KeyCode.Alpha2))
+			{
+				if (isItem2Cooldown == false)
+				{
+					if (GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemName == "hpPotion")
+					{
+						UseHp(-GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemValue);
+						maxItem2Cooldown = 3;
+						isItem2Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[1].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemName == "mpPotion")
+					{
+						UseMp(-GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemValue);
+						maxItem2Cooldown = 3;
+						isItem2Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[1].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemName == "attckPotion")
+					{
+						UseAttack(-GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemValue);
+						maxItem2Cooldown = 8;
+						maxAttckItemTiem = 5;
+						isAttckItem = true;
+						isItem2Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[1].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemName == "speedPotion")
+					{
+						UseMoveSpeed(-GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemValue);
+						maxItem2Cooldown = 8;
+						maxMoveSpeedItemTiem = 3;
+						isMoveSpeedItem = true;
+						isItem2Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[1].SetSlotCount(-1);
+					}
+					if (GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemName == "coolDownPotion")
+					{
+						UseCollDown(-GameManager.instance.ingameInventory.Slots[1].GetItem().itmeInfo.itemValue);
+						maxItem2Cooldown = 12;
+						isItem2Cooldown = true;
+						GameManager.instance.ingameInventory.Slots[1].SetSlotCount(-1);
+					}
+				}
+			}
+
+			//if (currentHp <= 0)
+			//{
+			//	state = Player_State.Die;
+			//	ChangeState(state);
+			//}
+			//
+			//if (GameManager.instance.g_Boss.isDie)
+			//{
+			//	ChangeState(Player_State.Idle);
+			//}
+		}
 	}
 
 

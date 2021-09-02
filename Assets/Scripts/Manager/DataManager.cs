@@ -55,4 +55,9 @@ public class DataManager : MonoBehaviour
     {
         return dataBase.stuffInven[itemId];
     }
+
+    public Inventory GetInventoryInfo(int itemId)
+	{
+        return dataBase.inventory[itemId];
+	}
 }

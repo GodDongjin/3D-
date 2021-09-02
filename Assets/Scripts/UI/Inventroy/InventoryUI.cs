@@ -28,6 +28,8 @@ public class InventoryUI : MonoBehaviour
 	[SerializeField]
 	public Item item = new Item();
 
+	public bool isLoad = false;
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -61,8 +63,7 @@ public class InventoryUI : MonoBehaviour
 		//          AcquireItem(item);
 		//}
 
-		DataManager.instance.dataBase.SaveArmorData();
-		DataManager.instance.dataBase.SaveItemData();
+	
 		//DataManager.instance.dataBase.sav
 
 	}
@@ -70,7 +71,13 @@ public class InventoryUI : MonoBehaviour
 	public void OnClickArmorButton()
 	{
 		LoadInventory();
-		LoadstuffInventory();
+		if(isLoad == false)
+		{
+			LoadstuffInventory();
+			isLoad = true;
+		}
+		
+	
 	}
 
 
@@ -286,7 +293,8 @@ public class InventoryUI : MonoBehaviour
 			{
 				if (equipmentSlots[6 + index].GetItem().itmeInfo.itemId == _slot.GetItem().itmeInfo.itemId)
 				{
-					equipmentSlots[6 + index].AddItem(_slot.GetItem(), equipmentSlots[6 + index].itemCount + itemCount);
+					equipmentSlots[6 + index].
+						AddItem(_slot.GetItem(), equipmentSlots[6 + index].itemCount + itemCount);
 					_slot.ClearSlot();
 						
 					return;
@@ -335,7 +343,9 @@ public class InventoryUI : MonoBehaviour
 						{
 							item = equipmentSlots[i].GetItem();
 							int tempCoumt = equipmentSlots[i].itemCount;
+							equipmentSlots[i].PlayerInfoUpdate(item, -item.itmeInfo.itemValue);
 							equipmentSlots[i].SetItem(_slot.GetItem());
+							equipmentSlots[i].PlayerInfoUpdate(_slot.GetItem(), _slot.GetItem().itmeInfo.itemValue);
 							_slot.SetItem(item, tempCoumt);
 
 							return;
@@ -343,6 +353,7 @@ public class InventoryUI : MonoBehaviour
 					}
 					else if (equipmentSlots[i].GetItem().itmeInfo.itemId == 0)
 					{
+						equipmentSlots[i].PlayerInfoUpdate(_slot.GetItem(), _slot.GetItem().itmeInfo.itemValue);
 						equipmentSlots[i].AddItem(_slot.GetItem(), itemCount);
 						_slot.ClearSlot();
 
@@ -373,10 +384,6 @@ public class InventoryUI : MonoBehaviour
 			
 			
 		}
-	}
-
-	public void LoadstuffInventory()
-	{
 
 		equipmentSlots[6].itemCount = DataManager.instance.GetStuffInventoryInfo(0).itemCount;
 		item.itmeInfo.itemId = DataManager.instance.GetStuffInventoryInfo(0).itemId;
@@ -390,7 +397,7 @@ public class InventoryUI : MonoBehaviour
 			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
 			equipmentSlots[6].AddItem(item, equipmentSlots[6].itemCount);
 		}
-		
+
 
 		equipmentSlots[7].itemCount = DataManager.instance.GetStuffInventoryInfo(1).itemCount;
 		item.itmeInfo.itemId = DataManager.instance.GetStuffInventoryInfo(1).itemId;
@@ -404,7 +411,29 @@ public class InventoryUI : MonoBehaviour
 			item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
 			equipmentSlots[7].AddItem(item, equipmentSlots[7].itemCount);
 		}
-		
+	}
+
+	public void LoadstuffInventory()
+	{
+
+		for (int j = 0; j < stuffSlots.Length; j++)
+		{
+			item.itmeInfo.itemId = DataManager.instance.GetInventoryInfo(j).itemId;
+			stuffSlots[j].itemCount = DataManager.instance.GetInventoryInfo(j).itemCount;
+			if (item.itmeInfo.itemId > 0)
+			{	
+				item.itmeInfo.itemName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).name;
+				item.itmeInfo.itemImageName = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).imageName;
+				item.itmeInfo.itemType = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).type;
+				item.itmeInfo.itemValue = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).value;
+				item.itmeInfo.itemBuyGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).buyGold;
+				item.itmeInfo.itemSellGold = DataManager.instance.GetItemInfo(item.itmeInfo.itemId).sellGold;
+				stuffSlots[j].AddItem(item, stuffSlots[j].itemCount);
+			}
+
+
+		}
+
 	}
 }
 

@@ -22,7 +22,7 @@ public class Boss : MonoBehaviour
     public static float currentHp;
     public static float maxRigidity = 300f;
     public static float currentRigidity = maxRigidity;
-
+    public static float glod = 1000;
     public static float damege = 10f;
     public static float moveSpeed = 3f;
 
@@ -31,6 +31,8 @@ public class Boss : MonoBehaviour
     public bool isEffect = false;
     public bool isChase = false;
     public bool isPlayerHit  = false;
+    public bool isDie = false;
+
 
     //플레이어 한테 줄 피격판정
     public static bool isHeavyRigidity = false;

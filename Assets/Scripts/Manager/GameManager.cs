@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class GameManager : MonoBehaviour
 	public PlayerInfo g_playerInfo;
 	public Boss g_Boss;
 	public InventoryUI inventory;
+	public IngameInventoryUi ingameInventory;
 	public Item item = new Item();
+	public GameObject gameOver;
 
 	[SerializeField]
 	private Text text;
@@ -38,9 +41,13 @@ public class GameManager : MonoBehaviour
 
 		g_Player = GameObject.Find("Player").GetComponent<Player>();
 		g_playerInfo = g_Player.GetComponent<PlayerInfo>();
-	
+		gameOver = GameObject.Find("GameOver");
 		//inventory = GameObject.Find("Inventory").GetComponent<InventoryUI>();
-		//g_Boss = GameObject.Find("Boss").GetComponent<Boss>();
+		if(SceneManager.GetActiveScene().name == "SampleScene")
+		{
+			g_Boss = GameObject.Find("Boss").GetComponent<Boss>();
+		}
+		
 
 	}
 	// Update is called once per frame
@@ -49,12 +56,18 @@ public class GameManager : MonoBehaviour
 		CurrentGold();
 
 		hp.text = "HP : " + g_playerInfo._PlayerInfomation.maxHp.ToString();
-
+		
 		mp.text = "MP : " + g_playerInfo._PlayerInfomation.maxMp.ToString();
-
+		
 		attck.text = "Attck : " + g_playerInfo._PlayerInfomation.damege.ToString();
-
+		
 		moveSpeed.text = "MoveSpeed : " + g_playerInfo._PlayerInfomation.moveSpeed.ToString();
+
+
+		DataManager.instance.dataBase.SaveData();
+		DataManager.instance.dataBase.SaveArmorData();
+		DataManager.instance.dataBase.SaveItemData();
+		DataManager.instance.dataBase.SaveInventoryData();
 	}
 
 

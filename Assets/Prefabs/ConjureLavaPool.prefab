@@ -9690,8 +9690,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8632717348514136463}
-  - component: {fileID: 8351557925467277277}
   - component: {fileID: 9048569412856557419}
+  - component: {fileID: 1487446095328630211}
   m_Layer: 0
   m_Name: ConjureLavaPool
   m_TagString: Untagged
@@ -9715,20 +9715,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8351557925467277277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8632717348514136560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa426e5cc97a3ff41a08a0b22f5c9cfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Effect: {fileID: 8632717348514136560}
-  particle: {fileID: 8632717348853303799}
 --- !u!135 &9048569412856557419
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9742,6 +9728,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1487446095328630211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8632717348514136560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4317300a4f112c14593fd62ea52209c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effect: {fileID: 0}
+  particle: {fileID: 0}
 --- !u!1 &8632717348665561615
 GameObject:
   m_ObjectHideFlags: 0

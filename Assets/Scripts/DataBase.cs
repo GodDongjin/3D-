@@ -36,12 +36,19 @@ public class StuffInventory
 	public int itemCount;
 }
 
+public class Inventory
+{
+	public int itemId;
+	public int itemCount;
+}
+
 public class DataFileName
 {
 	public string _ItemData = "ItemData";
 	public string _PlayerData = "PlayerInfoData";
 	public string _equipmentInvenData = "EquipmentInvenData";
 	public string _stuffInvenData = "stuffInvenData";
+	public string _inventoryData = "InventoryData";
 	//public string _ItemData = "ItemData";
 	//public string _ItemData = "ItemData";
 }
@@ -56,6 +63,7 @@ public class DataBase : MonoBehaviour
 	public PlayerDB player = new PlayerDB();
 	public List<EquipmentInventory> equipmentInven = new List<EquipmentInventory>();
 	public List<StuffInventory> stuffInven = new List<StuffInventory>();
+	public List<Inventory> inventory = new List<Inventory>();
 
 	private void Awake()
 	{
@@ -117,6 +125,19 @@ public class DataBase : MonoBehaviour
 
 		}
 
+		m_dictionaryData.Clear();
+
+		m_dictionaryData = CSVReader.Read(dataFileName._inventoryData);
+
+		for (int i = 0; i < m_dictionaryData.Count; i++)
+		{
+			inventory.Add(new Inventory());
+
+			inventory[i].itemId = int.Parse((m_dictionaryData[i]["itemId"].ToString()));
+			inventory[i].itemCount = int.Parse((m_dictionaryData[i]["itemCount"].ToString()));
+
+		}
+
 
 	}
 
@@ -162,7 +183,7 @@ public class DataBase : MonoBehaviour
 				writer.WriteRow(columns);
 				columns.Clear();
 				ItemSlot slot = GameManager.instance.inventory.equipmentSlots[6 + i];
-				if (slot.GetItem() != null)
+				if (slot.GetItem().itmeInfo.itemId != 0)
 				{
 					columns.Add(slot.GetItem().itmeInfo.itemId.ToString());
 					columns.Add(slot.itemCount.ToString());
@@ -170,6 +191,7 @@ public class DataBase : MonoBehaviour
 				else if (slot.GetItem().itmeInfo.itemId == 0)
 				{
 					int num = 0;
+					columns.Add(num.ToString());
 					columns.Add(num.ToString());
 				}
 			}
@@ -190,7 +212,7 @@ public class DataBase : MonoBehaviour
 				writer.WriteRow(columns);
 				columns.Clear();
 				ItemSlot slot = GameManager.instance.inventory.equipmentSlots[i];
-				if (slot.GetItem() != null)
+				if (slot.GetItem().itmeInfo.itemId != 0)
 				{
 					columns.Add(slot.GetItem().itmeInfo.itemId.ToString());
 					columns.Add(slot.itemCount.ToString());
@@ -198,6 +220,36 @@ public class DataBase : MonoBehaviour
 				else if (slot.GetItem().itmeInfo.itemId == 0)
 				{
 					int num = 0;
+					columns.Add(num.ToString());
+					columns.Add(num.ToString());
+				}
+			}
+			writer.WriteRow(columns);
+			columns.Clear();
+		}
+	}
+
+	public void SaveInventoryData()
+	{
+		using (var writer = new CsvFileWriter("Assets/Resources/InventoryData.csv"))
+		{
+			List<string> columns = new List<string>() { "itemId", "itemCount" };
+
+			for (int i = 0; i < GameManager.instance.inventory.stuffSlots.Length; i++)
+			{
+				// making Index Row
+				writer.WriteRow(columns);
+				columns.Clear();
+				ItemSlot slot = GameManager.instance.inventory.stuffSlots[i];
+				if (slot.GetItem().itmeInfo.itemId != 0)
+				{
+					columns.Add(slot.GetItem().itmeInfo.itemId.ToString());
+					columns.Add(slot.itemCount.ToString());
+				}
+				else if (slot.GetItem().itmeInfo.itemId == 0)
+				{
+					int num = 0;
+					columns.Add(num.ToString());
 					columns.Add(num.ToString());
 				}
 			}

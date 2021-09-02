@@ -25,80 +25,83 @@ public class PlayerAttack : Player
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (state != Player_State.Die || GameManager.instance.g_Boss.isDie == false)
 		{
-			if (state != Player_State.Attack && attackCombo == 0)
+			if (Input.GetMouseButtonDown(0))
 			{
-				damege = 10;
-				rigidity = 10f;
-				MouseRotate();
-				ChangeState(Player_State.Attack);
-				
-			}
-		}
-
-		if (currentMp > 0)
-		{
-			if (Input.GetKeyDown(KeyCode.Q))
-			{
-				if (state != Player_State.Skille1 && isSkille1Cooldown == false)
+				if (state != Player_State.Attack && attackCombo == 0)
 				{
-					skilleDamege = 50;
-					rigidity = 40f;
-					useMp = 10f;
+					damege = 10;
+					rigidity = 10f;
+
 					MouseRotate();
-					UseMp();
-					maxSkille1Cooldown = 3f;
-					isSkille1Cooldown = true;
-					ChangeState(Player_State.Skille1);
+					ChangeState(Player_State.Attack);
+
 				}
 			}
 
-			if (Input.GetKeyDown(KeyCode.E))
+			if (currentMp > 0)
 			{
-				if (state != Player_State.Skille2 && isSkille2Cooldown == false)
+				if (Input.GetKeyDown(KeyCode.Q))
 				{
-					skilleDamege = 100f;
-					rigidity = 80f;
-					useMp = 20f;
-					MouseRotate();
-					UseMp();
-					maxSkille2Cooldown = 5f;
-					isSkille2Cooldown = true;
-					ChangeState(Player_State.Skille2);
+					if (state != Player_State.Skille1 && isSkille1Cooldown == false)
+					{
+						skilleDamege = damege + 50;
+						rigidity = 40f;
+						useMp = 10f;
+						MouseRotate();
+						UseMp(useMp);
+						maxSkille1Cooldown = 3f;
+						isSkille1Cooldown = true;
+						ChangeState(Player_State.Skille1);
+					}
+				}
+
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+					if (state != Player_State.Skille2 && isSkille2Cooldown == false)
+					{
+						skilleDamege = damege + 100;
+						rigidity = 80f;
+						useMp = 20f;
+						MouseRotate();
+						UseMp(useMp);
+						maxSkille2Cooldown = 5f;
+						isSkille2Cooldown = true;
+						ChangeState(Player_State.Skille2);
+					}
 				}
 			}
-		}
 
-		if(state == Player_State.Attack)
-		{
-			boxCollider.enabled = true;
+			if (isAttckCollider)
+			{
+				boxCollider.enabled = true;
+			}
+			else if (!isAttckCollider)
+			{
+				boxCollider.enabled = false;
+			}
 		}
-		else
-		{
-			boxCollider.enabled = false;
-		}
-
 	}
 
 	//ParticleSystemTriggerEventType
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (!isEnemyHit && state == Player_State.Attack)
+		
+		if (other.name == "Boss")
 		{
-			if (other.name == "Boss")
-			{
-				isEnemyHit = true;
-				Vector3 bossPos = GameManager.instance.g_Boss.transform.position;
-				Vector3 hitPrefabsPos = new Vector3(bossPos.x, bossPos.y + 3, bossPos.z);
-				Instantiate(hitPrefabs, hitPrefabsPos, Quaternion.identity);
+			Vector3 bossPos = GameManager.instance.g_Boss.transform.position;
+			Vector3 hitPrefabsPos = new Vector3(bossPos.x, bossPos.y + 3, bossPos.z);
+			Instantiate(hitPrefabs, hitPrefabsPos, Quaternion.identity);
 
-				//boss.BossHpLose(damege, rigidity);
+			//boss.BossHpLose(damege, rigidity);
 
-				GameManager.instance.g_Boss.BossHpLose(damege, rigidity);
-			}
+			
+			GameManager.instance.g_Boss.BossHpLose(damege, rigidity);
+
 		}
+		
 	}
 
 

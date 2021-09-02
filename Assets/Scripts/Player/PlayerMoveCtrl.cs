@@ -26,51 +26,62 @@ public class PlayerMoveCtrl : Player
 
 	private void FixedUpdate()
 	{
-		if (state == Player_State.Move)
+		if (state != Player_State.Die || GameManager.instance.g_Boss.isDie == false)
 		{
-			//캐릭터 움직임
-			Move();
-			//플레이어 회전
-			Rotate();
-		}
-
+			if (state == Player_State.Move)
+			{
+				//캐릭터 움직임
+				Move();
+				//플레이어 회전
+				Rotate();
+			}
+		//}
 		//if(state == Player_State.Dash)
 		//{
 		//	Dash();
-		//}
+		}
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (state != Player_State.Dash && state != Player_State.Attack && state != Player_State.HeavyRigidity 
-			&& state != Player_State.Skille1 && state != Player_State.Skille2)
-		{
-			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) ||
-		   Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-			{
-				ChangeState(Player_State.Move);
-			}
 
-			else if (!Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S) &&
-				!Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.D))
-			{
-				ChangeState(Player_State.Idle);
-			}
+		if(Input.GetKeyDown(KeyCode.Y))
+		{
+			currentHp = -1;
 		}
 
-
-		if (Input.GetKeyDown(KeyCode.LeftShift) && state != Player_State.Dash)
+		if (state != Player_State.Die || GameManager.instance.g_Boss.isDie == false)
 		{
-			ChangeState(Player_State.Dash);
+			if (state != Player_State.Dash && state != Player_State.Attack && state != Player_State.HeavyRigidity
+			&& state != Player_State.Skille1 && state != Player_State.Skille2 && state != Player_State.Die)
+			{
+				if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) ||
+			   Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+				{
+					ChangeState(Player_State.Move);
+				}
+
+				else if (!Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S) &&
+					!Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.D))
+				{
+					ChangeState(Player_State.Idle);
+				}
+			}
 
 
-			Rotate();
-			playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
+			if (Input.GetKeyDown(KeyCode.LeftShift) && state != Player_State.Dash)
+			{
+				ChangeState(Player_State.Dash);
+
+
+				Rotate();
+				playerRig.AddForce(player.transform.forward * dashSpeed, ForceMode.Impulse);
+			}
+
+			InventoryOnOff();
+			//player.transform.Rotate(0, player.transform.tra.y, 0);
 		}
-
-		InventoryOnOff();
-		//player.transform.Rotate(0, player.transform.tra.y, 0);
 	}
 
 	private void Move()

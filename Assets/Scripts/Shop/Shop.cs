@@ -58,6 +58,12 @@ public class Shop : MonoBehaviour
 				shopSlots[i].AddItem(RandomItem(), count);
 
 			}
+
+			if(!GameManager.instance.inventory.isLoad)
+			{
+				GameManager.instance.inventory.LoadstuffInventory();
+				GameManager.instance.inventory.isLoad = true;
+			}
 		}
 		
 	}

@@ -12,7 +12,7 @@ public class IngameInventoryUi : MonoBehaviour
 	[SerializeField]
 	private GameObject SlotsParent;
 
-	private ItemSlot[] Slots;
+	public ItemSlot[] Slots;
 	[SerializeField]
 	private Item item = new Item();
 

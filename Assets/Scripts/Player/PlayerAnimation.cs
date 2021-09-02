@@ -30,28 +30,34 @@ public class PlayerAnimation : Player
 	{
 
 		//animator.SetBool("IsWalk", isWalk);
-
-		if (state == Player_State.Attack)
+		if(state != Player_State.Die || GameManager.instance.g_Boss.isDie == false)
 		{
-			AttackCombo();
-		}
+			if (state == Player_State.Attack)
+			{
+				AttackCombo();
 
-		if (state == Player_State.Dash)
-		{
-			Dash();
-		}
+			}
 
-		if (state == Player_State.HeavyRigidity || state == Player_State.LightRigidity)
-		{
-			Rigidity();
-		}
+			if (state == Player_State.Dash)
+			{
+				Dash();
+			}
 
-		if (state == Player_State.Skille1 || state == Player_State.Skille2)
-		{
-			Skille();
-		}
+			if (state == Player_State.HeavyRigidity || state == Player_State.LightRigidity)
+			{
+				Rigidity();
+			}
 
-		SkilleCooldown();
+			if (state == Player_State.Skille1 || state == Player_State.Skille2)
+			{
+				Skille();
+			}
+
+			SkilleCooldown();
+			ItemCooldown();
+			ItemTime();
+		}
+		
 
 	}
 
@@ -61,6 +67,10 @@ public class PlayerAnimation : Player
 		{
 			float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
+			if(normalizedTime < 0.2)
+			{
+				isAttckCollider = true;
+			}
 			if (0.7 <= normalizedTime && normalizedTime <= 0.9)
 			{
 				if (Input.GetMouseButtonDown(0))
@@ -72,33 +82,21 @@ public class PlayerAnimation : Player
 						ChangeState(Player_State.Idle);
 						return;
 					}
-					isEnemyHit = false;
 					isClick = true;
 					attackCombo += 1;
 					animator.SetFloat("combo", attackCombo);
-
 					MouseRotate();
 					isClick = false;
-
-					//isClick = false;	
 					return;
 				}
 			}
 			else if (normalizedTime >= 0.9)
 			{
-				isEnemyHit = false;
+				isAttckCollider = false;
 				attackCombo = 0;
 				animator.SetFloat("combo", attackCombo);
 				ChangeState(Player_State.Idle);
-				//Debug.Log("1ÃÊ Áö³²");
 			}
-
-			//if (0.2 <= normalizedTime && normalizedTime <= 0.6)
-			//{
-			//	isEnemyHit = true;
-			//}
-
-			//isEnemyHit = false;
 		}
 	}
 
